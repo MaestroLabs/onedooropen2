@@ -1,0 +1,28 @@
+<%= link_to("Profile", {:controller => 'profile', :action => 'show', :user_id => session[:user_id],:class => 'explore-link'}) %><br /><br />
+<%= link_to("Editor Picks", {:action => 'index', :user_id => session[:user_id],:class => 'explore-link'}) %>
+<table class="listing" summary="Content list">
+		<tr class="header">
+			<th>Title</th>
+			<th>Content Type</th>
+			<th>Content</th>
+			<th>Actions</th>
+		</tr>
+		<% @contents.each do |content|%> <!--start loop-->
+			<td><%= content.title %></td>
+			<td class="center"><%= content.content_type %></td> 
+			<%if content.content_type=="Image"%>
+				<td class="center">	<%= image_tag content.avatar.url(:medium) %> </td>
+			<%end%>
+			
+			<%if content.content_type=="Video"%>
+			<td class="center"><%= raw(youtube_embed("#{content.link}"))%> </td>>
+			<%end%>
+		</tr>
+		<tr>
+		<td class="actions">
+				<%= link_to("Add", {:action => 'add',:id => content.id}, :class => 'action show')%>
+				<%= link_to("Edit", {:action => 'edit',:id => content.id}, :class => 'action edit')%>
+			</td>
+		</tr>
+		<%end%><!--#end loop-->
+	</table>

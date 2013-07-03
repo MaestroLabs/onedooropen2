@@ -1,0 +1,135 @@
+<% @page_title = "OneDoorOpen" %>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
+<head>
+
+	<!-- Basics -->
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta content='yes' name='apple-mobile-web-app-capable'>
+	<meta content='black-translucent' name='apple-mobile-web-app-status-bar-style'>
+
+	<title>OneDoorOpen</title> <!-- Your Name Here -->
+
+	<!-- SEO -->
+
+	<meta name="author" content="">
+	<meta name="description" content="">
+
+	<!-- CSS -->
+
+	<link rel="stylesheet" href="app/assets/stylesheets/FrontPage/style.css">
+	<link rel="stylesheet" href="app/assets/stylesheets/FrontPage/grid.css">
+
+	<!-- Favicons -->
+	<%= favicon_link_tag('FrontPage/favicon.ico') %>
+	<!--<link rel="shortcut icon" type="image/x-icon" href="app/assets/images/FrontPage/favicon.ico">-->
+
+	<!-- JS Scripts -->
+
+	<!-- Analytics -->
+
+	<!-- Web Fonts Scripts -->
+	
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic' rel='stylesheet' type='text/css'>
+
+</head>
+
+	<!-- Header -->
+	
+	<div id="header">
+	
+<div class="wrap">
+	
+	<div class="grids">
+		 <div class="grid-12">	
+			<%= image_tag('FrontPage/ODOlogo.png', :size => '338x62') %>
+			<!--<img src="app/assets/images/FrontPage/ODOlogo.png" height="35%" width="35%">--> <!-- Logo -->
+		
+		</div>
+	</div>
+</div>
+	
+	</div>
+
+<!-- HTML -->
+
+<body>
+
+<center>
+<table>
+<tr>
+<td>	
+	<h1>hi there</h1>
+</td>
+<td>
+
+	<h1> this is what we're about</h1>
+	
+</td>
+</tr>
+<tr>
+<td width="250px">
+		<%= form_tag(:action => 'attempt_login') do %>
+		<form name="login">
+			<%= label_tag(:email) %>
+      		<%= text_field_tag(:email) %>
+      		<%= label_tag(:password) %>
+      		<%= password_field_tag(:password) %>
+			<%= submit_tag("Log In") %>
+		</form>
+</td>
+<% end %>
+<td>
+			<iframe width="560" height="315" src="//www.youtube.com/embed/VtrPFVqT3Bg" frameborder="0" allowfullscreen></iframe><br>
+			<a href="/about.html"><h2>learn more</h2></a>
+</td>
+</tr>
+</table>
+	
+	
+	
+<footer>
+	<h3>Maestro Labs &copy; 2013.</h3>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h2>Sign In</h2>
+<div class="login">
+  <%= form_tag(:action => 'attempt_login') do %>
+  <table>
+    <tr>
+      <td><%= label_tag(:email) %></td>
+      <td><%= text_field_tag(:email) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag(:password) %></td>
+      <td><%= password_field_tag(:password) %></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><%= submit_tag("Log In") %></td>
+    </tr>
+  </table>
+  <% end %>
+</div>-->
+ <%= link_to("Sign Up", :action => 'register') %> 

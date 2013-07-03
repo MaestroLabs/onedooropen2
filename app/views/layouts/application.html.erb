@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<% flash.each do |key, msg| %>
+  <%= content_tag :div, msg, :id => key %>
+<% end %>
+<head>
+  <title>Onedooropen</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+<%= link_to("Log Out", {:controller => 'access',:action => 'logout', :class => 'logout-link'}) %>
+</body>
+</html>

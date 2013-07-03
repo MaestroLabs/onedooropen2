@@ -1,0 +1,32 @@
+<p>Hello <%= "#{session[:email]}"%></p>
+<%= link_to("Explore", {:controller => 'explore', :action => 'everything', :user_id => session[:user_id],:class => 'explore-link'}) %>
+<h2>Happy Place</h2>
+<%= link_to("Add", {:action => 'addC', :user_id => session[:user_id],:class => 'add-link'}) %>
+<div><%= pluralize(@contents.size, 'items')%> found</div>
+	
+	<table class="listing" summary="Content list">
+		<tr class="header">
+			<th>Title</th>
+			<th>Content Type</th>
+			<th>Actions</th>
+			<th>Content</th>
+		</tr>
+		<% @contents.each do |content|%> <!--start loop-->
+		<tr class="<%= cycle('odd','even')%>">
+			<td><%= content.title %></td>
+			<td class="center"><%= content.content_type %></td> 
+			<td class="actions">
+				<%= link_to("Show", {:action => 'showC',:id => content.id,:user_id => session[:user_id]}, :class => 'action show')%>
+				<%= link_to("Edit", {:action => 'editC',:id => content.id,:user_id => session[:user_id]}, :class => 'action edit')%>
+				<%= link_to("Delete", {:action => 'deleteC', :id => content.id,:user_id => session[:user_id]},:class=> 'action delete')%>
+			</td>
+			<%if content.content_type=="Image"%>
+				<td class="center">	<%= image_tag content.avatar.url(:medium) %> </td>
+			<%end%>
+			
+			<%if content.content_type=="Video"%>
+			<td class="center"><%= raw(youtube_embed("#{content.link}"))%> </td>>
+			<%end%>
+		</tr>
+		<%end%><!--#end loop-->
+	</table>

@@ -1,0 +1,12 @@
+<p>Please enter the confirmation code received by email</p>
+
+<%=form_tag({:action => 'confirmtoken'},{:multipart => true})%>
+	<%=text_field_tag(:token)%>
+<%= submit_tag("Activate") %>
+
+
+<p>Did not receive the email? Please enter your email address so we can resend the code</p> 
+<%=form_tag({:action => 'resendtoken'},{:multipart => true})%>
+	<%=text_field_tag(:email)%>
+<%= submit_tag("Resend") %>
+
