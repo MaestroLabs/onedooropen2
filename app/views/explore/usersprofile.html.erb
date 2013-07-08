@@ -1,19 +1,12 @@
-<%= link_to("Profile", {:controller => 'profile', :action => 'show', :user_id => session[:user_id],:class => 'explore-link'}) %><br /><br />
-<%= link_to("Editor Picks", {:action => 'index', :user_id => session[:user_id],:class => 'explore-link'}) %>
+<p>Welcome to <%= "#{@other_user.first_name} #{@other_user.last_name}"%>'s Catalouge</p>
 <table class="listing" summary="Content list">
 		<tr class="header">
-			<th>Name</th>
 			<th>Title</th>
 			<th>Upvote</th>
 			<th>Content</th>
 			<th>Actions</th>
 		</tr>
 		<% @contents.each do |content|%> <!--start loop-->
-			<%if content.name==false %>
-			<td><%= link_to("#{content.file_type}",{:action => 'usersprofile', :id => content.id})%></td>
-			<%else%>
-			<td><%= content.file_type %></td>
-			<%end%>
 			
 			<td><%= content.title %></td>
 			<td class="center">
@@ -32,7 +25,7 @@
 		<tr>
 		<td class="actions">
 				<%= link_to("Add", {:action => 'add',:id => content.id}, :class => 'action show')%>
-				<%= link_to("Edit", {:action => 'edit',:id => content.id}, :class => 'action edit')%>
+				<%= link_to("Show", {:action => 'edit',:id => content.id}, :class => 'action edit')%>
 			</td>
 		</tr>
 		<%end%><!--#end loop-->

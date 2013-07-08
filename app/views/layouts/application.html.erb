@@ -1,17 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<% flash.each do |key, msg| %>
-  <%= content_tag :div, msg, :id => key %>
-<% end %>
-<head>
-  <title>Onedooropen</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Myapp" %></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= yield(:head) %>
+  </head>
+  <body>
 
-<%= yield %>
-<%= link_to("Log Out", {:controller => 'access',:action => 'logout', :class => 'logout-link'}) %>
-</body>
+    <div id="main" role="main">
+      <div class="container">
+        <div class="content">
+           <div class="row">
+            <div class="span12">
+              <%= render 'layouts/messages' %>
+              <%= yield %>
+             <%=link_to("Log Out",{:controller => 'access',:action=>'logout'})%>
+            </div>
+          </div>
+          <footer>
+          </footer>
+        </div>
+      </div> <!--! end of .container -->
+    </div> <!--! end of #main -->
+  </body>
 </html>
+
+
+
+
+
+

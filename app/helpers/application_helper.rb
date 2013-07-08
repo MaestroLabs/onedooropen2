@@ -17,6 +17,13 @@ module ApplicationHelper
     render(:partial => 'shared/error_messages', :locals => {:object => object})
   end
   
+  
+  
+  
+  
+
+  
+  
 
  def youtube_embed(youtube_url)
   if youtube_url[/youtu\.be\/([^\?]*)/]

@@ -26,14 +26,17 @@ class ExploreController < ApplicationController
     @content=Content.find(params[:id])
     
     if @user.flagged?(@content, :upvote)
-         @user.unflag(@content, :upvote)
-         
+         @user.unflag(@content, :upvote)     
     else 
-       
         @user.flag(@content, :upvote)
     end
-    
     redirect_to :action=>"everything"
   end
 
+  def usersprofile
+    @content = Content.find(params[:id])
+    @other_user = User.find(@content.user_id)
+    @contents = Content.order("contents.title ASC").where(:privacy => true, :user_id => @content.user_id)
+    @user= User.find(session[:user_id])
+  end
 end

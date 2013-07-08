@@ -8,6 +8,7 @@ class CreateContents < ActiveRecord::Migration
       t.string 'file_type'
       t.string 'link'
       t.boolean 'privacy'
+      t.boolean 'name'
       t.integer 'upvotes'
       t.integer 'views'
       t.timestamps

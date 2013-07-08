@@ -13,9 +13,15 @@ class ProfileController < ApplicationController
   
   def createC
     #Instantiate a new object using form parameters
+    user=User.find(session[:user_id])
     @content= Content.new(params[:content])
     #Save the object
-    @content.user_id=session[:user_id]  
+    @content.user_id=session[:user_id] 
+    if @content.name==false
+      @content.file_type="Anonymous"
+    elsif @content.name==true
+      @content.file_type="#{user.first_name} #{user.last_name}"
+    end
     if @content.save
       #If save succeeds redirect to the list action
       flash[:notice]="Content Added."
@@ -32,8 +38,14 @@ class ProfileController < ApplicationController
   
   def updateC
     #Instantiate a new object using form parameters
+    user=User.find(session[:user_id])
     @content= Content.find(params[:id])
     #Save the object
+     if @content.name==false 
+       @content.file_type="Anonymous"
+     elsif @content.name==true
+      @content.file_type="#{user.first_name} #{user.last_name}"
+     end
     if @content.update_attributes(params[:content])
       #If save succeeds redirect to the list action
       flash[:notice]="Content Updated."

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130707190927) do
+ActiveRecord::Schema.define(:version => 20130708204759) do
 
   create_table "contents", :force => true do |t|
     t.integer  "user_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20130707190927) do
     t.string   "file_type"
     t.string   "link"
     t.boolean  "privacy"
+    t.boolean  "name"
     t.integer  "upvotes"
     t.integer  "views"
     t.datetime "created_at",          :null => false
@@ -64,6 +65,23 @@ ActiveRecord::Schema.define(:version => 20130707190927) do
   add_index "relationships", ["follower_id", "followed_id"], :name => "index_relationships_on_follower_id_and_followed_id", :unique => true
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
 
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       :limit => 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "first_name",      :limit => 25
     t.string   "last_name",       :limit => 50
@@ -75,7 +93,7 @@ ActiveRecord::Schema.define(:version => 20130707190927) do
     t.string   "permalink"
     t.boolean  "editor",                        :default => false
     t.string   "token"
-    t.string   "activated",                     :default => "0"
+    t.string   "activated",                     :default => "f"
     t.boolean  "thought_leader",                :default => false
     t.integer  "karma"
     t.datetime "created_at",                                       :null => false

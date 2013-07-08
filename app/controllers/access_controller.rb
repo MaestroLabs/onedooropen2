@@ -30,7 +30,7 @@ class AccessController < ApplicationController
     if authorized_user.activated==false && authorized_user
        flash[:notice] = "You have not activated your account"
        redirect_to(:action => 'activate')
-    elsif authorized_user && authorized_user.activated == true || authorized_user.activated == "1"
+    elsif authorized_user && authorized_user.activated == true || authorized_user.activated == "t"
       session[:user_id]=authorized_user.id
       session[:email]=authorized_user.email
       flash[:notice] = "You are logged in"

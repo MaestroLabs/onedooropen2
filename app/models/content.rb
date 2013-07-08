@@ -1,4 +1,9 @@
+
 class Content < ActiveRecord::Base
+  # #include ActionView::Helpers
+  # include ApplicationController.helpers.name_visible?
+   # before_save :name_visible?
+   
   
   make_flaggable :upvote
   
@@ -7,7 +12,7 @@ class Content < ActiveRecord::Base
   
   # attr_accessible :title, :body
   belongs_to :folder
-  attr_accessible :title, :file_type, :content_type, :privacy, :link, :description, :user_id, :avatar
+  attr_accessible :title, :file_type, :content_type, :privacy, :link, :description, :user_id, :avatar, :name
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
   
   validates :content_type, :presence => true
@@ -21,4 +26,14 @@ class Content < ActiveRecord::Base
   def is_type_of_image?
     avatar.content_type =~ %r(image)
   end
+  
+  # def name_visible?
+    # user=User.find(session[:user_id])
+    # if self.name==true || self.name= "t"
+      # self.name="Anonymous"
+    # else
+      # self.name="#{user.first_name} #{user.last_name}"
+    # end
+  # end
+
 end
