@@ -3,7 +3,9 @@
 <h2>Happy Place</h2>
 <%= link_to("Add", {:action => 'addC', :user_id => session[:user_id],:class => 'add-link'}) %>
 <div><%= pluralize(@contents.size, 'items')%> found</div>
-	
+	<%if @user.thought_leader==true%>
+	<div> <%= render 'shared/stats' %> </div>
+	<%end%>
 	<table class="listing" summary="Content list">
 		<tr class="header">
 			<th>Title</th>
@@ -43,7 +45,7 @@
 <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic' rel='stylesheet' type='text/css'>
 
 <!--CSS and JS-->
-<%stylesheet_link_tag 'stylers'%>
+<%stylesheet_link_tag 'stylers',:media => 'all'%>
 <!--<link href="_css/style.css" rel="stylesheet" type="text/css">-->
 
 <!-- Magnific Popup core CSS file -->

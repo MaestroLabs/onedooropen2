@@ -7,8 +7,8 @@
 			<th>Content Type</th>
 			<th>Content</th>
 		</tr>
-	
-		<% @users.content.privacy.order('contents.title ASC').each do |content| %> <!--start loop-->
+		<% @users.each do |user|%>	
+		<% user.contents.privacy.sorted.each do |content| %> <!--start loop-->
 			<td><%= content.title %></td>
 			<td class="center"><%= content.file_type %></td>
 			<td class="center"><%= content.content_type %></td> 
@@ -21,4 +21,5 @@
 			<%end%>
 		</tr>
 		<%end%><!--#end loop-->
+		<%end%>
 	</table>

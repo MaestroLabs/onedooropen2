@@ -9,7 +9,11 @@ class CreateUsers < ActiveRecord::Migration
       t.date "birthday"
       t.string "gender"
       t.string "permalink"
-      t.boolean "editor"
+      t.boolean "editor", :default => false
+      t.string "token"
+      t.string "activated", :default => false
+      t.boolean "thought_leader", :default => false
+      t.integer "karma"
       t.timestamps
     end
   end

@@ -4,6 +4,7 @@ class ProfileController < ApplicationController
     
   def show
      @contents = Content.order("contents.title ASC").where(:user_id => session[:user_id])
+     @user=User.find(session[:user_id])
   end
   
   def addC
@@ -57,6 +58,22 @@ class ProfileController < ApplicationController
      flash[:notice]="Content destroyed."
      redirect_to(:action => 'show',:user_id=>@content.user_id)
   end
+  
+  
+    # def following
+    # @title = "Following"
+    # @user = User.find(params[:id])
+    # @users = @user.followed_users.paginate(page: params[:page])
+    # render 'show_follow'
+  # end
+# 
+  # def followers
+    # @title = "Followers"
+    # @user = User.find(params[:id])
+    # @users = @user.followers.paginate(page: params[:page])
+    # render 'show_follow'
+  # end
+  
   
     private
   

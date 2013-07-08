@@ -1,15 +1,20 @@
+<%=flash[:notice]%>
 <%= link_to("Profile", {:controller => 'profile', :action => 'show', :user_id => session[:user_id],:class => 'explore-link'}) %><br /><br />
 <%= link_to("Editor Picks", {:action => 'index', :user_id => session[:user_id],:class => 'explore-link'}) %>
 <table class="listing" summary="Content list">
 		<tr class="header">
 			<th>Title</th>
-			<th>Content Type</th>
+			<th>Upvote</th>
 			<th>Content</th>
 			<th>Actions</th>
 		</tr>
 		<% @contents.each do |content|%> <!--start loop-->
 			<td><%= content.title %></td>
-			<td class="center"><%= content.content_type %></td> 
+			<td class="center">
+				<%= toggle_upvote_button(content,@user) %>
+				<%= content.flaggings.size%>
+				
+			</td> 
 			<%if content.content_type=="Image"%>
 				<td class="center">	<%= image_tag content.avatar.url(:medium) %> </td>
 			<%end%>

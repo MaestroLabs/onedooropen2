@@ -6,6 +6,7 @@ class ExploreController < ApplicationController
   end
   
   def everything
+    @user=User.find(session[:user_id])
     @contents = Content.order("contents.title ASC").where(:privacy => true)
   end
 
@@ -18,6 +19,21 @@ class ExploreController < ApplicationController
     content.user_id=session[:user_id]
     content.save
     redirect_to(:action => 'everything')
+  end
+  
+  def upvote
+    @user=User.find(params[:user_id])
+    @content=Content.find(params[:id])
+    
+    if @user.flagged?(@content, :upvote)
+         @user.unflag(@content, :upvote)
+         
+    else 
+       
+        @user.flag(@content, :upvote)
+    end
+    
+    redirect_to :action=>"everything"
   end
 
 end

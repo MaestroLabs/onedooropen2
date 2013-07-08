@@ -1,6 +1,12 @@
 class Content < ActiveRecord::Base
+  
+  make_flaggable :upvote
+  
+  scope :sorted, order('contents.title ASC')
+  scope :privacy, where(:privacy => true)
+  
   # attr_accessible :title, :body
-  belongs_to :user
+  belongs_to :folder
   attr_accessible :title, :file_type, :content_type, :privacy, :link, :description, :user_id, :avatar
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
   

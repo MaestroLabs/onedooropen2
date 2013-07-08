@@ -1,7 +1,18 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  
+  make_flagger
+  
+  
   #set_table_name("admin_users")
   has_many :contents
+  
+  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed
+  has_many :reverse_relationships, foreign_key: "followed_id",
+                                   class_name:  "Relationship",
+                                   dependent:   :destroy
+  has_many :followers, through: :reverse_relationships, source: :follower
   
   attr_accessible :email, :first_name, :last_name, :password, :gender, :birthday
   
@@ -36,6 +47,21 @@ class User < ActiveRecord::Base
   
   scope :named, lambda {|first,last| where(:first_name=>first,:last_name=>last)}
   scope :sorted, order("users.last_name ASC, users.first_name") 
+  
+  
+  def following?(other_user)
+    relationships.find_by_followed_id(other_user.id)
+  end
+
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+  
+  def unfollow!(other_user)
+    relationships.find_by_followed_id(other_user.id).destroy
+  end
+  
+  
   
   def name
     "#{first_name} #{last_name}"

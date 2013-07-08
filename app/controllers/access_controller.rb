@@ -12,7 +12,7 @@ class AccessController < ApplicationController
   def createuser
     #Instantiate a new object using form parameters
     @user= User.new(params[:user])
-    @user.activated=false
+    #@user.activated=false
     #Save the object
     if @user.save
       #If save succeeds redirect to the list action
@@ -30,7 +30,7 @@ class AccessController < ApplicationController
     if authorized_user.activated==false && authorized_user
        flash[:notice] = "You have not activated your account"
        redirect_to(:action => 'activate')
-    elsif authorized_user && authorized_user.activated == true
+    elsif authorized_user && authorized_user.activated == true || authorized_user.activated == "1"
       session[:user_id]=authorized_user.id
       session[:email]=authorized_user.email
       flash[:notice] = "You are logged in"
