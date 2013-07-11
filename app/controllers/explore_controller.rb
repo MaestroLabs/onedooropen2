@@ -6,14 +6,16 @@ class ExploreController < ApplicationController
   end
   
   def index
+    @public=""
     @user=User.find(session[:user_id])
     @contents = Content.order("contents.title ASC").where(:privacy => true)
     if params[:filter]=="e"
       @users=User.order("users.email ASC").where(:editor=>true)
     elsif params[:filter]=="f"
       @users=@user.followed_users
-    elsif params[:filter=="p"]
+    elsif params[:filter]=="p"
       @users=User.order("users.email ASC").where(:editor=>false,:thought_leader=>false)
+      @public="p"
     else      
       @users=User.order("users.email ASC").where(:thought_leader=>true)
     end

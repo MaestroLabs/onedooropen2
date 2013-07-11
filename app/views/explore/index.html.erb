@@ -1,9 +1,9 @@
 <%= link_to("Profile", {:controller => 'profile', :action => 'show', :user_id => session[:user_id],:class => 'explore-link'}) %><br /><br />
 
 <%= link_to("Editor Picks", {:action => 'index', :filter => "e",:class => 'explore-link'}) %>
-<%= link_to("Thought Leaders", {:action => 'index', :filter => session[:user_id],:class => 'explore-link'}) %>
-<%= link_to("Following", {:action => 'index', :filter => session[:user_id],:class => 'explore-link'}) %>
-<%= link_to("Public", {:action => 'index', :filter => session[:user_id],:class => 'explore-link'}) %>
+<%= link_to("Thought Leaders", {:action => 'index', :filter => "t",:class => 'explore-link'}) %>
+<%= link_to("Following", {:action => 'index', :filter => "f",:class => 'explore-link'}) %>
+<%= link_to("Public", {:action => 'index', :filter => "p",:class => 'explore-link'}) %>
 
 <!-- <%= form_tag(:action => 'index') do %>
 	<%=label_tag "Editor's Picks"%>
@@ -25,8 +25,12 @@
 			<th>Content</th>
 			<th>Actions</th>
 		</tr>
-		<% @users.each do |user|%>	
-		<% user.contents.privacy.sorted.each do |content| %> <!--start loop-->
+		<% @users.each do |user|%>
+		<%if @public=="p"%>	
+			<% user.contents.privacy.sorted.each do |content| %> <!--start loop-->
+		<%else%>
+			<% user.contents.privacy.where(:name => false).sorted.each do |content| %>
+		<%end%>
 			<%if content.name==false %>
 			<td><%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%></td>
 			<%else%>
