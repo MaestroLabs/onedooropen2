@@ -15,7 +15,7 @@ development:
   database: onedooropen_development
   pool: 5
   username: postgres
-  password: pexpress7
+  password: rfvujm01!
   host: 127.0.0.1
   port: 5432
 
@@ -29,7 +29,7 @@ test:
   database: onedooropen_test
   pool: 5
   username: postgres
-  password: pexpress7
+  password: rfvujm01!
   host: 127.0.0.1
   port: 5432
 
@@ -40,6 +40,6 @@ production:
   database: onedooropen_production
   pool: 5
   username: postgres
-  password: pexpress7
+  password: rfvujm01!
   host: 127.0.0.1
   port: 5432
