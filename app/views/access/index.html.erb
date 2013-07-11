@@ -1,0 +1,85 @@
+<% @page_title = "OneDoorOpen" %>
+<!doctype html>
+<html>
+<head>
+<!-- <meta charset="utf-8"> -->
+
+<title>OneDoorOpen</title>
+
+<!--Google Webfont-->
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic' rel='stylesheet' type='text/css'>
+<%= stylesheet_link_tag "stylers",:media => 'all' %>
+<!-- <link href="_css/style.css" rel="stylesheet" type="text/css"> -->
+
+</head>
+
+<body>
+
+<!--Start header-->
+<header>
+	<div id="logoHome">
+		<%= link_to image_tag("FrontPage/logo-tagline.png", :border => 0,:size => "375x69",:alt => "OneDoorOpen"), {:action => 'index', :controller => 'access'}, {:class => 'dock-item'}%>
+    	<!-- <a href="index.html"><img src="app/assets/FrontPage/logo-tagline.png" width="375" height="69" alt="OneDoorOpen"></a> -->
+    </div>
+</header>
+
+<!--Start table-->
+<center>
+<table>
+<tr><td>
+	<h1>hi there</h1>
+</td>
+<td>
+	<h1>this is what we're about</h1>
+</td></tr>
+<tr>
+<td>
+	<%= form_tag(:action => 'attempt_login') do %>
+		<%= text_field_tag :email,nil,:placeholder => "email" %>
+		<%= password_field_tag :password,nil,:placeholder => "password" %>
+		<%= submit_tag("Log In") %>
+		<% end %>
+		<%= link_to("Sign Up", :action => 'register') %> 
+	<!--<input name="email" type="text" placeholder="email" id="field"><br>
+	<input name="password" type="password" placeholder="password" id="field"><p>
+    <button type="submit">Log in</button>
+    <button type="submit">Sign up</button><p></p>-->
+</td>
+<td>
+	<p align="right">
+    <iframe width="560" height="315" src="http://www.youtube.com/embed/VtrPFVqT3Bg" frameborder="0" allowfullscreen></iframe>
+    <br>
+    <a href="about.html">learn more</a>
+</td></tr>
+</table>
+
+</body>
+
+<!--Start footer-->
+<footer>
+Maestro Labs © 2013.
+</footer>
+</html>
+
+
+<!-- 
+<h2>Sign In</h2>
+<div class="login">
+  <%= form_tag(:action => 'attempt_login') do %>
+  <table>
+    <tr>
+      <td><%= label_tag(:email) %></td>
+      <td><%= text_field_tag(:email) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag(:password) %></td>
+      <td><%= password_field_tag(:password) %></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><%= submit_tag("Log In") %></td>
+    </tr>
+  </table>
+  <% end %>
+</div>
+ <%= link_to("Sign Up", :action => 'register') %>  -->

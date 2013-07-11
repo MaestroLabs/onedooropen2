@@ -1,0 +1,150 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*Typography*/
+
+p {
+	font-family: 'Lato', sans-serif;
+	color:#666;
+}
+
+h1 {
+	font-family: 'Lato', sans-serif;
+	font-size: 30px;
+	font-weight: 300;
+}
+
+a {
+	font-family: 'Lato', sans-serif;
+	text-decoration: none;
+	color: #666;
+}
+
+a:hover {
+	color: #F0DE0E;
+}
+
+.aboutContent {
+	width: 500px;
+	text-align: justify;
+}
+
+.nav {
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
+	margin-left: 40px;
+	margin-bottom: 20px;
+}
+
+/*Table*/
+table {
+	border: none;
+	table-layout: fixed;
+	width: 100%;
+	overflow: hidden;
+}
+
+td {
+	padding-left: 25px;
+	padding-right: 25px;
+	vertical-align: top;
+}
+
+td.resize {
+	width: 25%
+	overflow: hidden;
+}
+
+img.resize {
+	width: 315px;
+	height: 225px;
+	overflow: hidden;
+}	
+
+/*Header*/
+#logoHome {
+	width: 500px;
+	height: 92px;
+	margin-bottom: 15px;
+	margin-left: 20px;
+}
+
+.logo {
+	width: 500px;
+	height: 92px;
+	margin-bottom: -10px;
+	margin-left: 20px;
+}
+
+/*Footer*/
+footer {
+	font-family: 'Lato', sans-serif;
+	font-size: 12px;
+	color: #666;
+	position: fixed;
+	bottom: 10px;
+	right: 5px;
+}
+
+/*Highlight color*/
+/*::selection {
+	background: #F0DE0E;  Safari 
+}*/
+/*::-moz-selection {
+	background: #F0DE0E; Firefox 
+}*/
+
+/*Parts*/
+hr {
+	margin-bottom: 20px;
+	border-color: #CCC;
+}
+
+.add {
+	float: right;
+}
+
+.upload-popup {
+  	position: relative;
+  	background: #FFF;
+  	padding: 20px;
+  	width:auto;
+  	max-width: 600px;
+  	margin: 20px auto;
+	font-family: 'Lato', sans-serif;
+	color: #666;
+}
+
+/*Buttons*/
+button {
+	border-top:	2px solid #fff;
+	border-left: 2px solid #fff;
+	border-right: 2px solid #fff;
+	border-bottom: 2px solid #fff;
+	padding: 5px 10px !important;
+	background-color: #555;
+	color: #fff;
+}
+
+button:hover {
+   background: #777;
+}
+
+button:active {
+   background: #333;
+}
+
+#add {
+	background-color: #F0DE0E;
+	color: #000;
+}
+
+#add:hover {
+	background-color: #777;
+	color: #fff;
+}
+
+#add:active {
+	background-color: #F0DE0E;
+	color: #000;
+}

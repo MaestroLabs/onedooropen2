@@ -1,0 +1,40 @@
+<% @page_title = "Edit Content" %>
+
+<%= link_to("<<Back to Happy Place",{:action => 'show', :user_id => @user.id}, :class => 'back-link')%>
+
+<div class="edit content">
+	<h2>Add Content</h2>
+	<%= form_for(:content, :url => {:action => 'updateC',:user_id=>@user.id,:id => @content.id},:html => { :multipart => true }) do |f| %> <!--url allows you to send all the info to the action specified-->
+	
+	<%= error_messages_for(@content) %>
+	<table summary="Content form fields">
+
+		<tr>
+			<th><%=f.label(:title)%></th>
+			<td><%= f.text_field(:title) %></td>
+		</tr>
+	<tr>
+			<th><%=f.label(:description, "Note to Self (optional)")%></th>
+			<td><%= f.text_area(:description, :size => '25x5') %></td>
+		</tr>
+		
+		<tr>
+ 	 		<th><%=f.label(:privacy,"Public")%></th>
+  			<td><%= f.check_box(:privacy)%></td>
+  		</tr>
+  		
+  		<tr>
+ 	 		<th><%=f.label(:name,"Appear Anonymous")%></th>
+  			<td><%= f.check_box(:name)%></td>
+  		</tr>
+  		<tr>	
+  			<th><%= f.label :tags %></th>
+			<td><%= f.text_field :tag_list %></td>
+  		</tr>
+  	</table>
+	
+	<div class="form-buttons">
+		<%= submit_tag("Submit") %>
+	</div>
+	<%end%>
+</div>

@@ -1,0 +1,35 @@
+<p>Welcome to <%= "#{@other_user.first_name} #{@other_user.last_name}"%>'s Catalouge</p>
+<%if @other_user.thought_leader%>
+<%= render 'follow_form' %>
+<%end%>
+<table class="listing" summary="Content list">
+		<tr class="header">
+			<th>Title</th>
+			<th>Upvote</th>
+			<th>Content</th>
+			<th>Actions</th>
+		</tr>
+		<% @contents.each do |content|%> <!--start loop-->
+			
+			<td><%= content.title %></td>
+			<td class="center">
+				<%= toggle_upvote_button(content,@user) %>
+				<%= content.flaggings.size%>
+				
+			</td> 
+			<%if content.content_type=="Image"%>
+				<td class="center">	<%= image_tag content.avatar.url(:medium) %> </td>
+			<%end%>
+			
+			<%if content.content_type=="Video"%>
+			<td class="center"><%= raw(youtube_embed("#{content.link}"))%> </td>>
+			<%end%>
+		</tr>
+		<tr>
+		<td class="actions">
+				<%= link_to("Add", {:action => 'add',:id => content.id}, :class => 'action show')%>
+				<%= link_to("Show", {:action => 'edit',:id => content.id}, :class => 'action edit')%>
+			</td>
+		</tr>
+		<%end%><!--#end loop-->
+	</table>
