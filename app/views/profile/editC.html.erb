@@ -27,7 +27,10 @@
  	 		<th><%=f.label(:name,"Appear Anonymous")%></th>
   			<td><%= f.check_box(:name)%></td>
   		</tr>
-  	
+  		<tr>	
+  			<th><%= f.label :tags %></th>
+			<td><%= f.text_field :tag_list %></td>
+  		</tr>
   	</table>
 	
 	<div class="form-buttons">

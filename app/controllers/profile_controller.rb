@@ -17,9 +17,10 @@ class ProfileController < ApplicationController
     @content= Content.new(params[:content])
     #Save the object
     @content.user_id=session[:user_id] 
-    if @content.name==false
+    if @content.name==true
       @content.file_type="Anonymous"
-    elsif @content.name==true
+    end
+    if @content.name==false
       @content.file_type="#{user.first_name} #{user.last_name}"
     end
     if @content.save
@@ -41,15 +42,17 @@ class ProfileController < ApplicationController
     user=User.find(session[:user_id])
     @content= Content.find(params[:id])
     #Save the object
-     if @content.name==false 
-       @content.file_type="Anonymous"
-     elsif @content.name==true
-      @content.file_type="#{user.first_name} #{user.last_name}"
-     end
+
     if @content.update_attributes(params[:content])
       #If save succeeds redirect to the list action
-      flash[:notice]="Content Updated."
-      redirect_to(:action => 'show',:user_id => @content.user_id)
+       if @content.name==true 
+         @content.update_attributes(:file_type=>"Anonymous")
+       end
+       if @content.name==false
+        @content.update_attributes(:file_type=>"#{user.first_name} #{user.last_name}")
+       end
+       flash[:notice]="Content Updated."
+       redirect_to(:action => 'show',:user_id => @content.user_id)
     else
       #If save fails, redisplay the form so user can fix problems
       render('editC')
@@ -71,21 +74,34 @@ class ProfileController < ApplicationController
      redirect_to(:action => 'show',:user_id=>@content.user_id)
   end
   
+  def tagged
+    @tagname=params[:tag]
+    if params[:tag].present? 
+      @contents = Content.tagged_with(params[:tag]).where(:user_id=>session[:user_id])
+    else 
+      @contents = Content.postall
+    end  
+  end
   
-    # def following
-    # @title = "Following"
-    # @user = User.find(params[:id])
-    # @users = @user.followed_users.paginate(page: params[:page])
-    # render 'show_follow'
-  # end
-# 
-  # def followers
-    # @title = "Followers"
-    # @user = User.find(params[:id])
-    # @users = @user.followers.paginate(page: params[:page])
-    # render 'show_follow'
-  # end
+     def following
+     @title = "Following"
+     @user = User.find(params[:id])
+     @users = @user.followed_users#.paginate(page: params[:page])
+   end
+ 
+   def followers
+     @title = "Followers"
+     @user = User.find(params[:id])
+     @users = @user.followers#.paginate(page: params[:page])
+   end
   
+  
+    def usersprofile
+    #@content = Content.find(params[:id])
+    @other_user = User.find(params[:id])
+    @contents = Content.order("contents.title ASC").where(:privacy => true, :user_id => params[:id])
+    @user= User.find(session[:user_id])
+  end
   
     private
   

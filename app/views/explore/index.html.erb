@@ -1,17 +1,51 @@
-<%= link_to("Profile", {:controller => 'profile', :action => 'show', :user_id => session[:user_id],:class => 'explore-link'}) %>
-<%= link_to("All Public Content", {:action => 'everything', :user_id => session[:user_id],:class => 'explore-link'}) %>
+<%= link_to("Profile", {:controller => 'profile', :action => 'show', :user_id => session[:user_id],:class => 'explore-link'}) %><br /><br />
+
+<%= link_to("Editor Picks", {:action => 'index', :filter => "e",:class => 'explore-link'}) %>
+<%= link_to("Thought Leaders", {:action => 'index', :filter => session[:user_id],:class => 'explore-link'}) %>
+<%= link_to("Following", {:action => 'index', :filter => session[:user_id],:class => 'explore-link'}) %>
+<%= link_to("Public", {:action => 'index', :filter => session[:user_id],:class => 'explore-link'}) %>
+
+<!-- <%= form_tag(:action => 'index') do %>
+	<%=label_tag "Editor's Picks"%>
+	<%= check_box_tag 'epicks', '', true, :class => 'chkbx' %>
+	<%=label_tag "tleaders"%>
+	<%= check_box_tag 'Thought Leaders', '', true, :class => 'chkbx' %>
+	<%=label_tag "following"%>
+	<%= check_box_tag 'Following', '', true, :class => 'chkbx' %>
+	<%=label_tag "Public"%>
+	<%= check_box_tag 'public', '', false, :class => 'chkbx' %>
+	<%= submit_tag("Submit") %>
+<% end %> -->
+
 <table class="listing" summary="Content list">
 		<tr class="header">
+			<th>Name</th>
 			<th>Title</th>
-			<th>File Type</th>
-			<th>Content Type</th>
+			<th>Upvote</th>
 			<th>Content</th>
+			<th>Actions</th>
 		</tr>
 		<% @users.each do |user|%>	
 		<% user.contents.privacy.sorted.each do |content| %> <!--start loop-->
+			<%if content.name==false %>
+			<td><%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%></td>
+			<%else%>
+			<td><%= content.file_type %></td>
+			<%end%>
+			
 			<td><%= content.title %></td>
-			<td class="center"><%= content.file_type %></td>
-			<td class="center"><%= content.content_type %></td> 
+			<td class="center">
+				<%= toggle_upvote_button(content,@user) %>
+				<%= content.flaggings.size%>
+				
+			</td>
+			<td class="center">
+				<% content.tags.any? %>
+  				<% content.tags.each do |tag| %>
+  				
+  				<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
+				<% end %>
+			</td>  
 			<%if content.content_type=="Image"%>
 				<td class="center">	<%= image_tag content.avatar.url(:medium) %> </td>
 			<%end%>
@@ -19,6 +53,12 @@
 			<%if content.content_type=="Video"%>
 			<td class="center"><%= raw(youtube_embed("#{content.link}"))%> </td>>
 			<%end%>
+		</tr>
+		<tr>
+		<td class="actions">
+				<%= link_to("Add", {:action => 'add',:id => content.id}, :class => 'action show')%>
+				<%= link_to("Edit", {:action => 'edit',:id => content.id}, :class => 'action edit')%>
+			</td>
 		</tr>
 		<%end%><!--#end loop-->
 		<%end%>

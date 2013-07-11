@@ -1,0 +1,7 @@
+<%= link_to("<<Back to Happy Place",{:action => 'show'}, :class => 'back-link')%>
+<h2>Followers</h2>
+<% @users.each do |user| %>
+    <%= link_to("#{user.first_name} #{user.last_name}",{:action => 'usersprofile', :id => user.id})%>
+    <br /><br />
+
+<% end %>

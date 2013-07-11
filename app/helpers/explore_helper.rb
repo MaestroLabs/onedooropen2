@@ -6,4 +6,9 @@ module ExploreHelper
         link_to "Upvote", :action => 'upvote',:user_id => session[:user_id],:id => content.id
       end
     end
+    
+    include ActsAsTaggableOn::TagsHelper
 end
+
+
+ 

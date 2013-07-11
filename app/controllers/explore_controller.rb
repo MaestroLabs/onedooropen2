@@ -5,9 +5,18 @@ class ExploreController < ApplicationController
     #@contents = Content.order("contents.title ASC").where(:privacy => true, :editor => true)
   end
   
-  def everything
+  def index
     @user=User.find(session[:user_id])
     @contents = Content.order("contents.title ASC").where(:privacy => true)
+    if params[:filter]=="e"
+      @users=User.order("users.email ASC").where(:editor=>true)
+    elsif params[:filter]=="f"
+      @users=@user.followed_users
+    elsif params[:filter=="p"]
+      @users=User.order("users.email ASC").where(:editor=>false,:thought_leader=>false)
+    else      
+      @users=User.order("users.email ASC").where(:thought_leader=>true)
+    end
   end
 
   def add
@@ -18,7 +27,7 @@ class ExploreController < ApplicationController
     content.privacy=false
     content.user_id=session[:user_id]
     content.save
-    redirect_to(:action => 'everything')
+    redirect_to(:action => 'index')
   end
   
   def upvote
@@ -30,7 +39,7 @@ class ExploreController < ApplicationController
     else 
         @user.flag(@content, :upvote)
     end
-    redirect_to :action=>"everything"
+    redirect_to :action=>"index"
   end
 
   def usersprofile
@@ -38,5 +47,15 @@ class ExploreController < ApplicationController
     @other_user = User.find(@content.user_id)
     @contents = Content.order("contents.title ASC").where(:privacy => true, :user_id => @content.user_id)
     @user= User.find(session[:user_id])
+  end
+  
+   def tagged
+    if params[:tag].present? 
+      @tagname=params[:tag]
+      @contents = Content.tagged_with(params[:tag]).where(:privacy => true)
+    else 
+      @contents = Content.postall.where(:privacy => true)
+    end
+    #render 'shared/tagged'  
   end
 end

@@ -2,12 +2,15 @@ Onedooropen::Application.routes.draw do
   match 'nibblerarea', :to => 'manageusers#index'
   match 'profile', :to => 'profile#show'
 
-  resources :users do
-    member do
-      get :following, :followers
-    end
-  end
+   # resources :profile do
+     # member do
+       # get :following, :followers
+     # end
+   # end
     resources :relationships, only: [:create, :destroy]
+    
+     match 'tagged' => 'profile#tagged', :as => 'tagged'
+    #match 'tagged' => 'explore#tagged', :as => 'tagged'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
