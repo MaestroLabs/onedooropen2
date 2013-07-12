@@ -1,8 +1,9 @@
 class ProfileController < ApplicationController
   before_filter :confirm_logged_in
   before_filter :find_user
-    
+
   def show
+     @uptotal=0
      @contents = Content.order("contents.title ASC").where(:user_id => session[:user_id])
      @user=User.find(session[:user_id])
   end
@@ -98,10 +99,24 @@ class ProfileController < ApplicationController
   
     def usersprofile
     #@content = Content.find(params[:id])
+    @uptotal=0
     @other_user = User.find(params[:id])
     @contents = Content.order("contents.title ASC").where(:privacy => true, :user_id => params[:id])
     @user= User.find(session[:user_id])
   end
+  
+    def upvote
+    @user=User.find(session[:user_id])
+    @content=Content.find(params[:id])
+    
+    if @user.flagged?(@content, :upvote)
+         @user.unflag(@content, :upvote)     
+    else 
+        @user.flag(@content, :upvote)
+    end
+    redirect_to :action=>"usersprofile",:id=> params[:user_id]
+  end
+
   
     private
   

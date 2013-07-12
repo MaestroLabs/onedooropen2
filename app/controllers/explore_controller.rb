@@ -41,7 +41,7 @@ class ExploreController < ApplicationController
     else 
         @user.flag(@content, :upvote)
     end
-    redirect_to :action=>"index"
+    redirect_to :action=>"index",:filter=>params[:filter]
   end
 
   def usersprofile

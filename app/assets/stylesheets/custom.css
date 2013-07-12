@@ -1,0 +1,231 @@
+@charset "utf-8";
+/* CSS Document */
+
+.modal {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  z-index: 1050;
+  width: 900px;
+  margin-left: -450px;
+  background-color: #ffffff;
+/*  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  *border: 1px solid #999;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;*/
+  outline: none;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+     -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding-box;
+          background-clip: padding-box;
+}
+
+.modal-body {
+  position: relative;
+  max-height: 400px;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+/*Highlight color*/
+::selection {
+	background: #F0DE0E; /* Safari */
+	}
+::-moz-selection {
+	background: #F0DE0E; /* Firefox */
+}
+
+.thumbnail > img {
+  display: block;
+  max-width: 100%;
+  height: 200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* hover-cap */
+#hover-cap .thumbnail {
+    position:relative;
+    overflow:hidden;    
+}
+.caption {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    width: 100%;
+    height: 100%;
+    color:#fff !important;
+}
+
+.caption p {
+	padding: 5px;
+}
+
+.caption h4 {
+	padding: 5px;
+}
+
+footer {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+}
+
+.navbar {
+  *position: relative;
+  *z-index: 2;
+  margin-bottom: 20px;
+  overflow: visible;
+}
+
+.navbar-inner {
+  height: 60px;
+  padding-right: 20px;
+  padding-left: 20px;
+  background-color: #fff;
+  background-image: -moz-linear-gradient(top, #ffffff, #fff);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#fff));
+  background-image: -webkit-linear-gradient(top, #ffffff, #fff);
+  background-image: -o-linear-gradient(top, #ffffff, #fff);
+  background-image: linear-gradient(to bottom, #ffffff, #fff);
+  background-repeat: repeat-x;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid #CCC;
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff', GradientType=0);
+  *zoom: 1;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.0);
+     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.0);
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.0);
+}
+
+.navbar-inner:before,
+.navbar-inner:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.navbar-inner:after {
+  clear: both;
+}
+
+.navbar .container {
+  width: auto;
+}
+
+.nav-collapse.collapse {
+  height: auto;
+  overflow: visible;
+}
+
+.navbar .brand {
+  display: block;
+  float: left;
+  padding: 20px 20px 10px;
+  margin-left: -20px;
+/*  font-size: 20px;
+  font-weight: 200;
+  color: #777777;
+  text-shadow: 0 1px 0 #ffffff;*/
+}
+
+.navbar .brand:hover,
+.navbar .brand:focus {
+  text-decoration: none;
+}
+
+.navbar-text {
+  margin-bottom: 0;
+  line-height: 40px;
+  color: #777777;
+}
+
+.navbar-link {
+  color: #777777;
+}
+
+.navbar-link:hover,
+.navbar-link:focus {
+  color: #333333;
+}
+
+.navbar .divider-vertical {
+  height: 40px;
+  margin: 0 9px;
+  border-right: 1px solid #ffffff;
+  border-left: 1px solid #f2f2f2;
+}
+
+.navbar .nav > .active > a,
+.navbar .nav > .active > a:hover,
+.navbar .nav > .active > a:focus {
+  color: #000;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 16px;
+  background-color: #fff;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+
+.navbar .nav > li > a {
+  float: none;
+  padding: 20px 15px 10px;
+  color: #000;
+  font-size: 16px;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.nav-header {
+  display: block;
+  padding: 3px 15px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #999999;
+  text-shadow: none;
+  text-transform: uppercase;
+}
+
+.nav-list > li > a,
+.nav-list .nav-header {
+  margin-right: -15px;
+  margin-left: -15px;
+  text-shadow: none;
+}
+
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 10px 0;
+  font-family: inherit;
+  font-weight: 300;
+  line-height: 20px;
+  color: inherit;
+  text-rendering: optimizelegibility;
+}

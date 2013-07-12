@@ -5,57 +5,53 @@
 <!-- <meta charset="utf-8"> -->
 
 <title>OneDoorOpen</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!--Google Webfont-->
 <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic' rel='stylesheet' type='text/css'>
-<%= stylesheet_link_tag "stylers",:media => 'all' %>
 <!-- <link href="_css/style.css" rel="stylesheet" type="text/css"> -->
 
 </head>
 
 <body>
 
-<!--Start header-->
-<header>
-	<div id="logoHome">
-		<%= link_to image_tag("FrontPage/logo-tagline.png", :border => 0,:size => "375x69",:alt => "OneDoorOpen"), {:action => 'index', :controller => 'access'}, {:class => 'dock-item'}%>
-    	<!-- <a href="index.html"><img src="app/assets/FrontPage/logo-tagline.png" width="375" height="69" alt="OneDoorOpen"></a> -->
+<div class="container-fluid">
+<!--Nav-->
+<div class="navbar">
+	<div class="navbar-inner">
+    	<%= link_to image_tag("logo-small.png",:alt => "OneDoorOpen"), {:action => 'index', :controller => 'access'}, {:class => 'brand'}%>
     </div>
-</header>
+</div>
+
 
 <!--Start table-->
-<center>
-<table>
-<tr><td>
-<<<<<<< HEAD
-	<h1>welcome</h1>
-=======
-	<h1>hi there</h1>
->>>>>>> d51d9655ccba6e566744c41395088dee3b970a12
-</td>
-<td>
-	<h1>this is what we're about</h1>
-</td></tr>
-<tr>
-<td>
-	<%= form_tag(:action => 'attempt_login') do %>
+<!-- bootstrap stuff -->	
+	<div class="row-fluid" style="margin-top:5%">
+	<div class="span2 offset2">
+        <h1>hi there</h1><br>
+        
+        <!-- <input type="text" placeholder="email"><br>
+        <input type="text" placeholder="password"><br>
+        <button class="btn">Log in</button> &nbsp;
+        <button class="btn">Sign up</button> -->        
+        
+        <%= form_tag(:action => 'attempt_login') do %>
 		<%= text_field_tag :email,nil,:placeholder => "email" %>
+		<br>
 		<%= password_field_tag :password,nil,:placeholder => "password" %>
-		<%= submit_tag("Log In") %>
-		<% end %>
-		<%= link_to("Sign Up", :action => 'register') %> 
-	<!--<input name="email" type="text" placeholder="email" id="field"><br>
-	<input name="password" type="password" placeholder="password" id="field"><p>
-    <button type="submit">Log in</button>
-    <button type="submit">Sign up</button><p></p>-->
-</td>
-<td>
-	<p align="right">
-    <iframe width="560" height="315" src="http://www.youtube.com/embed/VtrPFVqT3Bg" frameborder="0" allowfullscreen></iframe>
-    <br>
-    <a href="about.html">learn more</a>
-</td></tr>
-</table>
+		<br>
+		<%= submit_tag "Log In", :class => "btn" %>
+		<%= link_to "Sign Up", {:action => 'register'}, {:class => "btn"} %> 
+        <% end %>
+        
+    </div>
+    <div class="span5 offset1">
+    	<h1>this is what we're about</h1><br>
+        <iframe width="560" height="315" src="http://www.youtube.com/embed/VtrPFVqT3Bg" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
+<!-- end bootstrap stuff -->
+
 
 </body>
 
@@ -63,6 +59,7 @@
 <footer>
 Maestro Labs © 2013.
 </footer>
+</div>  <!-- end container-fluid -->
 </html>
 
 

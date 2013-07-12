@@ -25,12 +25,9 @@
 			<th>Content</th>
 			<th>Actions</th>
 		</tr>
-		<% @users.each do |user|%>
-		<%if @public=="p"%>	
+		<%if @public=="p"%>
+		<% @users.each do |user|%>	
 			<% user.contents.privacy.sorted.each do |content| %> <!--start loop-->
-		<%else%>
-			<% user.contents.privacy.where(:name => false).sorted.each do |content| %>
-		<%end%>
 			<%if content.name==false %>
 			<td><%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%></td>
 			<%else%>
@@ -66,4 +63,54 @@
 		</tr>
 		<%end%><!--#end loop-->
 		<%end%>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<%else%>
+			<% @users.each do |user|%>
+			<% user.contents.privacy.where(:name => false).sorted.each do |content| %>
+		
+			<%if content.name==false %>
+			<td><%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%></td>
+			<%else%>
+			<td><%= content.file_type %></td>
+			<%end%>
+			
+			<td><%= content.title %></td>
+			<td class="center">
+				<%= toggle_upvote_button(content,@user) %>
+				<%= content.flaggings.size%>
+				
+			</td>
+			<td class="center">
+				<% content.tags.any? %>
+  				<% content.tags.each do |tag| %>
+  				
+  				<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
+				<% end %>
+			</td>  
+			<%if content.content_type=="Image"%>
+				<td class="center">	<%= image_tag content.avatar.url(:medium) %> </td>
+			<%end%>
+			
+			<%if content.content_type=="Video"%>
+			<td class="center"><%= raw(youtube_embed("#{content.link}"))%> </td>>
+			<%end%>
+		</tr>
+		<tr>
+		<td class="actions">
+				<%= link_to("Add", {:action => 'add',:id => content.id}, :class => 'action show')%>
+				<%= link_to("Edit", {:action => 'edit',:id => content.id}, :class => 'action edit')%>
+			</td>
+		</tr>
+		<%end%><!--#end loop-->
+		<%end%>
+	<%end%>
+	
 	</table>

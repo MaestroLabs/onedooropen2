@@ -1,6 +1,7 @@
-<p>Welcome to <%= "#{@other_user.first_name} #{@other_user.last_name}"%>'s Catalouge</p>
+<p>Welcome to <%= "#{@other_user.first_name} #{@other_user.last_name}"%>'s Cataloge</p>
 <%if @other_user.thought_leader%>
 <%= render 'follow_form' %>
+<%= @other_user.followers.count%> Followers
 <%end%>
 <table class="listing" summary="Content list">
 		<tr class="header">
@@ -9,8 +10,8 @@
 			<th>Content</th>
 			<th>Actions</th>
 		</tr>
-		<% @contents.each do |content|%> <!--start loop-->
-			
+		<% @contents.where(:name=>false).each do |content|%> <!--start loop-->
+			<%@uptotal+=content.flaggings.size%>
 			<td><%= content.title %></td>
 			<td class="center">
 				<%= toggle_upvote_button(content,@user) %>
@@ -32,4 +33,6 @@
 			</td>
 		</tr>
 		<%end%><!--#end loop-->
+		<br/>
+		Total Upvotes: <%=@uptotal%>
 	</table>

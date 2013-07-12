@@ -1,4 +1,6 @@
 <p>Hello <%= "#{@user.first_name} #{@user.last_name}"%></p>
+
+
 <%= link_to("Explore", {:controller => 'explore', :action => 'index', :user_id => session[:user_id],:class => 'explore-link'}) %>
 <h2>Happy Place</h2>
 <%= link_to("Add", {:action => 'addC', :user_id => session[:user_id],:class => 'add-link'}) %>
@@ -21,6 +23,7 @@
 		</tr>
 		<% @contents.each do |content|%> <!--start loop-->
 		<tr class="<%= cycle('odd','even')%>">
+			<%@uptotal+=content.flaggings.size%>			
 			<td><%= content.title %></td>
 			<td class="center">
 				<% content.tags.any? %>
@@ -46,127 +49,5 @@
 			<%end%>
 		</tr>
 		<%end%><!--#end loop-->
+		Total Upvotes: <%=@uptotal%>
 	</table>
-
-
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-
-<title>OneDoorOpen</title>
-
-<!--Google Webfont-->
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic' rel='stylesheet' type='text/css'>
-
-<!--CSS and JS-->
-<%stylesheet_link_tag 'stylers',:media => 'all'%>
-<!--<link href="_css/style.css" rel="stylesheet" type="text/css">-->
-
-<!-- Magnific Popup core CSS file -->
-<%stylesheet_link_tag('FrontPage/magnific-popup')%>
-<!--<link rel="stylesheet" href="_css/magnific-popup.css"> -->
-
-<!-- jQuery 1.7.2+ or Zepto.js 1.0+ -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
-
-<!-- Magnific Popup core JS file -->
-<%= javascript_include_tag 'jquery','magnific-popup' %>
-<!--<script src="_js/jquery.magnific-popup.js"></script>-->
-
-</head>
-<body>
-
-<!--Start header-->
-<header>
-  <div class="logo">
-    	<%= image_tag('FrontPage/logo-tagline.png', :size => '375x69', :alt => "OneDoorOpen") %>
-    	<!--<a href="index.html"><img src="_assets/logo-tagline.png" width="375" height="69" alt="OneDoorOpen"></a>-->
-    </div>
-</header>
-
-<!--Start navigation-->
-<span class="nav"><b>catalogue</b></span>
-<span class="nav"><a href="explore">explore</a></span>
-<span class="nav"><a href="splurge">splurge</a></span>
-
-<div class="add"><button id="add">add +</button></div>
-
-<p>
-<hr align="center" size="1px">
-
-
-<!--Start content-->
-<center>
-<div>
-<table>
-<tr>
-<td class="resize">
-<!--<%= link_to image_tag('FrontPage/test-img.jpg',:class =>"resize"),{:class => "test-img"} %>-->
-	
-	<a class="test-img" href='app/assets/images/FrontPage/test-img.jpg'><img class="resize" src='app/assets/images/FrontPage/test-img.jpg'></a>
-</td>
-<td>
-	<a class="test-img" href="app/assets/images/FrontPage/test-img2.jpg"><img class="resize" src="app/assets/images/FrontPage/test-img2.jpg"></a>
-</td>
-<td>
-	<a class="test-img" href="_assets/test-img3.jpg"><img class="resize" src="_assets/test-img3.jpg"></a>
-</td>
-<td>
-	<a class="test-img" href="_assets/test-img3.jpg"><img class="resize" src="_assets/test-img3.jpg"></a>
-</td>
-</tr>
-<tr>
-<td>
-	<a class="test-img" href="_assets/test-img.jpg"><img class="resize" src="_assets/test-img.jpg"></a><br>
-</td>
-<td>
-	<a class="test-frame" href="http://www.youtube.com/watch?v=c0KYU2j0TM4"><img class="resize" src="http://img.youtube.com/vi/c0KYU2j0TM4/maxresdefault.jpg"></a><br>
-</td>
-<td>
-	<a class="test-ajax" href="http://www.facebook.com/">Testing ajax</a>
-</td>
-<td>
-	<a class="test-img" href="_assets/test-img3.jpg"><img class="resize" src="_assets/test-img3.jpg" id="catalogue"></a>
-</td>
-</tr>
-</table>
-</div>
-
-<script type="text/javascript"> 
-$(document).ready(function() {
-});
-
-$('button').magnificPopup({
-  items: {
-      src: '<div class="upload-popup">Upload here</div>',
-      type: 'inline'
-  },
-  closeBtnInside: true
-});
-
-$('.test-img').magnificPopup({ 
-  type: 'image'
-	// other options
-});
-
-$('.test-frame').magnificPopup({ 
-  type: 'iframe'
-	// other options
-});
-
-$('.test-ajax').magnificPopup({ 
-  type: 'ajax'
-	// other options
-});
-
-</script>
-
-</body>
-
-<!--Start footer-->
-<footer>
-Maestro Labs © 2013.
-</footer>
-
-</html>

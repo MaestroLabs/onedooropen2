@@ -56,12 +56,6 @@ module Onedooropen
     # Enable the asset pipeline
     config.assets.enabled = true
 
-<<<<<<< HEAD
-    # Do not initialize on precompile (HEROKU)
-    config.assets.initialize_on_precompile = false
-  
-=======
->>>>>>> d51d9655ccba6e566744c41395088dee3b970a12
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
   end
