@@ -15,7 +15,7 @@ Total Upvotes: <%=@uptotal%>
 
 		<%@count=0%><!--count starts at 0 to create first row-fluid-->
 		<% @contents.each do |content|%> <!--start loop-->
-		<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%>
+		<%if @count==0%><div class="row-fluid"><%end%>
 
 						
 				<!-- <%= content.title %>
@@ -31,7 +31,7 @@ Total Upvotes: <%=@uptotal%>
 					<%= link_to("Delete", {:action => 'deleteC', :id => content.id,:user_id => session[:user_id]},:class=> 'action delete')%>
 				</td> -->
 				
-				<!-- <%if content.content_type=="Image"%>
+				<%if content.content_type=="Image"%>
 					<ul class="thumbnails" id="hover-cap">
 						<li class="span3">
 							<a href="#pic<%=content.id%>" data-toggle="modal">
@@ -40,29 +40,14 @@ Total Upvotes: <%=@uptotal%>
 					                    <h4><%= content.title %></h4>
 					                    <p><%= content.description %></p>
 				                	</div>
-					                	<%if content.link =="" %>
+					                	<%if content.link =="" %><!--if content is uploaded-->
 										<%= image_tag content.avatar.url(:medium) %>
-										<%else%>
+										<%else%><!--content is a link-->
 										<%= image_tag content.link %>
 									<%end%>
 								</div>
 							</a>
 						</li>
-				<%end%>	 -->
-				<%if content.content_type=="Image"%>
-					<li class="span3">
-				    	<div class="thumbnail">
-					       	<a href="#pic<%=content.id%>" data-toggle="modal">
-					          	<%if content.link =="" %><!--if content is uploaded-->
-								<%= image_tag content.avatar.url(:medium) %>
-								<%else%><!--content is a link-->
-								<%= image_tag content.link %>
-								<%end%>
-							</a>
-							<h3><%= content.title %></h3>
-							<p><%= content.description %></p><br>
-						</div>
-					</li>									
 					<!-- Modal -->	
 					<div id="pic<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-header">
@@ -113,7 +98,7 @@ Total Upvotes: <%=@uptotal%>
 					<%end%>
 				
 				<%if content.content_type=="Video"%>
-				<ul class="thumbnails">
+				<ul class="thumbnails" id="hover-cap">
 					<li class="span3">
 				        <a href="#vid<%=content.id%>" data-toggle="modal">
 				        	<div class="thumbnail">
@@ -157,7 +142,7 @@ Total Upvotes: <%=@uptotal%>
 				<%end%>
 				
 				<%if content.content_type=="Article"%>
-				<ul class="thumbnails">
+				<ul class="thumbnails" id="hover-cap">
 					<li class="span3">
 				        <a href="#art<%=content.id%>" data-toggle="modal">
 				        	<div class="thumbnail">
@@ -198,7 +183,7 @@ Total Upvotes: <%=@uptotal%>
 				<%end%>
 				
 			<%@count+=1%><!--increases with each piece of content-->
-			<%if @count==4%></ul></div><%@count=0%><%end%><!--#end row-fluid-->
+			<%if @count==4%></div><%@count=0%><%end%><!--#end row-fluid-->
 		<%end%><!--#end content loop-->
 
 <script type="text/javascript">

@@ -4,8 +4,13 @@ class ProfileController < ApplicationController
 
   def show
      @uptotal=0
-     @contents = Content.order("contents.title ASC").where(:user_id => session[:user_id])
+     @contents = Content.order("contents.created_at DESC").where(:user_id => session[:user_id])
+     @contents.each do |content|#Calculate total upvotes
+       @uptotal+=content.flaggings.size
+       content.upvotes=content.flaggings.size
+     end
      @user=User.find(session[:user_id])
+     @count=0
   end
   
   def addC

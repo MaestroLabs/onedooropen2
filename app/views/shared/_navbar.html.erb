@@ -30,13 +30,13 @@
 	            </div>
 	            <div class="span9">
 	             	<label class ="radio"><%= f.radio_button(:content_type, 'Video') %> video</label>
-	      			<label class ="radio"><%= f.radio_button(:content_type, 'Image') %> image</label>
-	      			<label class ="radio"><%= f.radio_button(:content_type, 'Article') %> article</label>
+	      			<div data-toggle="collapse" data-target="#upload" ><label class ="radio"><%= f.radio_button(:content_type, 'Image') %> image </label></div>   
+	      			<label class ="radio"><%= f.radio_button(:content_type, 'Article') 	%> article</label>
 	            </div>
             </div> 
             
             <%= f.text_field :link, :placeholder => "paste link" %><br>
-            <%= f.file_field :avatar, :placeholder => "upload image" %><br>
+            <div id="upload" class="collapse in">or <%= f.file_field :avatar, :placeholder => "upload image" %></div><br>
             
         </div>
         
@@ -44,8 +44,8 @@
         	<h3>2. customize your post</h3><br>
 				<%= f.text_area :description, :size => '25x3', :placeholder => "note to self" %><br>
 				<%= f.text_field :tag_list, :placeholder => "tags (seperate with commas)" %><br>
-				<label class ="checkbox">public <%= f.check_box :privacy, :style => "float:left;"  %></label>
-				<label class ="checkbox">post anonymously <%= f.check_box :name, :style => "float:left;"  %></label>
+				<label class ="checkbox">public <%= f.check_box :privacy, :style => "float:left;", data: {toggle: 'collapse', target: '#anonymous' }  %></label>
+				<div id="anonymous" class="collapse in"><label class="checkbox">post anonymously <%= f.check_box :name, :style => "float:left;"  %></label></div>
 			</div>
 
   </div>
@@ -55,5 +55,9 @@
     
   </div>
  </div>
- <%end%><!--end Add panel-->
+ <%end%>
+ <script>
+ $('.collapse').collapse();	
+ </script>
+ <!--end Add panel-->
 

@@ -32,13 +32,6 @@
     <![endif]-->
     
     <%= yield(:head) %>
-   	
-<!-- From Gloria's stuff -->
-<!-- <link href="css/bootstrap.css" rel="stylesheet" type="text/css"> -->
-<!-- <link href="css/bootstrap-responsive.css" rel="stylesheet" type="text/css"> -->
-<!-- <link href="css/custom.css" rel="stylesheet" type="text/css"> -->
-<!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'> -->    
-   
   </head>
   
   <body>
@@ -46,22 +39,23 @@
  	 	<%= render(:partial => "shared/navbar")%>
  	<%end%>
 
-    <div id="main" role="main">
+    <!--<div id="main" role="main">-->
       <div class="container">
-        <div class="content">
+        <!-- <div class="content">
            <div class="row">
-            <div class="span12">
+            <div class="span12"> -->
               <%= render 'layouts/messages' %>
               <%= yield %>
-             <%=link_to("Log Out",{:controller => 'access',:action=>'logout'})%>
-            </div>
-          </div>
+             <!-- <%=link_to("Log Out",{:controller => 'access',:action=>'logout'})%> -->
+            <!-- </div>
+          </div> -->
           <footer>
 			Maestro Labs © 2013.
           </footer>
-        </div>
+        <!-- </div> -->
       </div> <!--! end of .container -->
     </div> <!--! end of #main -->
+
   </body>
 </html>
 
