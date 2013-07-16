@@ -10,7 +10,7 @@
 			<th>Content</th>
 			<th>Actions</th>
 		</tr>
-		<% @contents.where(:name=>false).each do |content|%> <!--start loop-->
+		<% @contents.each do |content|%> <!--start loop-->
 			<%@uptotal+=content.flaggings.size%>
 			<td><%= content.title %></td>
 			<td class="center">

@@ -84,6 +84,7 @@ class ProfileController < ApplicationController
   end
   
   def tagged
+    @count=0
     @tagname=params[:tag]
     if params[:tag].present? 
       @contents = Content.tagged_with(params[:tag]).where(:user_id=>session[:user_id])
@@ -92,7 +93,8 @@ class ProfileController < ApplicationController
     end  
   end
   
-     def following
+   def following
+     @count = 0
      @title = "Following"
      @user = User.find(params[:id])
      @users = @user.followed_users#.paginate(page: params[:page])
@@ -109,7 +111,7 @@ class ProfileController < ApplicationController
     #@content = Content.find(params[:id])
     @uptotal=0
     @other_user = User.find(params[:id])
-    @contents = Content.order("contents.title ASC").where(:privacy => true, :user_id => params[:id])
+    @contents = Content.order("contents.title ASC").where(:privacy => true, :user_id => params[:id], :name => false)
     @user= User.find(session[:user_id])
   end
   

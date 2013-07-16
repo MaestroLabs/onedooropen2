@@ -8,7 +8,7 @@ class ExploreController < ApplicationController
   def index
     @public=""
     @user=User.find(session[:user_id])
-    @contents = Content.order("contents.title ASC").where(:privacy => true)
+    @contents = ""
     if params[:filter]=="e"
       @users=User.order("users.email ASC").where(:editor=>true)
     elsif params[:filter]=="f"

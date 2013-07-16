@@ -1,13 +1,5 @@
-<%= link_to("<<Back to Happy Place",{:action => 'show'}, :class => 'back-link')%>
-<h2>Following</h2><br><br>
-<% @users.each do |user| %>
-	<div class ="well">
-    <h2><%= link_to("#{user.first_name} #{user.last_name}",{:action => 'usersprofile', :id => user.id})%></h2>
-    <%@contents = Content.order("contents.created_at DESC").where(:privacy=>true,:user_id => user.id,:name=>false).limit(4)%>		
+<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%>
 
-	<% @contents.each do |content|%> <!--start loop for each thought leader-->
-		<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%>
-		
 					<li class="span3">
 				    	<div class="thumbnail"><!--START THUMBNAIL-->
 					       	<a href="#<%=content.id%>" data-toggle="modal">
@@ -115,9 +107,3 @@
 				
 			<%@count+=1%><!--increases with each piece of content-->
 			<%if @count==4%></ul></div><%@count=0%><%end%><!--#end row-fluid-->
-	
-	<%end%><!--End of a thought leader's content in following page-->
-	</div><!--END WELL-->
-	<br>
-
-<% end %>

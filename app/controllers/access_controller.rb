@@ -27,7 +27,10 @@ class AccessController < ApplicationController
   
     def attempt_login
     authorized_user = User.authenticate(params[:email], params[:password])
-    if authorized_user.activated==false && authorized_user
+    if !authorized_user
+      flash[:notice] = "Invalid username/password combination."
+      redirect_to(:action => 'index')
+    elsif authorized_user && authorized_user.activated == false || authorized_user.activated == "f"
        flash[:notice] = "You have not activated your account"
        redirect_to(:action => 'activate')
     elsif authorized_user && authorized_user.activated == true || authorized_user.activated == "t"
@@ -35,10 +38,6 @@ class AccessController < ApplicationController
       session[:email]=authorized_user.email
       flash[:notice] = "You are logged in"
       redirect_to(:controller => 'profile', :action => 'show',:user_id=>authorized_user.id)
-
-     else
-      flash[:notice] = "Invalid username/password combination."
-      redirect_to(:action => 'index')
     end 
   end
   
