@@ -1,4 +1,4 @@
-<p>Hello <%= "#{@user.first_name} #{@user.last_name}"%></p>
+<!-- <p>Hello <%= "#{@user.first_name} #{@user.last_name}"%></p>
 
 
 <%= link_to("Explore", {:controller => 'explore', :action => 'index', :user_id => session[:user_id],:class => 'explore-link'}) %>
@@ -11,12 +11,11 @@
 <%= link_to("#{@user.followed_users.count} Following", {:action => 'following', :id => session[:user_id],:class => 'followed_users-link'}) %>	
 <br/><br /> 
 <div><%= pluralize(@contents.size, 'items')%> found</div>
-Total Upvotes: <%=@uptotal%>
+Total Upvotes: <%=@uptotal%> -->
 
 		<%@count=0%><!--count starts at 0 to create first row-fluid-->
 		<% @contents.each do |content|%> <!--start loop-->
 		<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%>
-
 						
 				<!-- <%= content.title %>
 				<td class="center">
@@ -30,7 +29,8 @@ Total Upvotes: <%=@uptotal%>
 					<%= link_to("Edit", {:action => 'editC',:id => content.id,:user_id => session[:user_id]}, :class => 'action edit')%>
 					<%= link_to("Delete", {:action => 'deleteC', :id => content.id,:user_id => session[:user_id]},:class=> 'action delete')%>
 				</td> -->
-				
+								
+				<!-- HOVER CAPS-->
 				<!-- <%if content.content_type=="Image"%>
 					<ul class="thumbnails" id="hover-cap">
 						<li class="span3">
@@ -49,24 +49,48 @@ Total Upvotes: <%=@uptotal%>
 							</a>
 						</li>
 				<%end%>	 -->
+				
 				<%if content.content_type=="Image"%>
 					<li class="span3">
 				    	<div class="thumbnail">
 					       	<a href="#pic<%=content.id%>" data-toggle="modal">
 					          	<%if content.link =="" %><!--if content is uploaded-->
-								<%= image_tag content.avatar.url(:medium) %>
+								<%= image_tag content.avatar.url%>
 								<%else%><!--content is a link-->
 								<%= image_tag content.link %>
 								<%end%>
-							</a>
-							<h3><%= content.title %></h3>
-							<p><%= content.description %></p><br>
-						</div>
+							</a>							
+							<h4><%= truncate(content.title,:length =>22, :omission => "...") %>
+							<!--PRIVACY-->
+								<%if content.privacy==true%><!--public-->
+								<span class="label label-warning pull-right">Public</span><br>
+								<%else%><!--private-->
+								<span class="label label-info pull-right">Private</span><br>
+								<%end%>
+							</h4>
+
+							<!--TAGS-->
+							<div class="well-overflow">
+							<% content.tags.each do |tag| %>
+							<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
+							<% end %>
+							</div>
+						  </div>
 					</li>									
 					<!-- Modal -->	
 					<div id="pic<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&times;</button>
+								<div class="btn-group pull-right">
+								  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								    <i class="icon-wrench"></i>
+								  </a>
+								  <ul class="dropdown-menu">
+								    <li><%= link_to("Edit", {:action => 'editC',:id => content.id,:user_id => session[:user_id]}, :class => 'action edit')%></li>
+								  	<li><%= link_to("Delete", {:action => 'deleteC', :id => content.id,:user_id => session[:user_id]},:class=> 'action delete')%></li>
+								  </ul>
+								</div>
+								
 								<h3 id="myModalLabel">&nbsp;</h3>
 							</div>
 							<div class="modal-body">
@@ -81,18 +105,29 @@ Total Upvotes: <%=@uptotal%>
 										</center>
 									</div> 
 									<div class="span4"><!--MODAL RIGHT-->
-									    <h3><%= content.title %></h3><br>
-					                    <%if content.description !="" %>Note to self: <%= content.description %><br><br><% end %><!--only show note exists-->
-	
-										
-										<!--PRIVACY-->
-										
-										<%if content.privacy==true%><!--public-->
-										<span class="label label-warning">Public</span><br><br>
-										<%else%><!--private-->
-										<span class="label label-info">Private</span><br><br>
-										<%end%>
+									    	<div class="pull-right">
+										    	<!--UPVOTES-->
+							                    <%if content.privacy == true%><!--only if public-->
+							                    <%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp;
+							                    <%end%>
+							                    <!--PRIVACY-->
+												<%if content.privacy==true%><!--public-->
+												<span class="label label-warning">Public</span><br>
+												<%else%><!--private-->
+												<span class="label label-info">Private</span><br>
+												<%end%>
+											</div>									    
+										<h3><%= content.title %></h3><br>
+					                    <%if content.description !="" %><div class="well"><%= content.description %></div><% end %><!--only show note exists-->
+					                    								
 										<!--TAGS-->
+										<% if content.tags.any? %>
+										<span class="label">Tags</span>
+										<% content.tags.each do |tag| %>
+						  				<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
+						  				<% end %>
+						  				<br><br>
+						  				<% end %>
 										
 										<!--SOURCE (only if content is linked-->
 											<%if content.link !="" %>
@@ -113,18 +148,28 @@ Total Upvotes: <%=@uptotal%>
 					<%end%>
 				
 				<%if content.content_type=="Video"%>
-				<ul class="thumbnails">
 					<li class="span3">
-				        <a href="#vid<%=content.id%>" data-toggle="modal">
-				        	<div class="thumbnail">
-				               	<div class="caption">
-				                    <h4><%= content.title %></h4>
-				                    <p><%= content.description %></p>
-				              	</div>
-								<%= raw(youtube_img("#{content.link}"))%>
+				        <div class="thumbnail">
+				        	<a href="#vid<%=content.id%>" data-toggle="modal">
+				        		<%= raw(youtube_img("#{content.link}"))%>
+				            </a>
+							<h4><%= truncate(content.title,:length =>25, :omission => "...") %>
+							<!--PRIVACY-->
+								<%if content.privacy==true%><!--public-->
+								<span class="label label-warning pull-right">Public</span><br>
+								<%else%><!--private-->
+								<span class="label label-info pull-right">Private</span><br>
+								<%end%>
+							</h4>
+
+							<!--TAGS-->
+							<div class="well-overflow">
+							<% content.tags.each do |tag| %>
+							<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
+							<% end %>
 							</div>
-						</a>
-					</li>
+						  </div>
+					</li>		
 				<!-- Modal -->	
 					<div id="vid<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-header">
@@ -139,7 +184,20 @@ Total Upvotes: <%=@uptotal%>
 										</center>
 									</div>
 									<div class="span4">
-								    <h3><%= content.title %></h3><br>
+										<div class="pull-right">
+											<!--UPVOTES-->
+							            	<%if content.privacy == true%><!--only if public-->
+							                	<%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp;
+							                <%end%>
+							                <!--PRIVACY-->
+											<%if content.privacy==true%><!--public-->
+												<span class="label label-warning">Public</span><br>
+											<%else%><!--private-->
+												<span class="label label-info">Private</span><br>
+											<%end%>		
+										</div>									
+								    <h3><%= content.title %></h3>
+										<br>
 					    	            Note to self: <%= content.description %><br><br>
 										<div class ="input-prepend input-append">
 											<span class ="add-on">Source</span>
@@ -157,17 +215,27 @@ Total Upvotes: <%=@uptotal%>
 				<%end%>
 				
 				<%if content.content_type=="Article"%>
-				<ul class="thumbnails">
 					<li class="span3">
-				        <a href="#art<%=content.id%>" data-toggle="modal">
-				        	<div class="thumbnail">
-				               	<div class="caption">
-				                    <h4><%= content.title %></h4>
-				                    <p><%= content.description %></p>
-				              	</div>
-								Poo.
+				        <div class="thumbnail">
+				        	<a href="#art<%=content.id%>" data-toggle="modal">
+				               	Poo.
+							</a>
+							<h4><%= truncate(content.title,:length =>25, :omission => "...") %>
+							<!--PRIVACY-->
+								<%if content.privacy==true%><!--public-->
+								<span class="label label-warning pull-right">Public</span><br>
+								<%else%><!--private-->
+								<span class="label label-info pull-right">Private</span><br>
+								<%end%>
+							</h4>
+
+							<!--TAGS-->
+							<div class="well-overflow">
+							<% content.tags.each do |tag| %>
+							<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
+							<% end %>
 							</div>
-						</a>
+						  </div>
 					</li>
 				<!-- Modal -->	
 					<div id="art<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -181,7 +249,19 @@ Total Upvotes: <%=@uptotal%>
 										<%= raw(article_iframe(content.link))%>
 									</div>
 									<div class="span4">
-								    	<h3><%= content.title %></h3><br>
+										<div class="pull-right">
+											<!--UPVOTES-->
+							            	<%if content.privacy == true%><!--only if public-->
+							                	<%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp;
+							                <%end%>
+							                <!--PRIVACY-->
+											<%if content.privacy==true%><!--public-->
+												<span class="label label-warning">Public</span><br>
+											<%else%><!--private-->
+												<span class="label label-info">Private</span><br>
+											<%end%>
+										</div>		
+								    <h3><%= content.title %></h3><br>
 					    	            Note to self: <%= content.description %><br><br>
 										<div class ="input-prepend input-append">
 											<span class ="add-on">Source</span>

@@ -1,40 +1,31 @@
 <% @page_title = "Edit Content" %>
 
 <%= link_to("<<Back to Happy Place",{:action => 'show', :user_id => @user.id}, :class => 'back-link')%>
+<br>
 
-<div class="edit content">
-	<h2>Add Content</h2>
+<div class="span6 offset3 well">
+	<h2>Edit Content</h2>
 	<%= form_for(:content, :url => {:action => 'updateC',:user_id=>@user.id,:id => @content.id},:html => { :multipart => true }) do |f| %> <!--url allows you to send all the info to the action specified-->
-	
-	<%= error_messages_for(@content) %>
-	<table summary="Content form fields">
+		<%= error_messages_for(@content) %>
 
-		<tr>
-			<th><%=f.label(:title)%></th>
-			<td><%= f.text_field(:title) %></td>
-		</tr>
-	<tr>
-			<th><%=f.label(:description, "Note to Self (optional)")%></th>
-			<td><%= f.text_area(:description, :size => '25x5') %></td>
-		</tr>
+		<%= f.label(:title)%>
+		<%= f.text_field(:title, :class => "span5") %>
+		<br>
 		
-		<tr>
- 	 		<th><%=f.label(:privacy,"Public")%></th>
-  			<td><%= f.check_box(:privacy)%></td>
-  		</tr>
+	<%=f.label(:description, "Note to Self (optional)")%>
+		<%= f.text_area(:description, :size => '25x5', :class => "span5") %>
   		
-  		<tr>
- 	 		<th><%=f.label(:name,"Appear Anonymous")%></th>
-  			<td><%= f.check_box(:name)%></td>
-  		</tr>
-  		<tr>	
-  			<th><%= f.label :tags %></th>
-			<td><%= f.text_field :tag_list %></td>
-  		</tr>
-  	</table>
+				<label class ="checkbox">public <%= f.check_box :privacy, :style => "float:left;", data: {toggle: 'collapse', target: '#anonymousEdit' }  %></label>
+				<div id="anonymousEdit" class="collapse in"><label class="checkbox">post anonymously <%= f.check_box :name, :style => "float:left;"  %></label></div>
+
+  			
+  		<%= f.label :tags %>
+			<%= f.text_field :tag_list %>
+  
+ 
 	
 	<div class="form-buttons">
 		<%= submit_tag("Submit") %>
 	</div>
 	<%end%>
-</div>
+</center></div>

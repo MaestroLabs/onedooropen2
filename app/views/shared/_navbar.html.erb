@@ -14,7 +14,7 @@
 </div>
 
 <!--Add panel-->
-<%= form_for(:content, :url => {:action => 'createC',:user_id=>@user.id},:html => { :multipart => true }) do |f| %>
+<%= form_for(:content, :url => {:controller => 'profile',:action => 'createC'},:html => { :multipart => true }) do |f| %>
 <div id="add" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
