@@ -40,6 +40,7 @@ class ProfileController < ApplicationController
   end
   
   def editC
+    @user = User.find(session[:user_id])
     @content = Content.find(params[:id])
   end
   
@@ -73,10 +74,12 @@ class ProfileController < ApplicationController
     @content = Content.find(params[:id])
   end
   
-  def destroyC
+  def explodePineapple
      @content = Content.find(params[:id])
-     @content.destroy
-     flash[:notice]="Content destroyed."
+     if session[:user_id] == @content.user_id
+       @content.destroy
+       flash[:notice]="Content destroyed."
+     end
      redirect_to(:action => 'show',:user_id=>@content.user_id)
   end
   

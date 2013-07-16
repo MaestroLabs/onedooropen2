@@ -95,11 +95,11 @@ class User < ActiveRecord::Base
   end
   
   def self.make_salt(email="")
-    Digest::SHA1.hexdigest("Welcome #{email} to your happiness #{Time.now}")
+    Digest::SHA1.hexdigest("Welcome #{email} to your extreme pineapple ecstasy #{Time.now} hilarity!!!")
   end
   
   def self.hash_with_salt(password="",salt="")
-    Digest::SHA1.hexdigest("Put the #{salt} on your #{password}")
+    Digest::SHA1.hexdigest("Put the #{salt} on your #{password}. Srsface.")
   end
   
   

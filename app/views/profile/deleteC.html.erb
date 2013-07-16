@@ -5,7 +5,7 @@
 <div class="user delete">
 	<h2>Delete <%=@content.title%></h2>
 	
-	<%= form_for(:content, :url => {:action => 'destroyC', :id => @content.id}) do |f| %>
+	<%= form_for(:content, :url => {:action => 'explodePineapple', :id => @content.id, :user_id => @content.user_id}) do |f| %>
 
 	<p>Are you sure you want to permanently delete this content?</p>
 
