@@ -1,4 +1,5 @@
 <h2>Showing content tagged "<%=@tagname%>"</h2><br>
 		<% @contents.each do |content|%> <!--start loop-->
-			<%=render :partial => "feed", :locals => {:content => content} %>
+			<%=render :partial => "profileFeed", :locals => {:content => content} %>
 		<%end%><!--#end loop-->
+<%= will_paginate @contents %>

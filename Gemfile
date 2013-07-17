@@ -6,6 +6,7 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+
 gem 'paperclip'
 gem 'make_flaggable', :git => 'git://github.com/cavneb/make_flaggable.git'
 gem 'bootstrap-sass', '~> 2.3.2.0'
@@ -39,3 +40,5 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+gem 'bootstrap-will_paginate'

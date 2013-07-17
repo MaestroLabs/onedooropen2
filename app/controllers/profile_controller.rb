@@ -4,7 +4,7 @@ class ProfileController < ApplicationController
 
   def show
      @uptotal=0
-     @contents = Content.order("contents.created_at DESC").where(:user_id => session[:user_id])
+     @contents = Content.order("contents.created_at DESC").where(:user_id => session[:user_id]).page(params[:page]).per_page(12)
      @contents.each do |content|#Calculate total upvotes
        @uptotal+=content.flaggings.size
        content.upvotes=content.flaggings.size
@@ -66,10 +66,6 @@ class ProfileController < ApplicationController
     end
   end
   
-  def showC
-     @content = Content.find(params[:id])
-  end
-  
   def deleteC
     @content = Content.find(params[:id])
   end
@@ -87,9 +83,9 @@ class ProfileController < ApplicationController
     @count=0
     @tagname=params[:tag]
     if params[:tag].present? 
-      @contents = Content.tagged_with(params[:tag]).where(:user_id=>session[:user_id])
+      @contents = Content.tagged_with(params[:tag]).where(:user_id=>session[:user_id]).page(params[:page]).per_page(12)
     else 
-      @contents = Content.postall
+      @contents = Content.postall.page(params[:page]).per_page(12)
     end  
   end
   

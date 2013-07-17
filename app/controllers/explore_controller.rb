@@ -53,9 +53,10 @@ class ExploreController < ApplicationController
   end
   
    def tagged
+     @count=0
     if params[:tag].present? 
       @tagname=params[:tag]
-      @contents = Content.tagged_with(params[:tag]).where(:privacy => true)
+      @contents = Content.tagged_with(params[:tag]).where(:privacy => true).page(params[:page]).per_page(12)
     else 
       @contents = Content.postall.where(:privacy => true)
     end

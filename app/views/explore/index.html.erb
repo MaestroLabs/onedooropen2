@@ -1,21 +1,23 @@
-<%= link_to("Profile", {:controller => 'profile', :action => 'show', :user_id => session[:user_id],:class => 'explore-link'}) %><br /><br />
-<%= link_to("Editor Picks", {:action => 'index', :filter => "e",:class => 'explore-link'}) %>
+<!-- <%= link_to("Editor Picks", {:action => 'index', :filter => "e",:class => 'explore-link'}) %>
 <%= link_to("Thought Leaders", {:action => 'index', :filter => "t",:class => 'explore-link'}) %>
-<%= link_to("Following", {:action => 'index', :filter => "f",:class => 'explore-link'}) %>
-<%= link_to("Public", {:action => 'index', :filter => "p",:class => 'explore-link'}) %>
-
-<br><br><br>
-
-
-
+<%= link_to("Following", {:action => 'index', :filter => "f",:class => 'explore-link'}) %> -->
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+  <ul class="nav nav-tabs">
+    <li><%= link_to("editors' picks", {:action => 'index', :filter => "e",:class => 'explore-link'}) %></li>
+    <li><%= link_to("following", {:action => 'index', :filter => "f",:class => 'explore-link'}) %></li>
+    <li><%= link_to("thought leaders", {:action => 'index', :filter => "t",:class => 'explore-link'}) %></li>
+    <li><%= link_to("public", {:action => 'index', :filter => "p",:class => 'explore-link'}) %></li>
+  </ul>
+  
+</div>
 
 		<% @users.each do |user|%>	
 			<%if @public=="p"%>
-			<%@contents=Content.sorted.where(:privacy => true, :user_id => user.id)%>
+			<%@contents=Content.sorted.where(:privacy => true, :user_id => user.id).paginate(:page => params[:page]).per_page(12)%>
 			<%else%>
-			<%@contents=Content.sorted.where(:privacy => true, :user_id => user.id,:name=>false)%>
+			<%@contents=Content.sorted.where(:privacy => true, :user_id => user.id,:name=>false).paginate(:page => params[:page]).per_page(12)%>
 			<%end%>
-		
+				
 		<%@count=0%><!--count starts at 0 to create first row-fluid-->
 		<% @contents.each do |content| %> <!--start content loop-->
 		<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%><!--make a new row-fluid -->
@@ -45,14 +47,15 @@
 						<%end%>
 					</h4>
 
-					<!--TAGS-->
-					<%= content.description %>
-					<div class="well-overflow well-explore">
-						<center><i class="icon-plus"></i>&nbsp;add&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-						<i class="icon-share"></i>&nbsp;share&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-						<i class="icon-arrow-up"></i><%=content.flaggings.size%>&nbsp;&nbsp;<!--Show upvotes if public-->
-						<%= toggle_upvote_button(content,@user) %>
-						</center>
+					<!--DESCRIPTION-->
+					<p><%= truncate(content.description, :length => 120, :omission => "...") %></p>
+					<div class="thumbnail-footer">
+						<div class="btn-group">
+							<div class="btn btn-info"><i class="icon-plus"></i>add</div>
+							<div class="btn btn-info"><i class="icon-share"></i>share</div>
+							<div class="btn btn-info"><i class="icon-arrow-up"></i><%=content.flaggings.size%>&nbsp;&nbsp;<!--Show upvotes if public-->
+							<%= toggle_upvote_button(content,@user) %></div>
+						</div>
 					</div>
 										
 				  </div><!--end thumbnail-->
@@ -61,8 +64,8 @@
 					<div id="<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-header"><!--MODAL HEADER-->
 								<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&times;</button><!--CLOSE x BUTTON-->
-							  	<%= link_to '<i class="icon-share"></i> share'.html_safe, {:action => 'shareC', :id => content.id}, class: 'btn pull-right'%><!--SHARE BUTTON-->
-							  	<%= link_to '<i class="icon-plus"></i> add'.html_safe, {:action => 'addC', :id => content.id}, class: 'btn pull-right'%><!--ADD BUTTON-->						 					
+							  	<%= link_to '<i class="icon-share"></i> share'.html_safe, {:action => 'shareC', :id => content.id}, class: 'btn btn-info pull-right'%><!--SHARE BUTTON-->
+							  	<%= link_to '<i class="icon-plus"></i> add'.html_safe, {:action => 'addC', :id => content.id}, class: 'btn btn-info pull-right'%><!--ADD BUTTON-->						 					
 								<h3 id="myModalLabel">&nbsp;</h3>
 							</div><!--END MODAL HEADER-->
 							
@@ -151,5 +154,7 @@
 					<%= link_to("Add", {:action => 'add',:id => content.id}, :class => 'action show')%>
 					<%= link_to("Edit", {:action => 'edit',:id => content.id}, :class => 'action edit')%> -->
 
-		<%end%><!--#end loop-->
+		<%end%><!--#end content loop-->
 		<%end%>
+		<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%>
+		<div class ="pagination pagination-centered"><%= will_paginate @contents %></div>

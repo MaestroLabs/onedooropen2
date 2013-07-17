@@ -3,11 +3,11 @@
 
 .modal {
   position: fixed;
-  top: 8%;
+  top: 10%;
   left: 50%;
   z-index: 1050;
-  width: 84%;
-  margin-left: -42%;
+  width: 900px;
+  margin-left: -450px;
   background-color: #ffffff;
 /*  border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -31,60 +31,21 @@
   overflow-y: auto;
 }
 
-.modal-footer {
-  padding: 14px 15px 15px;
-  margin-bottom: 0;
-  text-align: right;
-  background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
-  -webkit-border-radius: 0 0 6px 6px;
-     -moz-border-radius: 0 0 6px 6px;
-          border-radius: 0 0 6px 6px;
-  *zoom: 1;
-  -webkit-box-shadow: inset 0 1px 0 #ffffff;
-     -moz-box-shadow: inset 0 1px 0 #ffffff;
-          box-shadow: inset 0 1px 0 #ffffff;
-}
-
 /*Highlight color*/
 ::selection {
-	background: #F0DE0E; /* Safari */
+	background: #ffea00; /* Safari */
 	}
 ::-moz-selection {
-	background: #F0DE0E; /* Firefox */
+	background: #ffea00; /* Firefox */
 }
 
-.thumbnail > img {
+/*.thumbnail > img {
   display: block;
   max-width: 100%;
   height: 200px;
   margin-right: auto;
   margin-left: auto;
-}
-
-/* hover-cap */
-#hover-cap .thumbnail {
-    position:relative;
-    overflow:hidden;    
-}
-.caption {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: rgba(0,0,0,0.8);
-    width: 100%;
-    height: 100%;
-    color:#fff !important;
-}
-
-.caption p {
-	padding: 5px;
-}
-
-.caption h4 {
-	padding: 5px;
-}
+}*/
 
 footer {
 	position: fixed;
@@ -207,6 +168,18 @@ footer {
   text-shadow: none;
 }
 
+#addbutton {
+  float: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  margin-top: 10px;
+  color: #000;
+  font-size: 1px;
+  text-decoration: none;
+  text-shadow: none;
+}
+
 .nav-header {
   display: block;
   padding: 3px 15px;
@@ -225,15 +198,6 @@ footer {
   text-shadow: none;
 }
 
-body {
-  margin: 0;
-  font-family: 'Lato', sans-serif;
-  font-size: 14px;
-  line-height: 20px;
-  color: #333333;
-  background-color: #ffffff;
-}
-
 h1,
 h2,
 h3,
@@ -248,17 +212,16 @@ h6 {
   text-rendering: optimizelegibility;
 }
 
-/* Thumbnail equal heights */
 .thumbnail {
   display: block;
-  padding: 1px;
+  padding: 0px;
   line-height: 20px;
   border: 1px solid #ddd;
-  height: 300px;
+  height: 298px;
   overflow: hidden;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
      -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
@@ -269,22 +232,7 @@ h6 {
 }
 
 .thumbnail-explore {
-  display: block;
-  padding: 1px;
-  line-height: 20px;
-  border: 1px solid #ddd;
-  height: 400px;
-  overflow: hidden;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-  -webkit-transition: all 0.2s ease-in-out;
-     -moz-transition: all 0.2s ease-in-out;
-       -o-transition: all 0.2s ease-in-out;
-          transition: all 0.2s ease-in-out;
+  height: 360px;
 }
 
 a.thumbnail:hover,
@@ -310,29 +258,35 @@ a.thumbnail:focus {
   height: 200px;
 }
 
-.thumbnail > a {
-  display: block;
-  max-width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  height: 200px;
+.thumbnail > p {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-right: 8px;
+  padding-left: 8px;
+  color: #777;
 }
 
-.thumbnail > p, h4, a{
-  padding: 4px;
+.thumbnail-explore > p {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-right: 8px;
+  padding-left: 8px;
+  color: #777;
+  height: 60px;
 }
+
 
 .thumbnail > h4 {
+  padding: 8px;
   font-weight: 700;
   padding-bottom: 0px;
 }
 
-.well-overflow {
-  padding: 14px 15px 15px;
+.thumbnail-footer {
+  padding: 4px;
+  height: 100px;
   margin-bottom: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: center;
   background-color: #f5f5f5;
   border-top: 1px solid #ddd;
   -webkit-border-radius: 0 0 6px 6px;
@@ -342,28 +296,6 @@ a.thumbnail:focus {
   -webkit-box-shadow: inset 0 1px 0 #ffffff;
      -moz-box-shadow: inset 0 1px 0 #ffffff;
           box-shadow: inset 0 1px 0 #ffffff;
-}
-
-.well-explore {
-  padding: 14px 15px 15px;
-  margin-bottom: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
-  -webkit-border-radius: 0 0 6px 6px;
-     -moz-border-radius: 0 0 6px 6px;
-          border-radius: 0 0 6px 6px;
-  *zoom: 1;
-  -webkit-box-shadow: inset 0 1px 0 #ffffff;
-     -moz-box-shadow: inset 0 1px 0 #ffffff;
-          box-shadow: inset 0 1px 0 #ffffff;
-}
-
-/* Icons */
-[class^="icon-"],[class*="icon-"]{
-	background-image: url(/assets/glyphicons-halflings.png)	
 }
 
 /* Buttons */
@@ -485,6 +417,57 @@ a.thumbnail:focus {
   background-color: #ffde00;
 }
 
+.btn-info { 
+  color: #000;
+  text-shadow: none;
+  background-color: transparent;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-repeat: none;
+  border: 1px solid #CCC;
+  *border-color: #CCC #CCC #CCC;
+  border-color: rgba(0, 0, 0, 0.0) rgba(0, 0, 0, 0.0) rgba(0, 0, 0, 0.0);
+  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);*/
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.btn-info.disabled,
+.btn-info[disabled] {
+  color: #000;
+  background-color: transparent;
+}
+
+.btn-info:active,
+.btn-info.active {
+  background-color: transparent;
+}
+
+.btn-group > .btn:first-child {
+  margin-left: 0;
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+          border-top-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+}
+
+.btn-group > .btn:last-child {
+  -webkit-border-top-right-radius: 0;
+          border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+          border-bottom-right-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+}
+
 /* Labels */
 .label,
 .badge {
@@ -601,4 +584,28 @@ body {
   color: #333333;
   background-color: #fff;
   margin-top: 80px;
+}
+
+/* Explore */
+
+.well-overflow {
+  padding: 14px 15px 15px;
+  margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+  *zoom: 1;
+  -webkit-box-shadow: inset 0 1px 0 #ffffff;
+     -moz-box-shadow: inset 0 1px 0 #ffffff;
+          box-shadow: inset 0 1px 0 #ffffff;
+}
+
+/* Icons */
+[class^="icon-"],[class*="icon-"]{
+	background-image: url(/assets/glyphicons-halflings.png)	
 }

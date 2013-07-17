@@ -12,3 +12,8 @@ Total Upvotes: <%=@uptotal%>
 		<% @contents.each do |content|%> <!--start loop-->
 			<%=render :partial => "profileFeed", :locals => {:content => content} %>
 		<%end%>
+
+
+<div class="pagination pagination-centered">
+<%= will_paginate @contents %>
+</div>
