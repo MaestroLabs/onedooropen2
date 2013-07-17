@@ -6,6 +6,7 @@ class ExploreController < ApplicationController
   end
   
   def index
+    @count=0
     @public=""
     @user=User.find(session[:user_id])
     @contents = ""

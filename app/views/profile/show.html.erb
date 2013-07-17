@@ -10,5 +10,5 @@ Total Upvotes: <%=@uptotal%>
 
 		<%@count=0%><!--count starts at 0 to create first row-fluid-->
 		<% @contents.each do |content|%> <!--start loop-->
-			<%=render :partial => "feed", :locals => {:content => content} %>
+			<%=render :partial => "profileFeed", :locals => {:content => content} %>
 		<%end%>

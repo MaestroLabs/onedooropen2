@@ -19,9 +19,9 @@
 							<h4><%= truncate(content.title,:length =>22, :omission => "...") %><!-- truncate title-->
 							<!--PRIVACY-->
 								<%if content.privacy==true%><!--if public-->
-								<span class="label label-warning pull-right">Public</span><br>
+								<span class="label label-info pull-right">Public</span><br>
 								<%else%><!--if private-->
-								<span class="label label-info pull-right">Private</span><br>
+								<span class="label label-warning pull-right">Private</span><br>
 								<%end%>
 							</h4>
 
@@ -72,9 +72,9 @@
 							                    <!--PRIVACY-->
 												<%if content.privacy==true%><!--public-->
 												<%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp;<!--Show upvotes if public-->
-												<span class="label label-warning">Public</span><br>
+												<span class="label label-info">Public</span><br>
 												<%else%><!--private-->
-												<span class="label label-info">Private</span><br>
+												<span class="label label-warning">Private</span><br>
 												<%end%>
 											</div>									    
 										<h3><%= content.title %></h3><br>
