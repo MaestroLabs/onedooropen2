@@ -38,14 +38,11 @@ end
     youtube_id = $5
   end
 
-  %Q{<iframe title="YouTube video player" width="640" height="390" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
+  %Q{<iframe title="YouTube video player" class="span12" height="400" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
 end
-
-
-# => <iframe title="YouTube video player" width="640" height="390" src="http://www.youtube.com/embed/jJrzIdDUfT4" frameborder="0" allowfullscreen></iframe>
   
   def article_iframe(article_url)
-    %Q{<iframe height="350px" width="850px" src="#{article_url}"></iframe>}
+    %Q{<iframe class="span12" height="400" src="#{article_url}"></iframe>}
   end
  
 end

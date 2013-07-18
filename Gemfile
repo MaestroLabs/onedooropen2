@@ -11,6 +11,8 @@ gem 'paperclip'
 gem 'make_flaggable', :git => 'git://github.com/cavneb/make_flaggable.git'
 gem 'bootstrap-sass', '~> 2.3.2.0'
 gem 'acts-as-taggable-on', '~> 2.3.1'
+gem 'bootstrap-will_paginate'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -40,5 +42,3 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
-
-gem 'bootstrap-will_paginate'

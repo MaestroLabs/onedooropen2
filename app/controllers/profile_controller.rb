@@ -32,7 +32,8 @@ class ProfileController < ApplicationController
     if @content.save
       #If save succeeds redirect to the list action
       flash[:notice]="Content Added."
-      redirect_to(:action => 'show', :user_id => @content.user_id)
+      # redirect_to(:action => 'show', :user_id => @content.user_id)
+      redirect_to(:back)
     else
       #If save fails, redisplay the form so user can fix problems
       render('addC')
@@ -76,7 +77,8 @@ class ProfileController < ApplicationController
        @content.destroy
        flash[:notice]="Content destroyed."
      end
-     redirect_to(:action => 'show',:user_id=>@content.user_id)
+     # redirect_to(:action => 'show',:user_id=>@content.user_id)
+     redirect_to(:back)
   end
   
   def tagged
@@ -120,7 +122,8 @@ class ProfileController < ApplicationController
     else 
         @user.flag(@content, :upvote)
     end
-    redirect_to :action=>"usersprofile",:id=> params[:user_id]
+    # redirect_to :action=>"usersprofile",:id=> params[:user_id]
+    redirect_to(:back)
   end
 
   

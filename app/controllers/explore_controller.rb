@@ -36,7 +36,8 @@ class ExploreController < ApplicationController
     else
       flash[:notice]="Did not save."
     end
-    redirect_to(:action => 'index')
+    # redirect_to(:action => 'index')
+    redirect_to(:back)
   end
   
   def upvote
@@ -48,7 +49,8 @@ class ExploreController < ApplicationController
     else 
         @user.flag(@content, :upvote)
     end
-    redirect_to :action=>"index",:filter=>params[:filter]
+    # redirect_to :action=>"index",:filter=>params[:filter]
+    redirect_to(:back)
   end
 
   def usersprofile
