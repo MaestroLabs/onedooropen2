@@ -12,10 +12,10 @@
 </div>
 
 		<% @users.each do |user|%>	
-			<%if @public=="p"%>
-			<%@contents=Content.sorted.where(:privacy => true, :user_id => user.id).paginate(:page => params[:page]).per_page(12)%>
-			<%else%>
-			<%@contents=Content.sorted.where(:privacy => true, :user_id => user.id,:name=>false).paginate(:page => params[:page]).per_page(12)%>
+			<%if @public=="p"%><!--Anonymous posts are only included in the public section-->
+			<%@contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id).paginate(:page => params[:page]).per_page(12)%>
+			<%else%><!--if name=true, the post is anonymous-->
+			<%@contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id,:name=>false).paginate(:page => params[:page]).per_page(12)%>
 			<%end%>
 				
 		<%@count=0%><!--count starts at 0 to create first row-fluid-->
@@ -51,7 +51,8 @@
 					<p><%= truncate(content.description, :length => 120, :omission => "...") %></p>
 					<div class="thumbnail-footer">
 						<div class="btn-group">
-							<div class="btn btn-info"><i class="icon-plus"></i>add</div>
+							
+							<%= link_to '<div class="btn btn-info"><i class="icon-plus"></i>add</div>'.html_safe, {:action => 'add', :id => content.id}%>
 							<div class="btn btn-info"><i class="icon-share"></i>share</div>
 							<div class="btn btn-info"><i class="icon-arrow-up"></i><%=content.flaggings.size%>&nbsp;&nbsp;<!--Show upvotes if public-->
 							<%= toggle_upvote_button(content,@user) %></div>
@@ -65,7 +66,7 @@
 							<div class="modal-header"><!--MODAL HEADER-->
 								<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&times;</button><!--CLOSE x BUTTON-->
 							  	<%= link_to '<i class="icon-share"></i> share'.html_safe, {:action => 'shareC', :id => content.id}, class: 'btn btn-info pull-right'%><!--SHARE BUTTON-->
-							  	<%= link_to '<i class="icon-plus"></i> add'.html_safe, {:action => 'addC', :id => content.id}, class: 'btn btn-info pull-right'%><!--ADD BUTTON-->						 					
+							  	<%= link_to '<i class="icon-plus"></i> add'.html_safe, {:action => 'add', :id => content.id}, class: 'btn btn-info pull-right'%><!--ADD BUTTON-->						 					
 								<h3 id="myModalLabel">&nbsp;</h3>
 							</div><!--END MODAL HEADER-->
 							

@@ -13,7 +13,7 @@ Total Upvotes: <%=@uptotal%>
 			<%=render :partial => "profileFeed", :locals => {:content => content} %>
 		<%end%>
 
-
+<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%>
 <div class="pagination pagination-centered">
 <%= will_paginate @contents %>
 </div>

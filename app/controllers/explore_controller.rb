@@ -1,15 +1,16 @@
 class ExploreController < ApplicationController
   before_filter :confirm_logged_in
+
   def index
-    @users=User.order('users.email ASC').where(:editor =>true )
-    #@contents = Content.order("contents.title ASC").where(:privacy => true, :editor => true)
-  end
-  
-  def index
+    @uptotal=0
+    @contents1 = Content.order("contents.created_at DESC").where(:user_id => session[:user_id])
+    @contents1.each do |content|#Calculate total upvotes
+      @uptotal+=content.flaggings.size
+      content.update_attributes(:upvotes=>content.flaggings.size)
+    end
     @count=0
     @public=""
     @user=User.find(session[:user_id])
-    @contents = ""
     if params[:filter]=="e"
       @users=User.order("users.email ASC").where(:editor=>true)
     elsif params[:filter]=="f"
@@ -26,10 +27,15 @@ class ExploreController < ApplicationController
     content=Content.new
     oldcontent=Content.find(params[:id])
     content=oldcontent.dup
+    content.tag_list = oldcontent.tag_list
     content.avatar=oldcontent.avatar
     content.privacy=false
     content.user_id=session[:user_id]
-    content.save
+    if content.save
+      flash[:notice]="You've saved the content to your catalogue!"
+    else
+      flash[:notice]="Did not save."
+    end
     redirect_to(:action => 'index')
   end
   

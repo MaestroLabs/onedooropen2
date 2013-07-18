@@ -2,4 +2,6 @@
 		<% @contents.each do |content|%> <!--start loop-->
 			<%=render :partial => "exploreFeed", :locals => {:content => content} %>
 		<%end%><!--#end loop-->
+
+<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%>
 <%= will_paginate @contents %>
