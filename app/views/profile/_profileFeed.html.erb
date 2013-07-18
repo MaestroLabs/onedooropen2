@@ -42,7 +42,7 @@
 						<div class="modal-header"><!--MODAL HEADER-->
 						
 						<!--TITLE-->
-						<%= content.title %>
+						<h4><%= content.title %></h4>
 	                    <!--PRIVACY-->
 						<%if content.privacy==true%><!--public-->
 						<!-- <%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp; --><!--Show upvotes if public-->
@@ -50,29 +50,29 @@
 						<%else%><!--private-->
 						<span class="label label-warning">Private</span>
 						<%end%>							
-						<!--TAGS-->
-						<% if content.tags.any? %>
-							<span class="label">Tags</span>
-							<% content.tags.each do |tag| %>
-		  						<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
-		  					<% end %>
-		  				<% end %>
-								
-							<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&times;</button><!--CLOSE x BUTTON-->
-						  	<%= link_to '<i class="icon-wrench"></i>'.html_safe, {:action => 'editC', :id => content.id}, class: 'btn btn-info pull-right'%><!--EDIT BUTTON-->
-							<div class="btn-group pull-right">
+
+							
+							<button type="button" class="btn-info close pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&times;</button><!--CLOSE x BUTTON-->
+							
+							
+							
+							  <%= link_to '<i class="icon-wrench"></i>'.html_safe, {:action => 'editC', :id => content.id}, class: 'btn btn-info pull-right'%><!--EDIT BUTTON-->
+						 	
+						 	
+						 	<div class="btn-group pull-right">
 							  <a class="btn btn-info dropdown-toggle pull-right" data-toggle="dropdown" href="#">
 							    <i class="icon-trash"></i>
 							  </a>
-							    <ul class="dropdown-menu">
+							  
+							  <ul class="dropdown-menu">
 							 	<li><%= link_to("I am sure I want to delete this.", {:action => 'explodePineapple', :id => content.id})%></li><!--DELETE BUTTON-->
 							  </ul>
 						 	</div>
 						 	
-						 	<div class="pull-right"><!--Show upvotes if public-->
-							<%if content.privacy==true%><!--public-->
-							<%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp;
-							<%end%>
+						 	<div class="btn btn-info pull-right"><!--Show upvotes if public-->
+								<%if content.privacy==true%><!--public-->
+								<%=content.flaggings.size%><i class="icon-arrow-up"></i>
+								<%end%>
 							</div>
 						
 						</div><!--END MODAL HEADER-->
@@ -99,15 +99,30 @@
 							<div class="modal-footer"><!--MODAL FOOTER-->
 								<div class="row-fluid"
 						        	<!--Content description-->
-						        	<div class="span9"><%if content.description !="" %><span class="label label-info">Description</span><%= content.description %><% end %><!--only show note exists-->
+						        	<div class="span1">
+						        		<%if content.description !="" %><span class="label label-info">Description</span><% end %><!--only show note exists-->
 						        	</div>
+						        	<div class="span5">
+						        		<%if content.description !="" %><%= content.description %><% end %><!--only show note exists-->
+						        	</div>
+						        	<div class="span3">
+						        	<!--TAGS-->
+										<% if content.tags.any? %>
+											<span class="label">Tags</span>
+											<% content.tags.each do |tag| %>
+						  						<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
+						  					<% end %>
+						  				<% end %>
+						  			</div>
 									<!--Content source (only if content is linked)-->
 									<div class"span3">
+
+								
 											<%if content.link !="" %>
 											<div class ="input-prepend input-append">
 												<span class ="add-on">Source</span>
 												<input class="span8" id="prependedInput" type="text" value="<%=content.link%>">
-												<a href="<%=content.link%>" target="_blank"><span class ="add-on">Open</span></a>   
+												<a href="<%=content.link%>" target="_blank"><span class ="add-on"><i class="icon-share-alt"></i></span></a>   
 											</div>
 											<%end%>
 									</div>
