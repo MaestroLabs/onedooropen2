@@ -1,12 +1,27 @@
 <!-- <p>Hello <%= "#{@user.first_name} #{@user.last_name}"%></p> -->
 <!-- <h2>Happy Place</h2> -->
-<br />
 <%if @user.thought_leader%>
 	<%= link_to("#{@user.followers.count} Followers", {:action => 'followers', :id => session[:user_id],:class => 'followers-link'}) %>
 <%end%>
-<%= link_to("#{@user.followed_users.count} Following", {:action => 'following', :id => session[:user_id],:class => 'followed_users-link'}) %>	
-<br/><br /> 
-Total Upvotes: <%=@uptotal%>
+<!-- <%= link_to("#{@user.followed_users.count} Following", {:action => 'following', :id => session[:user_id],:class => 'followed_users-link'}) %>	
+-->
+
+<!--HERO BAR-->
+<div class="hero-unit">
+	<div class="row-fluid">
+        <div class="span10">
+        	<img class="pull-left" src="img/angry bird.jpg">
+            <h1>Gloria Pu</h1>
+            <span class="label label-success">Thought leader</span> Maybe people get to choose/type a quote they live by, visible to themselves and others
+        </div>
+        <div class="span2">
+        	<i class="icon-chevron-up"></i> <%=@uptotal%><br>
+            <a class="btn" href="#"><i class="icon-wrench icon-white"></i> Edit profile</a>
+        </div>
+    </div>
+</div>
+
+<!--END HERO BAR-->
 
 		<%@count=0%><!--count starts at 0 to create first row-fluid-->
 		<% @contents.each do |content|%> <!--start loop-->

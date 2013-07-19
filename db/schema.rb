@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130708204759) do
+ActiveRecord::Schema.define(:version => 20130718175234) do
 
   create_table "contents", :force => true do |t|
     t.integer  "user_id"
@@ -83,21 +83,26 @@ ActiveRecord::Schema.define(:version => 20130708204759) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "first_name",      :limit => 25
-    t.string   "last_name",       :limit => 50
-    t.string   "email",                         :default => "",    :null => false
-    t.string   "hashed_password", :limit => 40
-    t.string   "salt",            :limit => 40
+    t.string   "first_name",       :limit => 25
+    t.string   "last_name",        :limit => 50
+    t.string   "email",                          :default => "",    :null => false
+    t.string   "hashed_password",  :limit => 40
+    t.string   "salt",             :limit => 40
     t.date     "birthday"
     t.string   "gender"
     t.string   "permalink"
-    t.boolean  "editor",                        :default => false
+    t.boolean  "editor",                         :default => false
     t.string   "token"
-    t.string   "activated",                     :default => "f"
-    t.boolean  "thought_leader",                :default => false
+    t.string   "activated",                      :default => "f"
+    t.boolean  "thought_leader",                 :default => false
     t.integer  "karma"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
+    t.string   "full_name"
   end
 
 end

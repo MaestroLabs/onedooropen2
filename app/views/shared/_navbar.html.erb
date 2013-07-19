@@ -18,7 +18,7 @@
 <div id="add" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel">&nbsp;<%= error_messages_for(@content) %></h3>
+    <h3 id="myModalLabel">&nbsp;</h3>
   </div>
   <div class="modal-body">
   	 	<div class="span4">
@@ -47,7 +47,6 @@
 				<label class ="checkbox">public <%= f.check_box :privacy, :style => "float:left;", data: {toggle: 'collapse', target: '#anonymous' }  %></label>
 				<div id="anonymous" class="collapse in"><label class="checkbox">post anonymously <%= f.check_box :name, :style => "float:left;"  %></label></div>
 			</div>
-
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>

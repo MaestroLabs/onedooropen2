@@ -53,7 +53,7 @@
 						<div class="btn-group">
 							
 							<%= link_to '<div class="btn btn-info"><i class="icon-plus"></i>add</div>'.html_safe, {:action => 'add', :id => content.id}%>
-							<div class="btn btn-info"><i class="icon-share"></i>share</div>
+							<a class="btn btn-info" id="popover" data-toggle="popover" data-placement="top"><i class="icon-share"></i>&nbsp;share</a>
 							<div class="btn btn-info"><i class="icon-arrow-up"></i><%=content.flaggings.size%>&nbsp;&nbsp;<!--Show upvotes if public-->
 							<%= toggle_upvote_button(content,@user) %></div>
 						</div>
@@ -138,7 +138,7 @@
 								</div>
 							</div><!--END MODAL BODY-->
 							<div class="modal-footer"><!--MODAL FOOTER-->
-						        &nbsp;
+						        &nbsp; 
 							</div><!--END MODAL FOOTER-->
 					</div><!--END MODAL-->
 			<%@count+=1%><!--increases with each piece of content-->
@@ -175,3 +175,60 @@
 		<%end%>
 		<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%>
 		<div class ="pagination pagination-centered"><%= will_paginate @contents %></div>
+
+<!--Popover share content-->
+<div id="popover_content" style="display: none">
+	<!--Facebook-->
+        <a href="#" 
+          onclick="
+            window.open(
+              'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 
+              'facebook-share-dialog', 
+              'width=626,height=436'); 
+            return false;">
+        <%= image_tag("facebook.jpg", :alt => "rss feed") %>
+        </a>  
+	<!--Twitter-->
+        <a href="#" onclick="fbs_click();" >
+        <%= image_tag("twitter.jpg", :alt => "rss feed") %>
+        </a>            
+</div>
+
+<script>
+    $('#testing').tooltip({trigger: 'focus'}); 
+	$('#karma').tooltip(); 
+	$('#popover').popover({
+		html : true, 
+    	content: function() {
+      		return $('#popover_content').html();
+    	}
+    });
+</script>
+
+<script>
+$('#popover').popover();
+
+$(':not(#anything)').on('click', function (e) {
+    $('#popover').each(function () {
+        //the 'is' for buttons that trigger popups
+        //the 'has' for icons and other elements within a button that triggers a popup
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+            return;
+        }
+    });
+});
+</script>
+
+<script type="text/javascript">
+function fbs_click() {
+    var twtTitle = '#onedooropen';
+    var twtUrl = 'description, whatever text we want here';
+    var maxLength = 140 - (twtUrl.length + 1);
+    if (twtTitle.length > maxLength) {
+        twtTitle = twtTitle.substr(0, (maxLength - 3)) + '...';
+    }
+    var twtLink = 'http://twitter.com/home?status=' + encodeURIComponent(twtTitle + ' ' + twtUrl);
+    window.open(twtLink, width=626, height=436);
+}
+</script>
