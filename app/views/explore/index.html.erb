@@ -10,171 +10,22 @@
   </ul>
   
 </div>
-
-		<% @users.each do |user|%>	
-			<%if @public=="p"%><!--Anonymous posts are only included in the public section-->
-			<%@contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id).paginate(:page => params[:page]).per_page(12)%>
-			<%else%><!--if name=true, the post is anonymous-->
-			<%@contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id,:name=>false).paginate(:page => params[:page]).per_page(12)%>
-			<%end%>
-				
 		<%@count=0%><!--count starts at 0 to create first row-fluid-->
-		<% @contents.each do |content| %> <!--start content loop-->
-		<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%><!--make a new row-fluid -->
-				
-			<li class="span3">
-		    	<div class="thumbnail thumbnail-explore"><!--START THUMBNAIL-->
-			       	<a href="#<%=content.id%>" data-toggle="modal">
-			       		<%if content.content_type=="Image"%>
-				          	<%if content.link =="" %><!--if content is uploaded-->
-							<%= image_tag content.avatar.url%>
-							<%else%><!--content is a link-->
-							<%= image_tag content.link %>
-							<%end%>
-						<%elsif content.content_type=="Video"%>
-		        			<%= raw(youtube_img("#{content.link}"))%>
-						<%elsif content.content_type=="Article"%>
-							Poo.
-						<%end%>
-						
-					</a>							
-					<h4><%= truncate(content.title,:length =>22, :omission => "...") %><!-- truncate title-->
-					<!--Name-->
-						<%if content.name==false %>
-							<span class="pull-right"><%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%></span><br>
-						<%else%>
-							<span class="label label-info pull-right"><%= content.file_type %></span><br>
-						<%end%>
-					</h4>
-
-					<!--DESCRIPTION-->
-					<p><%= truncate(content.description, :length => 120, :omission => "...") %></p>
-					<div class="thumbnail-footer">
-						<div class="btn-group">
-							
-							<%= link_to '<div class="btn btn-info"><i class="icon-plus"></i>add</div>'.html_safe, {:action => 'add', :id => content.id}%>
-							<a class="btn btn-info" id="popover" data-toggle="popover" data-placement="top"><i class="icon-share"></i>&nbsp;share</a>
-							<div class="btn btn-info"><i class="icon-arrow-up"></i><%=content.flaggings.size%>&nbsp;&nbsp;<!--Show upvotes if public-->
-							<%= toggle_upvote_button(content,@user) %></div>
-						</div>
-					</div>
-										
-				  </div><!--end thumbnail-->
-			</li>	
-			<!-- START MODAL -->	
-					<div id="<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-header"><!--MODAL HEADER-->
-								<!--TITLE-->
-								<%= content.title %>
-			                    <!--PRIVACY-->
-								<%if content.privacy==true%><!--public-->
-								<!-- <%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp; --><!--Show upvotes if public-->
-								<span class="label label-info">Public</span>
-								<%else%><!--private-->
-								<span class="label label-warning">Private</span>
-								<%end%>							
-								<!--TAGS-->
-								<% if content.tags.any? %>
-									<span class="label">Tags</span>
-									<% content.tags.each do |tag| %>
-				  						<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
-				  					<% end %>
-				  				<% end %>
-		  				
-		  						<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&times;</button><!--CLOSE x BUTTON-->
-							  	<%= link_to '<i class="icon-share"></i> share'.html_safe, {:action => 'shareC', :id => content.id}, class: 'btn btn-info pull-right'%><!--SHARE BUTTON-->
-							  	<%= link_to '<i class="icon-plus"></i> add'.html_safe, {:action => 'add', :id => content.id}, class: 'btn btn-info pull-right'%><!--ADD BUTTON-->						 					
-							</div><!--END MODAL HEADER-->
-							
-							<div class="modal-body"><!--MODAL BODY-->
-								<div class="row-fluid">
-									<div class="span8"><!--MODAL LEFT-->
-										<center>
-							       		<%if content.content_type=="Image"%>
-										    <%if content.link =="" %><!--if content is uploaded-->
-											<%= image_tag content.avatar.url %>
-											<%else%><!--content is a link-->
-											<%=image_tag content.link%>
-											<%end%>
-										<%elsif content.content_type=="Video"%>
-						        			<%= raw(youtube_embed(content.link))%>
-										<%elsif content.content_type=="Article"%>
-											<%= raw(article_iframe(content.link))%>
-										<%end%>
-										</center>
-									</div> 
-									<div class="span4"><!--MODAL RIGHT-->
-									    	<div class="pull-right">
-											<%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp;<!--Show upvotes if public-->
-
-		    								<%if content.name==false %>
-												<span class="pull-right"><%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%></span><br>
-											<%else%>
-												<span class="label label-info pull-right"><%= content.file_type %></span><br>
-											<%end%>
-
-											</div>									    
-										<h3><%= content.title %></h3><br>
-					                    <%if content.description !="" %><div class="well"><%= content.description %></div><% end %><!--only show note exists-->
-					                    								
-										<!--TAGS-->
-										<% if content.tags.any? %>
-										<span class="label">Tags</span>
-										<% content.tags.each do |tag| %>
-						  				<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
-						  				<% end %>
-						  				<br><br>
-						  				<% end %>
-										
-										<!--SOURCE (only if content is linked)-->
-											<%if content.link !="" %>
-											<div class ="input-prepend input-append">
-												<span class ="add-on">Source</span>
-												<input class="span8" id="prependedInput" type="text" value="<%=content.link%>">
-												<a href="<%=content.link%>" target="_blank"><span class ="add-on">Open</span></a>   
-											</div>
-										<%end%>
-									</div>
-								</div>
-							</div><!--END MODAL BODY-->
-							<div class="modal-footer"><!--MODAL FOOTER-->
-						        &nbsp; 
-							</div><!--END MODAL FOOTER-->
-					</div><!--END MODAL-->
-			<%@count+=1%><!--increases with each piece of content-->
-			<%if @count==4%></ul></div><%@count=0%><%end%><!--if 4th pic then end row-fluid-->
+		
+		<% @users.each do |user|%>	<!-- Start loop for each user-->
+			<%if @public=="p"%><!--Anonymous posts are only included in the public section-->
+			<%@contents1=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id).paginate(:page => params[:page]).per_page(12)%>
+			<%else%><!--if name=true, the post is anonymous-->
+			<%@contents1=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id,:name=>false).paginate(:page => params[:page]).per_page(12)%>
+			<%end%>
 			
-				<!-- <%if content.name==false %>
-					<%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%></td>
-				<%else%>
-					<%= content.file_type %>
-				<%end%>
-				
-				<%= content.title %>
-				<%= toggle_upvote_button(content,@user) %>
-				<%= content.flaggings.size%>
-				
-				<% content.tags.any? %>
-  				<% content.tags.each do |tag| %>
-  					<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
-				<% end %>
-				 										
-				 
-				<%if content.content_type=="Image"%>
-					<%= image_tag content.avatar.url(:medium) %> 
-				<%end%>
-				
-				<%if content.content_type=="Video"%>
-				<%= raw(youtube_embed("#{content.link}"))%> 
-				<%end%>
-	
-					<%= link_to("Add", {:action => 'add',:id => content.id}, :class => 'action show')%>
-					<%= link_to("Edit", {:action => 'edit',:id => content.id}, :class => 'action edit')%> -->
-
-		<%end%><!--#end content loop-->
-		<%end%>
-		<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%>
-		<div class ="pagination pagination-centered"><%= will_paginate @contents %></div>
+			<% @contents1.each do |content| %> <!--start content loop-->
+				<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%><!--make a new row-fluid -->
+				<%=render :partial => "exploreFeed", :locals => {:content => content} %>
+			<%end%><!--END CONTENT LOOP-->
+			<%end%><!--END USER LOOP-->
+		<%if @count!=4 && @count==(@contents1.size%4)%></ul></div><%end%>
+		<div class ="pagination pagination-centered"><%= will_paginate @contents1 %></div>
 
 <!--Popover share content-->
 <div id="popover_content" style="display: none">

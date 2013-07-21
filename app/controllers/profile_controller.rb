@@ -75,7 +75,7 @@ class ProfileController < ApplicationController
      @content = Content.find(params[:id])
      if session[:user_id] == @content.user_id
        @content.destroy
-       flash[:notice]="Content destroyed."
+       flash[:notice]="This post has been deleted."
      end
      # redirect_to(:action => 'show',:user_id=>@content.user_id)
      redirect_to(:back)

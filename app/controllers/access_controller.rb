@@ -36,7 +36,7 @@ class AccessController < ApplicationController
     elsif authorized_user && authorized_user.activated == true || authorized_user.activated == "t"
       session[:user_id]=authorized_user.id
       session[:email]=authorized_user.email
-      flash[:notice] = "You are logged in"
+      # flash[:notice] = "You are logged in"
       redirect_to(:controller => 'profile', :action => 'show',:user_id=>authorized_user.id)
     end 
   end

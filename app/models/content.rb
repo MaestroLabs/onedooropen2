@@ -16,6 +16,7 @@ class Content < ActiveRecord::Base
   attr_accessible :title, :file_type, :content_type, :privacy, :link, :description, :user_id, :avatar, :name, :tag_list, :upvotes
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
   
+  # validates_length_of :description, :maximum => 200, :message => "Please limit the description to 200 characters."
   validates :content_type, :presence => true
   validates :title, :presence => true
   validates :tag_list, :presence => true
