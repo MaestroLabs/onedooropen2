@@ -12,14 +12,14 @@ class ExploreController < ApplicationController
     @public=""
     @user=User.find(session[:user_id])
     if params[:filter]=="e" #Editors
-      @users=User.order("users.email ASC").where(:editor=>true)
+      @users=User.where(:editor=>true)
     # elsif params[:filter]=="f" #Following only shows the people the current user is following
       # @users=@user.followed_users
     elsif params[:filter]=="p" #Public doesn not show editors or thought leaders
-      @users=User.order("users.email ASC").where(:editor=>false,:thought_leader=>false)
+      @users=User.where(:editor=>false,:thought_leader=>false)
       @public="p"
     else #Explore shows thought_leader content only by default
-      @users=User.order("users.email ASC").where(:thought_leader=>true)
+      @users=User.where(:thought_leader=>true)
     end
   end
   

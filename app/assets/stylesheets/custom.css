@@ -13,8 +13,8 @@
   top: 10%;
   left: 50%;
   z-index: 1050;
-  width: 80%;
-  margin-left: -40%;
+  width: 70%;
+  margin-left: -35%;
   background-color: #ffffff;
 /*  border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -54,6 +54,10 @@
   overflow-y: auto;
 }
 
+.modal-body img {
+  max-height: 400px;	
+}
+
 .modal-footer {
   padding: 14px 15px 15px;
   margin-bottom: 0;
@@ -67,6 +71,33 @@
   -webkit-box-shadow: inset 0 1px 0 #ffffff;
      -moz-box-shadow: inset 0 1px 0 #ffffff;
           box-shadow: inset 0 1px 0 #ffffff;
+}
+
+/*Add panel modal*/
+
+.modal-add {
+  width: 54%;
+  margin-left: -27%;
+}
+
+.modal-add-header {
+	padding: 15px 15px;
+}
+
+.modal-add-header h4 {
+	font-weight: 700;
+	display: inline;
+}
+
+.modal-add-body {
+  position: relative;
+  max-height: 400px;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.modal-add-footer {
+  text-align: right;
 }
 
 /*Highlight color*/
@@ -670,6 +701,10 @@ input[type="color"],
           border-radius: 0px;
 }
 
+textarea {
+	height: 100px;
+}
+
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -1030,4 +1065,26 @@ hr {
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-bottom-color: transparent;
+}
+
+/* Explore nav */
+.nav-pills > li > a {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
+}
+
+.nav-pills > .active > a,
+.nav-pills > .active > a:hover,
+.nav-pills > .active > a:focus {
+  color: #000;
+  background-color: #ffea00;
+}
+
+.nav-pills a {
+  color: #000;
 }

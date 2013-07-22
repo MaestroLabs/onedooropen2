@@ -15,23 +15,33 @@
 
 <!--Add panel-->
 <%= form_for(:content, :url => {:controller => 'profile',:action => 'createC'},:html => { :multipart => true }) do |f| %>
-<div id="add" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
+<div id="add" class="modal modal-add hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header modal-add-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel">&nbsp;</h3>
+    <h7 id="myModalLabel">&nbsp;</h7>
   </div>
-  <div class="modal-body">
-  	 	<div class="span4">
-        	<h3>1. add to your catalogue</h3><br>
+  <div class="modal-body modal-add-body">
+  	<div class="row-fluid">
+  	 	<div class="span5 offset1">
+        	<h3>1. add to catalogue</h3><br>
             <%= f.text_field :title, :placeholder => "title" %><br>
             <div class="row-fluid" style="margin-top:10px; margin-bottom:10px;">
-	            <div class="span3">
+	            <div class="span5">
 	            	this is a(n)&nbsp;
 	            </div>
-	            <div class="span9">
-	             	<label class ="radio"><%= f.radio_button(:content_type, 'Video') %> video</label>
-	      			<div data-toggle="collapse" data-target="#upload" ><label class ="radio"><%= f.radio_button(:content_type, 'Image') %> image </label></div>   
-	      			<label class ="radio"><%= f.radio_button(:content_type, 'Article') 	%> article</label>
+	            <div class="span3">
+	            	<!--videos radio button + tooltip-->
+	            	<div id="v" data-toggle="tooltip" data-placement="right" title="Link to a YouTube video">
+	             		<label class="radio"><%= f.radio_button(:content_type, 'Video') %> video</label>
+	             	</div>
+	             	<div id="img" data-toggle="tooltip" data-placement="right" title="Link to an image or upload your own">
+	             		<div data-toggle="collapse" data-target="#upload" ><label class="radio"><%= f.radio_button(:content_type, 'Image') %> image </label></div>
+	             	</div>
+	             	<div id="art" data-toggle="tooltip" data-placement="right" title="Link to an online article">   
+	      				<label class="radio"><%= f.radio_button(:content_type, 'Article') 	%> article</label>
+	      			</div>   
+	            </div>
+	            <div class="span4">
 	            </div>
             </div> 
             
@@ -40,15 +50,29 @@
             
         </div>
         
-        <div class="span4">
-        	<h3>2. customize your post</h3><br>
-				<%= f.text_area :description, :size => '25x3', :placeholder => "note to self" %><br>
-				<%= f.text_field :tag_list, :placeholder => "tags (seperate with commas)" %><br>
+        <div class="span5 offset1">
+        	<h3>2. customize post</h3><br>
+        	<!--description text area + tooltip-->
+        	<div id="d" data-toggle="tooltip" data-placement="left" title="Accurate descriptions make for good content (especially if you're sharing publicly)">
+				<%= f.text_area :description, :rows => 3, :cols => 25, :placeholder => "description" %>
+			</div>
+			<!--tags + tooltip-->
+			<div id="tags" data-toggle="tooltip" data-placement="left" title="Minimum 1, maximum 5">
+				<%= f.text_field :tag_list, :placeholder => "tags (seperate with commas)" %>
+			</div>
+			<!--public checkbox + tooltip-->
+			<div id="pub" data-toggle="tooltip" data-placement="left" title="Public content is visible to everyone">
 				<label class ="checkbox">public <%= f.check_box :privacy, :style => "float:left;", data: {toggle: 'collapse', target: '#anonymous' }  %></label>
+			</div>
+			<!--anonymous checkbox + tooltip-->
+			<div id="ano" data-toggle="tooltip" data-placement="left" title="Anonymous content is shared publicly without your name">
 				<div id="anonymous" class="collapse in"><label class="checkbox">post anonymously <%= f.check_box :name, :style => "float:left;"  %></label></div>
 			</div>
+			
+		</div>
   </div>
-  <div class="modal-footer">
+  </div><!--end row-fluid-->
+  <div class="modal-footer modal-add-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
 		<%= submit_tag "go", :class => "btn btn-primary" %>
     
@@ -58,5 +82,14 @@
  <script>
  $('.collapse').collapse();	
  </script>
+ <script>
+	$('#v').tooltip();
+	$('#img').tooltip();
+	$('#art').tooltip();
+	$('#d').tooltip(); 
+	$('#tags').tooltip();
+	$('#pub').tooltip();
+	$('#ano').tooltip(); 
+</script> 
  <!--end Add panel-->
 

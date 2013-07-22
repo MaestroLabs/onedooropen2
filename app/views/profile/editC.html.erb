@@ -1,31 +1,32 @@
 <% @page_title = "Edit Content" %>
 
-<%= link_to("<<Back to Happy Place",{:action => 'show', :user_id => @user.id}, :class => 'back-link')%>
-<br>
-
-<div class="span6 offset3 well">
+<div class="span4 offset4 well">
 	<h2>Edit Content</h2>
+	<br>
 	<%= form_for(:content, :url => {:action => 'updateC',:user_id=>@user.id,:id => @content.id},:html => { :multipart => true }) do |f| %> <!--url allows you to send all the info to the action specified-->
 		<%= error_messages_for(@content) %>
 
 		<%= f.label(:title)%>
-		<%= f.text_field(:title, :class => "span5") %>
-		<br>
+		<%= f.text_field(:title, :class => "span4") %>
+		<br><br>
 		
-	<%=f.label(:description, "Note to Self (optional)")%>
-		<%= f.text_area(:description, :size => '25x5', :class => "span5") %>
-  		
+		<%=f.label(:description, "Description")%>
+		<%= f.text_area(:description, :size => '25x5', :class => "span4") %>
+		<br>
+  		<br>
 				<label class ="checkbox">public <%= f.check_box :privacy, :style => "float:left;", data: {toggle: 'collapse', target: '#anonymousEdit' }  %></label>
 				<div id="anonymousEdit" class="collapse in"><label class="checkbox">post anonymously <%= f.check_box :name, :style => "float:left;"  %></label></div>
 
-  			
+  		<br>	
   		<%= f.label :tags %>
 			<%= f.text_field :tag_list %>
-  
+  		<br>
+  		<br>
  
-	
-	<div class="form-buttons">
-		<%= submit_tag("Submit") %>
-	</div>
+	<!--Submit and Cancel buttons-->
+		<center>
+		<%= submit_tag("Submit", :class=> "btn btn-primary") %>&nbsp;
+		<%= link_to("Cancel",{:action => 'show', :user_id => @user.id}, :class=> "btn ") %>
+		</center>
 	<%end%>
-</center></div>
+</div>
