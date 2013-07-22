@@ -3,24 +3,37 @@ class ExploreController < ApplicationController
 
   def index
     @uptotal=0
-    @contents1 = Content.order("contents.created_at DESC").where(:user_id => session[:user_id])
-    @contents1.each do |content|#Calculate total upvotes
-      @uptotal+=content.flaggings.size
-      content.update_attributes(:upvotes=>content.flaggings.size)
-    end
-    @count=0
+    # @contents1 = Content.order("contents.created_at DESC").where(:user_id => session[:user_id])
+    # @contents1.each do |content|#Calculate total upvotes
+      # @uptotal+=content.flaggings.size
+      # content.update_attributes(:upvotes=>content.flaggings.size)
+    # end
+    @count=0 #starts at 0 to create the first row-fluid
     @public=""
     @user=User.find(session[:user_id])
     if params[:filter]=="e" #Editors
       @users=User.order("users.email ASC").where(:editor=>true)
-    elsif params[:filter]=="f" #Following only shows the people the current user is following
-      @users=@user.followed_users
+    # elsif params[:filter]=="f" #Following only shows the people the current user is following
+      # @users=@user.followed_users
     elsif params[:filter]=="p" #Public doesn not show editors or thought leaders
       @users=User.order("users.email ASC").where(:editor=>false,:thought_leader=>false)
       @public="p"
     else #Explore shows thought_leader content only by default
       @users=User.order("users.email ASC").where(:thought_leader=>true)
     end
+  end
+  
+  def following
+    # @uptotal=0
+    @user=User.find(session[:user_id])
+    @users=@user.followed_users
+    # @contents1 = Content.order("contents.created_at DESC").where(:user_id => session[:user_id])
+    # @contents1.each do |content|#Calculate total upvotes
+      # @uptotal+=content.flaggings.size
+      # content.update_attributes(:upvotes=>content.flaggings.size)
+    # end
+    @count=0
+    
   end
 
   def add

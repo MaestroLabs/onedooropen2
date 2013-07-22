@@ -1,0 +1,8 @@
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+  <ul class="nav nav-tabs">
+    <li><%= link_to("editors' picks", {:action => 'index', :filter => "e"},{:class => 'explore-link'}) %></li>
+    <li><%= link_to("following", {:action => 'following'},{:class => 'explore-link'}) %></li>
+    <li><%= link_to("thought leaders", {:action => 'index', :filter => "t"},{:class => 'explore-link'}) %></li>
+    <li><%= link_to("public", {:action => 'index', :filter => "p"},{:class => 'explore-link'}) %></li>
+  </ul>
+</div>

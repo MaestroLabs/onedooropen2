@@ -3,6 +3,7 @@ class ProfileController < ApplicationController
   before_filter :find_user
 
   def show
+     @count=0 #starts at 0 to create the first row-fluid on show.html.erb
      @uptotal=0
      @contents = Content.order("contents.created_at DESC").where(:user_id => session[:user_id]).page(params[:page]).per_page(12)
      @contents.each do |content|#Calculate total upvotes
@@ -10,7 +11,6 @@ class ProfileController < ApplicationController
        content.upvotes=content.flaggings.size
      end
      @user=User.find(session[:user_id])
-     @count=0
   end
   
   def addC

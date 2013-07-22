@@ -1,25 +1,47 @@
 <!-- <%= link_to("Editor Picks", {:action => 'index', :filter => "e",:class => 'explore-link'}) %>
 <%= link_to("Thought Leaders", {:action => 'index', :filter => "t",:class => 'explore-link'}) %>
 <%= link_to("Following", {:action => 'index', :filter => "f",:class => 'explore-link'}) %> -->
-<%=render :partial => "exploreTabs"%>
-		
-		<% @users.each do |user|%>	<!-- Start loop for each user-->
-			<%if @public=="p"%><!--If clicked public section, then public=p. Anonymous posts are only included in the public section (so :name=>false is not a requirement, since :name=> false means that the post is not anonymous)-->
-			<%@contents1=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id).paginate(:page => params[:page]).per_page(12)%>
-			<%else%><!--if name=false, the post is NOT anonymous-->
-			<%@contents1=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id,:name=>false).paginate(:page => params[:page]).per_page(12)%>
-			<%end%>
-			
-			<% @contents1.each do |content| %> <!--start content loop-->
-				<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%><!--make a new row-fluid -->
-				<%=render :partial => "exploreFeed", :locals => {:content => content} %>
-				<%@count+=1%><!--increases with each piece of content-->
-				<%if @count==4%></ul></div><!--if 4th pic then end row-fluid--><%@count=0%><%end%>
-			<%end%><!--END CONTENT LOOP-->
-		<%end%><!--END USER LOOP-->
-		<%if @count!=4 && @count==(@contents1.size%4)%></ul></div><%end%><!--If there isn't enough content to fill a page, must end row fluid anyway-->
 
-		<div class ="pagination pagination-centered"><%= will_paginate @contents1 %></div>
+<div class="row-fluid">
+<div class="span2">
+	<!--nav tabs-->
+	<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="200" id="following" style="width: 200px;">
+		<li class="nav-header">Recently updated</li>
+        <li><a href="#">Brennan Foo</a></li>
+        <li><a href="#">Cobi Moos</a></li>
+        <li><a href="#">John Higson</a></li>
+        <li><a href="#">James Lee</a></li>
+        <li><a href="#">Gloria Pu</a></li>
+        <li><a href="#">Person</a></li>
+        <li class="see-all"><a href="#">...see all</a></li>
+	</ul>
+	<!--end nav tabs-->
+</div>
+
+<div class="span10"><!--following feeds-->
+		<% @users.each do |user|%>	<!-- Start loop for each user-->
+		<div class="followers">
+			<h1><%= user.first_name %> <%= user.last_name%></h1>&nbsp;&nbsp;&nbsp;<a href="#">See more</a><br><br>
+		</div>	
+
+		<div class="row-fluid">
+		<ul class="thumbnails">
+			<!--Shows followed users' most recent content-->
+			<%@contents1=Content.order("contents.created_at DESC").where(:privacy => true, :user_id => user.id,:name=>false).limit(4)%>
+			<%@contents1.each do |content| %> <!--start content loop-->
+				<%=render :partial => "followFeed", :locals => {:content => content} %>
+			<%end%><!--END CONTENT LOOP-->
+		</ul>
+		</div>
+		<hr><!--Gray bar-->
+		<%end%><!--END USER LOOP-->
+
+
+</div><!--end following feeds-->		
+</div><!--End row-fluid with left bar and following feeds-->		
+
+<!-- NO PAGINATION FOR NOW -->
+
 
 <!--Popover share content-->
 <div id="popover_content" style="display: none">
@@ -77,3 +99,8 @@ function fbs_click() {
     window.open(twtLink, width=626, height=436);
 }
 </script>
+
+<script>
+$('#following').affix()
+</script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-scrollspy.js"></script>

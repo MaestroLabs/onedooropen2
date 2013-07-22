@@ -3,8 +3,8 @@
   <div class="navbar-inner">
     <%= link_to image_tag("logo-small.png",:alt => "OneDoorOpen"), {:action => 'index', :controller => 'access'}, {:class => 'brand'}%>
     <ul class="nav">
-        <li><%= link_to("catalogue", {:controller => 'profile', :action => 'show', :user_id => session[:user_id],:class => 'catalogue-link'}) %></li>
-        <li><%= link_to("explore", {:controller => 'explore', :action => 'index', :user_id => session[:user_id],:class => 'explore-link'}) %></li>
+        <li><%= link_to("catalogue", {:controller => 'profile', :action => 'show', :user_id => session[:user_id]}, {:class => 'catalogue-link'}) %></li>
+        <li><%= link_to("explore", {:controller => 'explore', :action => 'index'}, {:user_id => session[:user_id], :class => 'explore-link'}) %></li>
         <li><a href="#">invest</a></li>
     </ul>
     <ul class="nav pull-right">
