@@ -14,7 +14,7 @@ class Content < ActiveRecord::Base
   
   # attr_accessible :title, :body
   belongs_to :folder
-  attr_accessible :title, :file_type, :content_type, :privacy, :link, :description, :user_id, :avatar, :name, :tag_list, :upvotes, :quote
+  attr_accessible :title, :file_type, :content_type, :privacy, :link, :description, :user_id, :avatar, :name, :tag_list, :upvotes, :quote, :publishedBy
   
   
   searchable do

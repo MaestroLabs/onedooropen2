@@ -38,6 +38,10 @@
   /*height: 85%;*/
 }
 
+#iframe-percent {
+	height: 100%;
+}
+
 .modal-header {
 	padding: 15px 15px;
 }
@@ -55,8 +59,9 @@
 }
 
 .modal-body iframe {
-  height: 400px;
+  /*height: 400px;*/
 }
+
 .modal-body img {
   max-height: 60%;	
 }

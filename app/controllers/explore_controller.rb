@@ -4,23 +4,22 @@ class ExploreController < ApplicationController
 
   def index
     @uptotal=0
-     contents = Content.order("contents.created_at DESC").where(:user_id => session[:user_id])
+     contents = Content.order("contents.created_at DESC").where(:privacy=>true)
      contents.each do |content|#Calculate total upvotes
        @uptotal+=content.flaggings.size
        content.update_attributes(:upvotes=>content.flaggings.size)
      end
     @count=0 #starts at 0 to create the first row-fluid
-    @public=""
-    @user=User.find(session[:user_id])
+    @followers=false
     if params[:filter]=="e" #Editors
-      @users=User.where(:editor=>true)
+      @contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:publishedBy=>"editor",:privacy => true).page(params[:page]).per_page(12)
     elsif params[:filter]=="f" #Following only shows the people the current user is following
       @users=@user.followed_users
+      @followers=true
     elsif params[:filter]=="p" #Public doesn not show editors or thought leaders
-      @users=User.where(:editor=>false,:thought_leader=>false)
-      @public="p"
+      @contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:publishedBy=>"editor",:publishedBy=>"thoughtleader",:name=>false,:privacy => true).where(:publishedBy=>"mortals",:privacy => true).page(params[:page]).per_page(12)
     else #Explore shows thought_leader content only by default
-      @users=User.where(:thought_leader=>true)
+      @contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:publishedBy=>"thoughtleader",:name=>false,:privacy => true).page(params[:page]).per_page(12)
     end
   end
   
@@ -59,17 +58,19 @@ class ExploreController < ApplicationController
   end
   
   def following
-    # @uptotal=0
-    @user=User.find(session[:user_id])
-    @other_users=@user.followed_users
+    @count=0
+    @uptotal=0
+    @users=@user.followed_users    
     # @contents1 = Content.order("contents1.created_at DESC").where(:user_id => session[:user_id])
     # @contents1.each do |content|#Calculate total upvotes
       # @uptotal+=content.flaggings.size
       # content.update_attributes(:upvotes=>content.flaggings.size)
-    # end
-    @count=0
-    
-    
+    # end  
+     contents = Content.order("contents.created_at DESC").where(:privacy=>true)
+     contents.each do |content|#Calculate total upvotes
+       @uptotal+=content.flaggings.size
+       content.update_attributes(:upvotes=>content.flaggings.size)
+     end
   end
 
   def add

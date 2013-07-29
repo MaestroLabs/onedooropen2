@@ -1,118 +1,104 @@
-<!--This page can eventually be used under explore -> following -> view content by user.-->
-
-
-
-
-
-
-
-
-
 <!-- <%= link_to("Editor Picks", {:action => 'index', :filter => "e",:class => 'explore-link'}) %>
 <%= link_to("Thought Leaders", {:action => 'index', :filter => "t",:class => 'explore-link'}) %>
 <%= link_to("Following", {:action => 'index', :filter => "f",:class => 'explore-link'}) %> -->
 
 <div class="row-fluid">
-<!-- <div class="span2">
-	<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset="100px" id="following" style="width: 200px;">
-		<li class="nav-header">Recently updated</li>
-		<% @other_users.each do |other_user| %>
-			<li><a href="#<%="#{other_user.first_name}#{other_user.last_name}"%>"><%= "#{other_user.first_name} #{other_user.last_name}"%></a></li>
-		<% end %>
-        <li class="see-all"><a href="#">...see all</a></li>
-	</ul>
-</div> -->
-
-<div class="span12" data-spy="scroll" data-target="#following"><!--following feeds-->
-		<% @other_users.each do |other_user|%>	<!-- Start loop for each user-->
-		<!--scrollspy-->
-		<section id="<%="#{other_user.first_name}#{other_user.last_name}"%>">
-		<div class="followers">
-			<h1><%= other_user.first_name %> <%= other_user.last_name%></h1>&nbsp;&nbsp;&nbsp;<%= link_to("See more",{:controller => 'profile', :action => 'usersprofile', :id => other_user.id}) %><br><br>
-		</div>	
-
-		<div class="row-fluid">
-		<ul class="thumbnails">
-			<!--Shows followed users' most recent content-->
-			<%@contents1=Content.order("contents.created_at DESC").where(:privacy => true, :user_id => other_user.id,:name=>false).limit(4)%>
-			<%@contents1.each do |content| %> <!--start content loop-->
-				<%=render :partial => "followFeed", :locals => {:content => content} %>
-			<%end%><!--END CONTENT LOOP-->
-		</ul>
-		</div>
-		<hr><!--Gray bar-->
-		</section><!--end scrollspy section-->
-		<%end%><!--END USER LOOP-->
-
-
-</div><!--end following feeds-->		
-</div><!--End row-fluid with left bar and following feeds-->		
-
-<!-- NO PAGINATION FOR NOW -->
-
-
-<!--Popover share content-->
-<div id="popover_content" style="display: none">
-	<!--Facebook-->
-        <a href="#" 
-          onclick="
-            window.open(
-              'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 
-              'facebook-share-dialog', 
-              'width=626,height=436'); 
-            return false;">
-        <%= image_tag("facebook.jpg", :alt => "rss feed") %>
-        </a>  
-	<!--Twitter-->
-        <a href="#" onclick="fbs_click();" >
-        <%= image_tag("twitter.jpg", :alt => "rss feed") %>
-        </a>            
+	<div class="span6">
+		<%=render :partial => "exploreTabs"%>
+	</div>
+	<div class="span6 text-right">
+	<!-- 
+	<%= form_tag :action=> 'results', :method => :get do %>
+	  <p>
+	    <%=label_tag 'Title'%>
+	    <%= radio_button_tag("filter","Title",true)%>
+	    <%=label_tag 'Tags'%>
+	    <%= radio_button_tag("filter","Tags")%>
+	    <%=label_tag 'Name'%>
+	    <%= radio_button_tag("filter","Name")%>
+	    <%= text_field_tag :search, params[:search] %> -->
+	    <!-- <%= text_field_tag :tags, params[:tags],:placeholder => "Tags" %> -->
+	    <!-- <%= submit_tag "Search", :name => nil %>
+	<% end %>  -->
+			            
+        
+        <%= form_tag :controller => 'explore', :action=> 'results', :method => :get do%>
+        <!-- <button class="btn btn-info dropdown-toggle add-on-left" data-toggle="dropdown">
+              Search by&nbsp;<span class="caret"></span>
+        </button> -->
+        <%= select_tag "filter","<option>Title</option><option>Name</option><option>Tags</option>".html_safe, :class=>"search-drop", :prompt=>"Search by".html_safe%>
+        <%= text_field_tag :search, params[:search], {:class => 'input-medium', :placeholder =>"Search"} %>
+        <%= submit_tag "Go".html_safe, :name => nil, :class => "search btn" %>
+        <!-- <button type="submit" class="add-on-right btn btn-info"><i class="icon-search"></i></button> -->
+        <% end %>
+	</div>                    
 </div>
+                    
+       	<%@users.each do |user1|%>
+     		<%@contents=Content.order("contents.upvotes DESC").where(:user_id => user1.id,:privacy => true,:name =>false).page(params[:page]).per_page(12)%>
+     
+			<% @contents.each do |content| %> <!--start content loop-->
+				<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%><!--make a new row-fluid -->
+				<%=render :partial => "exploreFeed", :locals => {:content => content} %>
+				<script> //<!--if you click X popover, show popover_contentX-->
+				$('#popover<%=content.id%>').popover({
+					html : true, 
+			    	content: function() {
+			      		return $('#popover_content<%=content.id%>').html(); //<!--says where the stuff in the popover box is-->
+			    	}
+			    });
+			    </script>
+			    
+			    <script>//<!--click anywhere on the page to get out of box-->
+				$(':not(#anything)').on('click', function (e) {
+				    $('#popover<%=content.id%>').each(function () {
+				        //the 'is' for buttons that trigger popups
+				        //the 'has' for icons and other elements within a button that triggers a popup
+				        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+				            $(this).popover('hide');
+				            return;
+				        }
+				    });
+				});
+				</script>
+			    
+			    <script type="text/javascript">
+				function fbs_click() {
+				    var twtTitle = '#onedooropen description, whatever text we want here';
+				    var twtUrl = '<%="http://onedooropen.com/discover/c/#{content.id}"%>';
+				    var maxLength = 140 - (twtUrl.length + 1);
+				    if (twtTitle.length > maxLength) {
+				        twtTitle = twtTitle.substr(0, (maxLength - 3)) + '...';
+				    }
+				    var twtLink = 'http://twitter.com/home?status=' + encodeURIComponent(twtTitle + ' ' + twtUrl);
+				    window.open(twtLink, width=626, height=436);
+				}
+				</script>
+				
+				<%@count+=1%><!--increases with each piece of content-->
+				<%if @count==4%></ul></div><!--if 4th pic then end row-fluid--><%@count=0%><%end%>				
+
+				<%end%>
+
+			<%end%><!--END CONTENT LOOP-->
+
+		<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%><!--If there isn't enough content to fill a page, must end row fluid anyway-->
+
+		<div class ="pagination pagination-centered"><%= will_paginate @contents %></div>
+
+
 
 <script>
     $('#testing').tooltip({trigger: 'focus'}); 
-	$('#karma').tooltip(); 
-	$('#popover').popover({
-		html : true, 
-    	content: function() {
-      		return $('#popover_content').html();
-    	}
-    });
+	$('#karma').tooltip();
 </script>
+
+
+
 
 <script>
-$('#following').scrollspy()
+	$('#ep').tooltip(); 
+	$('#tl').tooltip(); 
+	$('#f').tooltip(); 
+	$('#p').tooltip();
 </script>
-
-<script>
-$('#popover').popover();
-
-$(':not(#anything)').on('click', function (e) {
-    $('#popover').each(function () {
-        //the 'is' for buttons that trigger popups
-        //the 'has' for icons and other elements within a button that triggers a popup
-        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-            $(this).popover('hide');
-            return;
-        }
-    });
-});
-</script>
-
-<script type="text/javascript">
-function fbs_click() {
-    var twtTitle = '#onedooropen';
-    var twtUrl = 'description, whatever text we want here';
-    var maxLength = 140 - (twtUrl.length + 1);
-    if (twtTitle.length > maxLength) {
-        twtTitle = twtTitle.substr(0, (maxLength - 3)) + '...';
-    }
-    var twtLink = 'http://twitter.com/home?status=' + encodeURIComponent(twtTitle + ' ' + twtUrl);
-    window.open(twtLink, width=626, height=436);
-}
-</script>
-
-<script>
-$('#following').affix()
-</script>
-<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-scrollspy.js"></script>

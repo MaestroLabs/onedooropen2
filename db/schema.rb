@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130724191252) do
+ActiveRecord::Schema.define(:version => 20130729165328) do
 
   create_table "contents", :force => true do |t|
     t.integer  "user_id"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20130724191252) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "quote"
+    t.string   "publishedBy"
   end
 
   add_index "contents", ["user_id"], :name => "index_contents_on_user_id"
@@ -99,16 +100,15 @@ ActiveRecord::Schema.define(:version => 20130724191252) do
     t.integer  "karma"
     t.datetime "created_at",                                            :null => false
     t.datetime "updated_at",                                            :null => false
-    t.string   "provider"
-    t.string   "uid"
-    t.string   "oauth_token"
-    t.datetime "oauth_expires_at"
-    t.string   "full_name"
     t.string   "profpic_file_name"
     t.string   "profpic_content_type"
     t.integer  "profpic_file_size"
     t.datetime "profpic_updated_at"
     t.string   "quote"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
   end
 
 end

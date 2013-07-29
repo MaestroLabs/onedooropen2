@@ -34,15 +34,11 @@
 	</div>                    
 </div>
                     
-                    
-		<% @users.each do |user|%>	<!-- Start loop for each user-->
-			<%if @public=="p"%><!--If clicked public section, then public=p. Anonymous posts are only included in the public section (so :name=>false is not a requirement, since :name=> false means that the post is not anonymous)-->
-				<%@contents1=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id).paginate(:page => params[:page]).per_page(12)%>
-			<%else%><!--if name=false, the post is NOT anonymous-->
-				<%@contents1=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:privacy => true, :user_id => user.id,:name=>false).paginate(:page => params[:page]).per_page(12)%>
-			<%end%>
-			
-			<% @contents1.each do |content| %> <!--start content loop-->
+     <%if @followers==true%>
+     	<%@users.each do |user1|%>
+     		<%@contents=Content.where(:user_id => user1.id,:privacy => true,:name =>false).page(params[:page]).per_page(12)%>
+     <%end%>
+			<% @contents.each do |content| %> <!--start content loop-->
 				<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%><!--make a new row-fluid -->
 				<%=render :partial => "exploreFeed", :locals => {:content => content} %>
 				<script> //<!--if you click X popover, show popover_contentX-->
@@ -82,11 +78,14 @@
 				
 				<%@count+=1%><!--increases with each piece of content-->
 				<%if @count==4%></ul></div><!--if 4th pic then end row-fluid--><%@count=0%><%end%>				
+			<%if @followers==true%>
+				<%end%>
+			<%end%>
 			<%end%><!--END CONTENT LOOP-->
-		<%end%><!--END USER LOOP-->
-		<%if @count!=4 && @count==(@contents1.size%4)%></ul></div><%end%><!--If there isn't enough content to fill a page, must end row fluid anyway-->
 
-		<div class ="pagination pagination-centered"><%= will_paginate @contents1 %></div>
+		<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%><!--If there isn't enough content to fill a page, must end row fluid anyway-->
+
+		<div class ="pagination pagination-centered"><%= will_paginate @contents %></div>
 
 
 

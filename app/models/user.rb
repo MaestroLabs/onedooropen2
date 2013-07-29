@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   
   has_attached_file :profpic, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
   
-  attr_accessible :email, :first_name, :last_name, :password, :gender, :birthday, :profpic, :quote, :password_confirmation
+  attr_accessible :email, :first_name, :last_name, :password, :gender, :birthday, :profpic, :quote, :password_confirmation, :activated
   
   attr_accessor :password
     

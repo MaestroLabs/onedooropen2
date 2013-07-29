@@ -49,13 +49,22 @@ class ProfileController < ApplicationController
     user=User.find(session[:user_id])
     @content= Content.new(params[:content])
     #Save the object
-    @content.user_id=session[:user_id] 
+    @content.user_id=session[:user_id]
     if @content.name==true
       @content.file_type="Anonymous"
     end
     if @content.name==false
       @content.file_type="#{user.first_name} #{user.last_name}"
     end
+    
+    if user.thought_leader==true
+      @content.publishedBy="thoughtleader"
+    elsif user.editor==true
+      @content.publishedBy="editor"
+    else
+      @content.publishedBy="mortal"
+    end
+    
     if @content.save
       #If save succeeds redirect to the list action
       flash[:notice]="Content Added."
@@ -67,6 +76,25 @@ class ProfileController < ApplicationController
     end
   end
   
+  def updateContent  #USED TO ADD "publishedBy" TO CONTENT. REMEMBER THE DAY. JULY 29, 2013.
+    @users = User.all
+    @users.each do |user|
+      @contents = Content.where(:user_id => user.id)
+      @contents.each do |content|
+        if user.thought_leader==true && user.editor==false
+          content.update_attributes(:publishedBy=>"thoughtleader")
+        elsif user.editor==true
+          content.update_attributes(:publishedBy=>"editor")
+        else
+          content.update_attributes(:publishedBy=>"mortal")
+        end
+      end
+    end
+    flash[:notice] ="Nice job, Brennan! You did it!"
+    redirect_to(:controller=>'access', :action => 'index')
+  end
+    
+    
   def editC
     @user = User.find(session[:user_id])
     @content = Content.find(params[:id])
