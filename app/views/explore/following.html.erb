@@ -1,39 +1,47 @@
+<!--This page can eventually be used under explore -> following -> view content by user.-->
+
+
+
+
+
+
+
+
+
 <!-- <%= link_to("Editor Picks", {:action => 'index', :filter => "e",:class => 'explore-link'}) %>
 <%= link_to("Thought Leaders", {:action => 'index', :filter => "t",:class => 'explore-link'}) %>
 <%= link_to("Following", {:action => 'index', :filter => "f",:class => 'explore-link'}) %> -->
 
 <div class="row-fluid">
-<div class="span2">
-	<!--nav tabs-->
-	<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="200" id="following" style="width: 200px;">
+<!-- <div class="span2">
+	<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset="100px" id="following" style="width: 200px;">
 		<li class="nav-header">Recently updated</li>
-        <li><a href="#">Brennan Foo</a></li>
-        <li><a href="#">Cobi Moos</a></li>
-        <li><a href="#">John Higson</a></li>
-        <li><a href="#">James Lee</a></li>
-        <li><a href="#">Gloria Pu</a></li>
-        <li><a href="#">Person</a></li>
+		<% @other_users.each do |other_user| %>
+			<li><a href="#<%="#{other_user.first_name}#{other_user.last_name}"%>"><%= "#{other_user.first_name} #{other_user.last_name}"%></a></li>
+		<% end %>
         <li class="see-all"><a href="#">...see all</a></li>
 	</ul>
-	<!--end nav tabs-->
-</div>
+</div> -->
 
-<div class="span10"><!--following feeds-->
-		<% @users.each do |user|%>	<!-- Start loop for each user-->
+<div class="span12" data-spy="scroll" data-target="#following"><!--following feeds-->
+		<% @other_users.each do |other_user|%>	<!-- Start loop for each user-->
+		<!--scrollspy-->
+		<section id="<%="#{other_user.first_name}#{other_user.last_name}"%>">
 		<div class="followers">
-			<h1><%= user.first_name %> <%= user.last_name%></h1>&nbsp;&nbsp;&nbsp;<a href="#">See more</a><br><br>
+			<h1><%= other_user.first_name %> <%= other_user.last_name%></h1>&nbsp;&nbsp;&nbsp;<%= link_to("See more",{:controller => 'profile', :action => 'usersprofile', :id => other_user.id}) %><br><br>
 		</div>	
 
 		<div class="row-fluid">
 		<ul class="thumbnails">
 			<!--Shows followed users' most recent content-->
-			<%@contents1=Content.order("contents.created_at DESC").where(:privacy => true, :user_id => user.id,:name=>false).limit(4)%>
+			<%@contents1=Content.order("contents.created_at DESC").where(:privacy => true, :user_id => other_user.id,:name=>false).limit(4)%>
 			<%@contents1.each do |content| %> <!--start content loop-->
 				<%=render :partial => "followFeed", :locals => {:content => content} %>
 			<%end%><!--END CONTENT LOOP-->
 		</ul>
 		</div>
 		<hr><!--Gray bar-->
+		</section><!--end scrollspy section-->
 		<%end%><!--END USER LOOP-->
 
 
@@ -70,6 +78,10 @@
       		return $('#popover_content').html();
     	}
     });
+</script>
+
+<script>
+$('#following').scrollspy()
 </script>
 
 <script>

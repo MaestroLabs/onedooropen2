@@ -1,5 +1,6 @@
 class AccessController < ApplicationController
   before_filter :confirm_logged_in, :except => [:attempt_login, :logout, :index,:register,:createuser,:activate,:resendtoken,:confirmtoken]
+  before_filter :current_user
   
   def index
     #display login form
@@ -25,13 +26,13 @@ class AccessController < ApplicationController
     end
   end
   
-    def attempt_login
+  def attempt_login
     authorized_user = User.authenticate(params[:email], params[:password])
     if !authorized_user
-      flash[:notice] = "Invalid username/password combination."
+      flash[:error] = "Invalid email/password combination."
       redirect_to(:action => 'index')
     elsif authorized_user && authorized_user.activated == false || authorized_user.activated == "f"
-       flash[:notice] = "You have not activated your account"
+       flash[:error] = "You have not activated your account"
        redirect_to(:action => 'activate')
     elsif authorized_user && authorized_user.activated == true || authorized_user.activated == "t"
       session[:user_id]=authorized_user.id
@@ -54,9 +55,14 @@ class AccessController < ApplicationController
   
   def resendtoken
     @user=User.find_by_email(params[:email])
-    UserMailer.registration_confirmation(@user).deliver
-    flash[:notice]="Resent Email"
-    redirect_to(:action => 'activate')
+    if @user
+      UserMailer.registration_confirmation(@user).deliver
+      flash[:notice]="Resent Email"
+      redirect_to(:action => 'activate')
+    else
+      flash[:error]="This email has not been used for registration. Please verify your email and try again."
+      render('activate')
+    end      
   end
   
   def confirmtoken
@@ -67,7 +73,7 @@ class AccessController < ApplicationController
       flash[:notice]="Account Activated"
       redirect_to(:action => 'index')
     else
-      flash[:notice]="Invalid Token"
+      flash[:error]="Invalid Token"
       redirect_to(:action => 'activate')
     end
   end

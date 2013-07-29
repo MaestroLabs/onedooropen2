@@ -2,60 +2,94 @@
 <!doctype html>
 <html>
 <head>
-<!-- <meta charset="utf-8"> -->
-
 <title>OneDoorOpen</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!--Google Webfont-->
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900,400italic' rel='stylesheet' type='text/css'>
-<!-- <link href="_css/style.css" rel="stylesheet" type="text/css"> -->
 
+<!--Background image-->
+<style type="text/css"> 
+body {
+	background: url('/images/bg.png') no-repeat center center fixed;
+	-webkit-background-size: cover; /*Used by Safari & Chrome*/
+	-moz-background-size: cover; /* Used by Firefox */
+	-o-background-size: cover; /* Used by Opera */
+	background-size: cover; /* All Modern Browsers */
+}
+</style>
 </head>
 
+
+<!--Body-->
 <body>
-
 <div class="container-fluid">
-<!--Nav-->
-<div class="navbar">
-	<div class="navbar-inner">
-    	<%= link_to image_tag("logo-small.png",:alt => "OneDoorOpen"), {:action => 'index', :controller => 'access'}, {:class => 'brand'}%>
-    </div>
+		
+	<!--Popover log-in content (email, password) and form-->
+	
+	<div id="popover_content" style="display:none;">
+			<%= form_tag(:action => 'attempt_login') do %>
+	  		<%= text_field_tag :email,nil,:placeholder => "email" %>
+			<br>
+			<%= password_field_tag :password,nil,:placeholder => "password" %>
+			<br>
+			<%= submit_tag "Go", :class => "btn" %>
+			<% end %>      
+	</div>
+	
+	<!--Top bar-->
+	<div class="row-fluid" style="margin-top:-4%">
+		<div class="span3" style="margin-left:3%;">
+	        <%= link_to image_tag("logo-tagline.png",:alt => "OneDoorOpen"), {:action => 'index', :controller => 'access'}%>
+		</div>
+		<div class="span2 pull-right">
+	        <%= link_to "Sign Up", {:action => 'register'}, {:class => "btn btn-primary"} %>       
+	        <a class="btn" id="log-in" data-toggle="popover" data-placement="bottom">Log in</a><p>
+	    </div>
+	</div>
+		
+	<!--Content-->
+	<div class="row-fluid" id="homepage">
+	    <div class="span4 text-right">
+	        <h1>discover and curate inspirational & intelligent content</h1><br>
+	        <p>OneDoorOpen is an online platform that lets you curate content for personal motivation and self-reflection.</p><br>
+	        <%= link_to "Learn more &raquo;".html_safe, {:action => 'about'}, {:class => "pull-right"} %>
+	    </div>
+	    <div class="span8">
+	    	<%= image_tag '/images/fullmac.png',:alt => "OneDoorOpen Sample"%>
+    	</div>
+	</div>
+	
+	<!--Footer-->
+<footer class="homepage">
+	&copy; Maestro Labs 2013. &nbsp;&nbsp;
+    <a href="#">About</a>&nbsp;&nbsp;
+    <a href="#">Contact</a>&nbsp;&nbsp;
+    <a href="#">Privacy</a>&nbsp;&nbsp;
+    <a href="#">Terms</a>
+</footer>
+
 </div>
+<script>
+$('#log-in').popover({
+	html : true, 
+	content: function() {
+		return $('#popover_content').html();
+	}
+});
 
-
-<!--Start table-->
-<!-- bootstrap stuff -->	
-	<div class="row-fluid" style="margin-top:5%">
-	<div class="span2 offset2">
-        <h1>hi there</h1><br>
-        
-        <!-- <input type="text" placeholder="email"><br>
-        <input type="text" placeholder="password"><br>
-        <button class="btn">Log in</button> &nbsp;
-        <button class="btn">Sign up</button> -->        
-        
-        <%= form_tag(:action => 'attempt_login') do %>
-		<%= text_field_tag :email,nil,:placeholder => "email" %>
-		<br>
-		<%= password_field_tag :password,nil,:placeholder => "password" %>
-		<br>
-		<%= submit_tag "Log In", :class => "btn" %>
-		<%= link_to "Sign Up", {:action => 'register'}, {:class => "btn"} %> 
-        <% end %>
-        
-    </div>
-    <div class="span5 offset1">
-    	<h1>this is what we're about</h1><br>
-        <iframe width="560" height="315" src="http://www.youtube.com/embed/VtrPFVqT3Bg" frameborder="0" allowfullscreen></iframe>
-    </div>
-</div>
-<!-- end bootstrap stuff -->
-
-
-</body>
-
-<!--Start footer-->
+$(':not(#anything)').on('click', function (e) {
+    $('#log-in').each(function () {
+        //the 'is' for buttons that trigger popups
+        //the 'has' for icons and other elements within a button that triggers a popup
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+            return;
+        }
+    });
+});
+</script>
+	</body>
+	
+	<!--Start footer-->
 </div>  <!-- end container-fluid -->
 </html>
 

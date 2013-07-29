@@ -1,5 +1,6 @@
 class RelationshipsController < ApplicationController
-
+  before_filter :confirm_logged_in
+  before_filter :current_user
 
   def create
     @other_user = User.find(params[:relationship][:followed_id])

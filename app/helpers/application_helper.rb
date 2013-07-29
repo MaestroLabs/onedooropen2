@@ -1,4 +1,3 @@
-
 module ApplicationHelper
     def status_tag(boolean, options={})
     options[:true]        ||= ''
@@ -15,6 +14,10 @@ module ApplicationHelper
   
   def error_messages_for( object )
     render(:partial => 'shared/error_messages', :locals => {:object => object})
+  end
+  
+  def cp(path) #To add CSS class to links (e.g. bold current page)
+  "active" if current_page?(path)
   end
   
    def youtube_img(youtube_url)
@@ -38,11 +41,11 @@ end
     youtube_id = $5
   end
 
-  %Q{<iframe title="YouTube video player" class="span12" height="400" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
+  %Q{<iframe title="YouTube video player" class="span12" height="400px" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
 end
   
   def article_iframe(article_url)
-    %Q{<iframe class="span12" height="400" src="#{article_url}"></iframe>}
+    %Q{<iframe class="span12" src="#{article_url}"></iframe>}
   end
  
 end

@@ -2,29 +2,35 @@
 	<div class="thumbnail thumbnail-explore"><!--START THUMBNAIL-->
        	<a href="#<%=content.id%>" data-toggle="modal">
        		<%if content.content_type=="Image"%>
-	          	<%if content.link =="" %><!--if content is uploaded-->
+       		<div class="thumbimg">
+       			<%if content.link =="" %><!--if content is uploaded-->
 				<%= image_tag content.avatar.url%>
 				<%else%><!--content is a link-->
 				<%= image_tag content.link %>
 				<%end%>
+			</div>	
 			<%elsif content.content_type=="Video"%>
-    			<%= raw(youtube_img("#{content.link}"))%>
+			<div class="thumbimg">
+				<%= raw(youtube_img("#{content.link}"))%>
+			</div>				
 			<%elsif content.content_type=="Article"%>
-				Poo.
+			<div class="thumbnail-article">
+				<%= content.quote%>
+			</div>				
 			<%end%>
-			
-		</a>							
-		<h4><%= truncate(content.title,:length =>22, :omission => "...") %><!-- truncate title-->
-		<!--Name-->
-			<%if content.name==false %>
-				<span class="pull-right"><%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%></span><br>
+		</a>		
+							
+		<h4><%= truncate(content.title,:length =>28, :omission => "...") %></h4>
+		
+		<p><!--Name-->		
+		<%if content.name==false %>
+				<%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%> |
 			<%else%>
-				<span class="label label-info pull-right"><%= content.file_type %></span><br>
+				<span class="label label-info"><%= content.file_type %></span>
 			<%end%>
-		</h4>
-
-		<!--DESCRIPTION-->
-		<p><%= truncate(content.description, :length => 120, :omission => "...") %></p>
+		<!--DESCRIPTION-->	
+			<%= truncate(content.description, :length => 120, :omission => "...") %></p>
+		<!--footer-->	
 		<div class="thumbnail-footer">
 			<div class="btn-group">
 				
@@ -38,10 +44,11 @@
 	  </div><!--end thumbnail-->
 </li>	
 <!-- START MODAL -->	
-		<div id="<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div id="<%= content.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-header"><!--MODAL HEADER-->
 					<!--TITLE-->
-					<h4><%= content.title %></h4>	  				
+					<h4><%= content.title %></h4>	
+					| <%= link_to("#{content.file_type}",{:controller => 'profile',:action => 'usersprofile', :id => content.user_id})%>    				
 					<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&times;</button><!--CLOSE x BUTTON-->
 				  	<%= link_to '<i class="icon-share"></i> share'.html_safe, {:action => 'shareC', :id => content.id}, class: 'btn btn-info pull-right'%><!--SHARE BUTTON-->
 				  	<%= link_to '<i class="icon-plus"></i> add'.html_safe, {:action => 'add', :id => content.id}, class: 'btn btn-info pull-right'%><!--ADD BUTTON-->						 					

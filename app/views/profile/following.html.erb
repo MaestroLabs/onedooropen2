@@ -1,123 +1,33 @@
-<%= link_to("<<Back to Happy Place",{:action => 'show'}, :class => 'back-link')%>
-<h2>Following</h2><br><br>
-<% @users.each do |user| %>
-	<div class ="well">
-    <h2><%= link_to("#{user.first_name} #{user.last_name}",{:action => 'usersprofile', :id => user.id})%></h2>
-    <%@contents = Content.order("contents.created_at DESC").where(:privacy=>true,:user_id => user.id,:name=>false).limit(4)%>		
 
-	<% @contents.each do |content|%> <!--start loop for each thought leader-->
-		<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%>
-		
-					<li class="span3">
-				    	<div class="thumbnail"><!--START THUMBNAIL-->
-					       	<a href="#<%=content.id%>" data-toggle="modal">
-					       		<%if content.content_type=="Image"%>
-						          	<%if content.link =="" %><!--if content is uploaded-->
-									<%= image_tag content.avatar.url%>
-									<%else%><!--content is a link-->
-									<%= image_tag content.link %>
-									<%end%>
-								<%elsif content.content_type=="Video"%>
-				        			<%= raw(youtube_img("#{content.link}"))%>
-								<%elsif content.content_type=="Article"%>
-									Poo.
-								<%end%>
-								
-							</a>							
-							<h4><%= truncate(content.title,:length =>22, :omission => "...") %><!-- truncate title-->
-							<!--PRIVACY-->
-								<%if content.privacy==true%><!--if public-->
-								<span class="label label-warning pull-right">Public</span><br>
-								<%else%><!--if private-->
-								<span class="label label-info pull-right">Private</span><br>
-								<%end%>
-							</h4>
+<div class="row-fluid">
 
-							<!--TAGS-->
-							<div class="well-overflow">
-							<% content.tags.each do |tag| %>
-							<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
-							<% end %>
-							</div>
-						  </div><!--end thumbnail-->
-					</li>									
-					<!-- START MODAL -->	
-					<div id="<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-header"><!--MODAL HEADER-->
-								<button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&times;</button><!--CLOSE x BUTTON-->
-							  	<%= link_to '<i class="icon-wrench"></i>'.html_safe, {:action => 'editC', :id => content.id}, class: 'btn pull-right'%><!--EDIT BUTTON-->
-								<div class="btn-group pull-right">
-								  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								    <i class="icon-trash"></i>
-								  </a>
-								    <ul class="dropdown-menu">
-								 	<li><%= link_to("I am sure I want to delete this.", {:action => 'explodePineapple', :id => content.id})%></li><!--DELETE BUTTON-->
-								  </ul>
-							 	</div>
-							 					
-								<h3 id="myModalLabel">&nbsp;</h3>
-							</div><!--END MODAL HEADER-->
-							
-							<div class="modal-body"><!--MODAL BODY-->
-								<div class="row-fluid">
-									<div class="span8"><!--MODAL LEFT-->
-										<center>
-							       		<%if content.content_type=="Image"%>
-										    <%if content.link =="" %><!--if content is uploaded-->
-											<%= image_tag content.avatar.url %>
-											<%else%><!--content is a link-->
-											<%=image_tag content.link%>
-											<%end%>
-										<%elsif content.content_type=="Video"%>
-						        			<%= raw(youtube_embed(content.link))%>
-										<%elsif content.content_type=="Article"%>
-											<%= raw(article_iframe(content.link))%>
-										<%end%>
-										</center>
-									</div> 
-									<div class="span4"><!--MODAL RIGHT-->
-									    	<div class="pull-right">
-							                    <!--PRIVACY-->
-												<%if content.privacy==true%><!--public-->
-												<%=content.flaggings.size%><i class="icon-arrow-up"></i>&nbsp;&nbsp;<!--Show upvotes if public-->
-												<span class="label label-warning">Public</span><br>
-												<%else%><!--private-->
-												<span class="label label-info">Private</span><br>
-												<%end%>
-											</div>									    
-										<h3><%= content.title %></h3><br>
-					                    <%if content.description !="" %><div class="well"><%= content.description %></div><% end %><!--only show note exists-->
-					                    								
-										<!--TAGS-->
-										<% if content.tags.any? %>
-										<span class="label">Tags</span>
-										<% content.tags.each do |tag| %>
-						  				<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
-						  				<% end %>
-						  				<br><br>
-						  				<% end %>
-										
-										<!--SOURCE (only if content is linked)-->
-											<%if content.link !="" %>
-											<div class ="input-prepend input-append">
-												<span class ="add-on">Source</span>
-												<input class="span8" id="prependedInput" type="text" value="<%=content.link%>">
-												<a href="<%=content.link%>" target="_blank"><span class ="add-on">Open</span></a>   
-											</div>
-										<%end%>
-									</div>
-								</div>
-							</div><!--END MODAL BODY-->
-							<div class="modal-footer"><!--MODAL FOOTER-->
-						        &nbsp;
-							</div><!--END MODAL FOOTER-->
-					</div><!--END MODAL-->
+
+	<div class="span12"><!--following feeds-->
+			<h1>Who you're following</h1><br>
+			<% @other_users.each do |other_user|%>	<!-- Start loop for each user-->
+				<%if @count==0%><div class="row-fluid"><%end%>
+			
+				<div class="hero-unit span6">
+					<div class="span10">
+			        	<div class="pull-left"><%= image_tag other_user.profpic.url%></div>
+			            
+						<h1><%= link_to("#{other_user.first_name} #{other_user.last_name}",{:controller => 'profile',:action => 'usersprofile', :id => other_user.id})%></h1>
+			            <p><%if other_user.thought_leader==true%><%='<span class="label label-success">Thought leader</span>'.html_safe%><%end%> <%=other_user.quote%></p>
+			        </div>
+			        <div class="span2" style="padding-top:30px; border-left:none;">
+			           	<%=render :partial => "follow_form_for_following_page", :locals => {:other_user => other_user} %>
+			        </div>
+				</div>
 				
-			<%@count+=1%><!--increases with each piece of content-->
-			<%if @count==4%></ul></div><%@count=0%><%end%><!--#end row-fluid-->
-	
-	<%end%><!--End of a thought leader's content in following page-->
-	</div><!--END WELL-->
-	<br>
+				<%@count+=1%><!--increases with each user-->
+				<%if @count==2%></div><!--if 2nd pic then end row-fluid--><%@count=0%><%end%>
+			<%end%><!--END USER LOOP-->
+			<%if @count!=2 && @count==(@other_users.size%2)%></div><%end%><!--If there isn't enough content to fill a page, must end row fluid anyway-->
+			
+			
+			<!--Hero bar for each user-->
+	</div><!--end following feeds-->		
+</div><!--End row-fluid with left bar and following feeds-->		
 
-<% end %>
+<!-- NO PAGINATION FOR NOW -->
+

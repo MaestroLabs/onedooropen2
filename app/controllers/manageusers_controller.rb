@@ -1,5 +1,7 @@
 class ManageusersController < ApplicationController
   
+  before_filter :current_user
+  
   def index
     list
     render('list')

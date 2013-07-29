@@ -3,8 +3,6 @@ class User < ActiveRecord::Base
   
   make_flagger
   
-  
-  #set_table_name("admin_users")
   has_many :contents
   
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
@@ -14,9 +12,17 @@ class User < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :followers, through: :reverse_relationships, source: :follower
   
-  attr_accessible :email, :first_name, :last_name, :password, :gender, :birthday
+  has_attached_file :profpic, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  
+  attr_accessible :email, :first_name, :last_name, :password, :gender, :birthday, :profpic, :quote, :password_confirmation
   
   attr_accessor :password
+    
+  searchable do
+     text :first_name
+     text :last_name
+     boolean :thought_leader
+   end
   
   EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
   
@@ -41,7 +47,8 @@ class User < ActiveRecord::Base
   
   #only on create, so other attributes of this user can be changed
   validates_length_of :password, :within => 8..25, :on => :create
-  
+  validates_confirmation_of :password
+    
   before_save :create_hashed_password, :generate_token
   after_save :clear_password
   
@@ -103,6 +110,7 @@ class User < ActiveRecord::Base
   end
   
   
+ 
   
   
   # def send_new_password

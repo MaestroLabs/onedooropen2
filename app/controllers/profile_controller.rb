@@ -5,12 +5,39 @@ class ProfileController < ApplicationController
   def show
      @count=0 #starts at 0 to create the first row-fluid on show.html.erb
      @uptotal=0
-     @contents = Content.order("contents.created_at DESC").where(:user_id => session[:user_id]).page(params[:page]).per_page(12)
-     @contents.each do |content|#Calculate total upvotes
-       @uptotal+=content.flaggings.size
-       content.upvotes=content.flaggings.size
-     end
+     @contents=Content.order("contents.created_at").where(:user_id=>session[:user_id]).page(params[:page]).per_page(12)
+     
+      contents = Content.where(:user_id => session[:user_id])
+     
+     @total_items= contents.size
+     
+      contents.each do |content|#Calculate total upvotes
+        @uptotal+=content.flaggings.size
+        content.upvotes=content.flaggings.size
+      end
+     
      @user=User.find(session[:user_id])
+    
+    # if params[:search].present? && params[:filter]=="Tags"
+     # tags_array= params[:search].split(/ /)
+    # end
+     # @search = Content.search do
+       # fulltext params[:search] if params[:filter]=="Title"
+       # facet :tag_list
+       # order_by :created_at, :desc
+       # with :user_id, session[:user_id]
+       # with(:tag_list, params[:search]) if params[:search].present? && params[:filter]=="Tags" #&& Content.tagged_with(params[:search])
+       # with(:tag_list).any_of(tags_array)if params[:search].present? && params[:filter]=="Tags"
+       # paginate(:per_page => 12, :page => params[:page])
+     # end
+   # @contents = @search.results
+  # if params[:search].present?
+     # @contents = Content.where(:title => "%#{params[:search]}%",:user_id =>session[:user_id]).page(params[:page]).per_page(12)# \
+   # # | Content.tagged_with("%#{params[:search]}%").where(:user_id => session[:user_id]).page(params[:page]).per_page(12)
+  # else
+    # @contents=Content.order("contents.created_at").where(:user_id=>session[:user_id]).page(params[:page]).per_page(12)
+  # end
+     
   end
   
   def addC
@@ -95,21 +122,23 @@ class ProfileController < ApplicationController
      @count = 0
      @title = "Following"
      @user = User.find(params[:id])
-     @users = @user.followed_users#.paginate(page: params[:page])
+     @other_users=@user.followed_users#.paginate(page: params[:page])
    end
  
    def followers
+     @count = 0
      @title = "Followers"
      @user = User.find(params[:id])
-     @users = @user.followers#.paginate(page: params[:page])
+     @other_users = @user.followers#.paginate(page: params[:page])
    end
   
   
-    def usersprofile
+  def usersprofile
     #@content = Content.find(params[:id])
+    @count=0
     @uptotal=0
     @other_user = User.find(params[:id])
-    @contents = Content.order("contents.title ASC").where(:privacy => true, :user_id => params[:id], :name => false)
+    @contents = Content.order("contents.upvotes ASC").where(:privacy => true, :user_id => @other_user.id, :name => false)
     @user= User.find(session[:user_id])
   end
   

@@ -1,43 +1,50 @@
 <li class="span3">
-	<div class="thumbnail"><!--START THUMBNAIL-->
-       	<a href="#<%=content.id%>" data-toggle="modal">
-       		<%if content.content_type=="Image"%>
-	          	<%if content.link =="" %><!--if content is uploaded-->
-				<%= image_tag content.avatar.url%>
-				<%else%><!--content is a link-->
-				<%= image_tag content.link %>
-				<%end%>
-			<%elsif content.content_type=="Video"%>
-    			<%= raw(youtube_img("#{content.link}"))%>
-			<%elsif content.content_type=="Article"%>
-				Poo.
+<div class="thumbnail"><!--START THUMBNAIL-->
+   	<a href="#<%=content.id%>" data-toggle="modal">
+   		<%if content.content_type=="Image"%>
+   		<div class="thumbimg">
+   			<%if content.link =="" %><!--if content is uploaded-->
+			<%= image_tag content.avatar.url%>
+			<%else%><!--content is a link-->
+			<%= image_tag content.link %>
 			<%end%>
-			
-		</a>					
+		</div>	
+		<%elsif content.content_type=="Video"%>
+		<div class="thumbimg">
+			<%= raw(youtube_img("#{content.link}"))%>
+		</div>				
+		<%elsif content.content_type=="Article"%>
+		<div class="thumbnail-article">
+			<%= content.quote%>
+		</div>				
+		<%end%>
+	</a>		
 				
-		<!-- truncate title-->
-		<h4><%= truncate(content.title,:length =>22, :omission => "...") %>
-		<!--PRIVACY-->
-			<%if content.privacy==true%><!--if public-->
-			<span class="label label-info pull-right">Public</span><br>
-			<%else%><!--if private-->
-			<span class="label label-warning pull-right">Private</span><br>
-			<%end%>
-		</h4>
+			
+	<!-- truncate title-->
+	<h4><%= truncate(content.title,:length =>28, :omission => "...") %>
+	<!--PRIVACY-->
+		<%if content.privacy==true%><!--if public-->
+		<span class="label label-info pull-right">Public</span><br>
+		<%else%><!--if private-->
+		<span class="label label-warning pull-right">Private</span><br>
+		<%end%>
+	</h4>
 
-		<!--TAGS-->
-		<div class="well-overflow">
-		<% content.tags.each do |tag| %>
-		<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
-		<% end %>
-		</div>
-	  </div><!--end thumbnail-->
-</li>									
+	<!--TAGS-->
+	<div class="well-overflow">
+	<% content.tags.each do |tag| %>
+	<%= link_to "#{tag.name}",{:action => 'tagged',:tag=>tag.name}%>
+	<% end %>
+	</div>
+  </div><!--end thumbnail-->
+</li>					
+			
 <!-- START MODAL -->	
 <%if content.content_type=="Article"%>
-<div id="<%= content.id %>" class="modal modal-article hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="<%= content.id %>" class="modal modal-article hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <%else%>
-<div id="<%= content.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="<%= content.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <%end%>
 	<div class="modal-header"><!--MODAL HEADER-->
 	

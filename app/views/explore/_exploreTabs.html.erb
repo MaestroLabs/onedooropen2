@@ -1,8 +1,8 @@
 <!-- <div class="tabbable"> --> <!-- Only required for left/right tabs -->
   <ul class="nav nav-pills">
-    <li><%= link_to("editors' picks", {:action => 'index', :filter => "e"},{:class => 'explore-link', :id=>"ep", :data => {:toggle=>"tooltip", :placement=>"top"}, :title=>"your daily dose"}) %></li>
-    <li><%= link_to("following", {:action => 'following'},{:class => 'explore-link', :id=>"f", :data => {:toggle=>"tooltip", :placement=>"top"}, :title=>"content from people you follow"}) %></li>
-    <li><%= link_to("thought leaders", {:action => 'index', :filter => "p"},{:class => 'explore-link', :id=>"tl", :data => {:toggle=>"tooltip", :placement=>"top"}, :title=>"content from our best curators"}) %></li>
-    <li><%= link_to("public", {:action => 'index', :filter => "p"},{:class => 'explore-link', :id=>"p", :data => {:toggle=>"tooltip", :placement=>"top"}, :title=>"explore content from everyone"}) %></li>
+    <li><%= link_to("editors' picks", {:action => 'index', :filter => "e"},{:class => "#{cp(action: 'index', filter: 'e')}", :id=>"ep", :data => {:toggle=>"tooltip", :placement=>"top"}, :title=>"your daily dose"}) %></li>
+    <li><%= link_to("following", {:action => 'index', :filter => "f"},{:class => "#{cp(action: 'index', filter: 'f')}", :id=>"f", :data => {:toggle=>"tooltip", :placement=>"top"}, :title=>"content from people you follow"}) %></li>
+    <li><%= link_to("thought leaders", {:action => 'index', :filter => "tl"},{:class => "#{cp(action: 'index', filter: 'tl')}", :id=>"tl", :data => {:toggle=>"tooltip", :placement=>"top"}, :title=>"content from our best curators"}) %></li>
+    <li><%= link_to("public", {:action => 'index', :filter => "p"},{:class => "#{cp(action: 'index', filter: 'p')}", :id=>"p", :data => {:toggle=>"tooltip", :placement=>"top"}, :title=>"explore content from everyone"}) %></li>
   </ul>
 <!-- </div> -->

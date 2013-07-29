@@ -4,7 +4,7 @@
 
 <div class="new content">
 	<h2>Add Content</h2>
-	<%= form_for(:content, :url => {:action => 'createC',:user_id=>@user.id},:html => { :multipart => true }) do |f| %> <!--url allows you to send all the info to the action specified-->
+	<%= form_for(:content, :url => {:action => 'createC'},:html => { :multipart => true }) do |f| %> <!--url allows you to send all the info to the action specified-->
 	
 		<!--<%= error_messages_for(@user) %>-->
 		
