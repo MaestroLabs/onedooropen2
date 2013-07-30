@@ -1261,6 +1261,15 @@ hr {
   font-size: inherit;
 }
 
+.nav-pills .normal-a {
+  color: #0088cc;
+  text-decoration: none;
+}
+
+.nav-pills .normal-a:hover {
+  background: none;
+  text-decoration: underline;
+}
 
 /*Characters remaining in add panel*/
 input[type="text"] > .characters-remaining  {
@@ -1557,4 +1566,16 @@ input[type="text"] > .characters-remaining  {
     height: auto;
     border: 1px solid #cccccc;
     background-color: #ffffff;
+}
+
+/* Editors' picks */
+.ep h2 {
+	display: inline;
+}
+
+/* Info modals */
+#tl-info h3, 
+#week-info h3, 
+#gems-info h3 {
+	font-weight: 900;
 }

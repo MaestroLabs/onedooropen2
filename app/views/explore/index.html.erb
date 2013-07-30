@@ -3,10 +3,11 @@
 <%= link_to("Following", {:action => 'index', :filter => "f",:class => 'explore-link'}) %> -->
 
 <div class="row-fluid">
-	<div class="span6">
+	<div class="span8">
 		<%=render :partial => "exploreTabs"%>
+		
 	</div>
-	<div class="span6 text-right">
+	<div class="span4 text-right">
 	<!-- 
 	<%= form_tag :action=> 'results', :method => :get do %>
 	  <p>
@@ -34,53 +35,12 @@
 	</div>                    
 </div>
                     
-     <%if @followers==true%>
-     	<%@users.each do |user1|%>
-     		<%@contents=Content.where(:user_id => user1.id,:privacy => true,:name =>false).page(params[:page]).per_page(12)%>
-     <%end%>
 			<% @contents.each do |content| %> <!--start content loop-->
 				<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%><!--make a new row-fluid -->
-				<%=render :partial => "exploreFeed", :locals => {:content => content} %>
-				<script> //<!--if you click X popover, show popover_contentX-->
-				$('#popover<%=content.id%>').popover({
-					html : true, 
-			    	content: function() {
-			      		return $('#popover_content<%=content.id%>').html(); //<!--says where the stuff in the popover box is-->
-			    	}
-			    });
-			    </script>
-			    
-			    <script>//<!--click anywhere on the page to get out of box-->
-				$(':not(#anything)').on('click', function (e) {
-				    $('#popover<%=content.id%>').each(function () {
-				        //the 'is' for buttons that trigger popups
-				        //the 'has' for icons and other elements within a button that triggers a popup
-				        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-				            $(this).popover('hide');
-				            return;
-				        }
-				    });
-				});
-				</script>
-			    
-			    <script type="text/javascript">
-				function fbs_click() {
-				    var twtTitle = '#onedooropen description, whatever text we want here';
-				    var twtUrl = '<%="http://onedooropen.com/discover/c/#{content.id}"%>';
-				    var maxLength = 140 - (twtUrl.length + 1);
-				    if (twtTitle.length > maxLength) {
-				        twtTitle = twtTitle.substr(0, (maxLength - 3)) + '...';
-				    }
-				    var twtLink = 'http://twitter.com/home?status=' + encodeURIComponent(twtTitle + ' ' + twtUrl);
-				    window.open(twtLink, width=626, height=436);
-				}
-				</script>
-				
+				<%=render :partial => "exploreFeed", :locals => {:content => content} %><br />
+				<%=render :partial => "shareButtonJavascript", :locals => {:content => content} %>
 				<%@count+=1%><!--increases with each piece of content-->
 				<%if @count==4%></ul></div><!--if 4th pic then end row-fluid--><%@count=0%><%end%>				
-			<%if @followers==true%>
-				<%end%>
-			<%end%>
 			<%end%><!--END CONTENT LOOP-->
 
 		<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%><!--If there isn't enough content to fill a page, must end row fluid anyway-->
@@ -93,7 +53,6 @@
     $('#testing').tooltip({trigger: 'focus'}); 
 	$('#karma').tooltip();
 </script>
-
 
 
 

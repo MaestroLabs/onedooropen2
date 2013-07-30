@@ -65,6 +65,10 @@ class ProfileController < ApplicationController
       @content.publishedBy="mortal"
     end
     
+    if user.id == 26 #If ODO Team profile uploads content, publishedBy => 'ODO Team' so content appears on 'Motivational Mondays, Tuesdays...' section
+      @content.publishedBy="ODOTeam"
+    end
+    
     if @content.save
       #If save succeeds redirect to the list action
       flash[:notice]="Content Added."
@@ -88,12 +92,14 @@ class ProfileController < ApplicationController
         else
           content.update_attributes(:publishedBy=>"mortal")
         end
+        if user.id == 26
+          content.update_attributes(:publishedBy=>"ODOTeam")
+        end
       end
     end
     flash[:notice] ="Nice job, Brennan! You did it!"
     redirect_to(:controller=>'access', :action => 'index')
-  end
-    
+  end  
     
   def editC
     @user = User.find(session[:user_id])

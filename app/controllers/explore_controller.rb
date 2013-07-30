@@ -17,9 +17,11 @@ class ExploreController < ApplicationController
       @users=@user.followed_users
       @followers=true
     elsif params[:filter]=="p" #Public doesn not show editors or thought leaders
-      @contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:publishedBy=>"editor",:publishedBy=>"thoughtleader",:name=>false,:privacy => true).where(:publishedBy=>"mortals",:privacy => true).page(params[:page]).per_page(12)
-    else #Explore shows thought_leader content only by default
-      @contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:publishedBy=>"thoughtleader",:name=>false,:privacy => true).page(params[:page]).per_page(12)
+      @contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:publishedBy=>"mortals",:privacy => true).page(params[:page]).per_page(12)
+    elsif params[:filter]=="tl" #Explore shows thought_leader content only by default
+      @contents=Content.order("contents.upvotes DESC, contents.updated_at DESC").where(:publishedBy=>"thoughtleader",:privacy => true).page(params[:page]).per_page(12)
+    else
+    redirect_to(:action => 'editorspicks')  
     end
   end
   
@@ -58,6 +60,7 @@ class ExploreController < ApplicationController
   end
   
   def following
+    @allrecords = []
     @count=0
     @uptotal=0
     @users=@user.followed_users    
@@ -72,6 +75,12 @@ class ExploreController < ApplicationController
        content.update_attributes(:upvotes=>content.flaggings.size)
      end
   end
+  
+  def editorspicks
+    @contentsFromODO = Content.order("contents.created_at DESC").where(:publishedBy => "ODOTeam").limit(3)
+    @contentsNewest = Content.order("contents.created_at DESC").where(:privacy=>true).where("contents" != "publishedBy", "ODOTeam").limit(20)
+    @contentsGems = Content.order("contents.category_at DESC").where(:category=>"hg").limit(4)
+  end
 
   def add
     content=Content.new
@@ -81,6 +90,20 @@ class ExploreController < ApplicationController
     content.avatar=oldcontent.avatar
     content.privacy=false
     content.user_id=session[:user_id]
+       
+    if user.thought_leader==true
+      @content.publishedBy="thoughtleader"
+    elsif user.editor==true
+      @content.publishedBy="editor"
+    else
+      @content.publishedBy="mortal"
+    end
+    
+    if user.id == 26 #If ODO Team profile uploads content, publishedBy => 'ODO Team' so content appears on 'Motivational Mondays, Tuesdays...' section
+      @content.publishedBy="ODOTeam"
+    end
+    
+    
     if content.save
       flash[:notice]="You've saved the content to your catalogue!"
     else
@@ -88,8 +111,38 @@ class ExploreController < ApplicationController
     end
     # redirect_to(:action => 'index')
     redirect_to(:back)
+
   end
   
+  def makehiddengem
+    currentUser = User.find(session[:user_id])
+    if currentUser.editor
+      content = Content.find(params[:id])
+      content.category = "hg"
+      content.category_at = Time.now
+      content.save
+      flash[:notice]="Nice job, #{currentUser.first_name}. You've chosen this piece of content as a hidden gem!"
+      redirect_to(:action => 'index')
+    else
+      flash[:notice]="You do not have permission to make this a hidden gem! Are you sure you're an editor?"
+      redirect_to(:action => 'index')
+    end
+  end
+  
+  def removehiddengem
+    currentUser = User.find(session[:user_id])
+    if currentUser.editor
+      content = Content.find(params[:id])
+      content.category = ""
+      content.save
+      flash[:notice]="Hey, #{currentUser.first_name}. This content is no longer a hidden gem."
+      redirect_to(:action => 'index')
+    else
+      flash[:notice]="Hey! You do not have permission to do this! Are you sure you're an editor?"
+      redirect_to(:action => 'index')
+    end
+  end
+   
   def upvote
     @user=User.find(params[:user_id])
     @content=Content.find(params[:id])
@@ -103,7 +156,7 @@ class ExploreController < ApplicationController
     redirect_to(:back)
   end
  
-   def tagged
+  def tagged
      @count=0
     if params[:tag].present? 
       @tagname=params[:tag]
@@ -113,4 +166,5 @@ class ExploreController < ApplicationController
     end
     #render 'shared/tagged'  
   end
+  
 end

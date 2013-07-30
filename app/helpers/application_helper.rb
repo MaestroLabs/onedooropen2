@@ -45,7 +45,7 @@ end
 end
   
   def article_iframe(article_url)
-    %Q{<div id="iframe-percent"><iframe class="span12" src="#{article_url}"></iframe></div>}
+    %Q{<div id="iframe-percent"><iframe class="span12" height="400px" src="#{article_url}"></iframe></div>}
   end
  
 end

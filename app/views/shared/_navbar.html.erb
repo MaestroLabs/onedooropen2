@@ -1,14 +1,14 @@
  <!--Nav-->
 <div class="navbar">
   <div class="navbar-inner">
-    <%= link_to image_tag("logo-small.png",:alt => "OneDoorOpen"), {:action => 'index', :controller => 'access'}, {:class => 'brand'}%>
+    <%= link_to image_tag("logo-small.png",:alt => "OneDoorOpen"), {:action => 'explore', :controller => 'editorspicks'}, {:class => 'brand'}%>
     <ul class="nav">
 	 	<% if params[:controller] == "discover" && session[:user_id]==nil %> <!--Show "catalogue" instead of user's name if they are on DISCOVER page and NOT logged in-->
         <li><%= link_to("catalogue", {:controller => 'profile', :action => 'show', :user_id => session[:user_id]}, {:class => "#{cp(controller: 'profile', action: 'show')}"}) %></li>
         <%else%>
         <li><%= link_to("#{@user.first_name} #{@user.last_name}", {:controller => 'profile', :action => 'show', :user_id => session[:user_id]}, {:class => "#{cp(controller: 'profile', action: 'show')}"}) %></li>
         <%end%>
-        <li><%= link_to("explore", {:controller => 'explore', :action => 'index', :filter =>"tl"}, {:user_id => session[:user_id], :class => "#{cp(controller: 'explore', action: 'index')}"}) %></li>
+        <li><%= link_to("explore", {:controller => 'explore', :action => 'editorspicks'}, {:user_id => session[:user_id], :class => "#{cp(controller: 'explore', action: 'index')}"}) %></li>
     </ul>
     <ul class="nav pull-right">
     	<li>
@@ -21,7 +21,7 @@
                 <p>We're constantly working to improve the site, so please leave us a note with your thoughts!</p>
                 <!--Google form-->
 				<script type="text/javascript">var submitted=false;</script>
-                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='settings/thanks';}"></iframe>
+                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='http://onedooropen.com/settings/thanks';}"></iframe>
                 <form action="https://docs.google.com/forms/d/1cceJdjI8V9XHWmX0PtywGIp0KIimmhD_nOnht_rEiMs/formResponse" method="post" target="hidden_iframe" onsubmit="submitted=true;">
                 <ol style="padding: 0; margin:0;">
                 
@@ -129,7 +129,7 @@
         	<!--description text area + tooltip-->
         	<div id="d" data-toggle="tooltip" data-placement="left" title="Accurate descriptions make for good content (especially if you're sharing publicly)">
 			<form name="myform">
-				<%= f.text_area :description, :placeholder => "description", :name=>"limitedtextarea",:onKeyDown=>"limitText(this.form.limitedtextarea,this.form.countdown,200);",:onKeyUp=>"limitText(this.form.limitedtextarea,this.form.countdown,200);"%>
+				<%= f.text_area :description, :placeholder => "description", :onKeyDown=>"limitText(this.form.content_description,this.form.countdown,200);",:onKeyUp=>"limitText(this.form.content_description,this.form.countdown,200);"%>
 				<br>
 				<font size="1">Characters remaining:<input readonly class ="span2 characters-remaining" type="text" name="countdown" size="3" value="200"></font>
 			</form>

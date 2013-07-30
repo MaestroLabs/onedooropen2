@@ -8,7 +8,16 @@
 
 		<%= f.label(:title)%>
 		<%= f.text_field(:title, :class => "span4") %>
-		<br><br>
+		<br>
+		<br>
+		
+        <% if @content.content_type == "Article" %>
+        <div id="quotebox" class="collapse in" data-toggle="tooltip" data-placement="right" title="Great quotes capture pique readers' interest and capture the spirit of the article">	 
+			<%= f.label(:quote)%>
+			<%= f.text_field :quote, :placeholder => "insert a quote from the article", :class => 'span4' %>
+		</div>
+		<br>
+		<%end%>
 		
 		<%=f.label(:description, "Description")%>
 		<%= f.text_area(:description, :size => '25x5', :class => "span4") %>

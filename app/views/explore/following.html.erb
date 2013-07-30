@@ -34,10 +34,16 @@
 	</div>                    
 </div>
                     
-       	<%@users.each do |user1|%>
-     		<%@contents=Content.order("contents.upvotes DESC").where(:user_id => user1.id,:privacy => true,:name =>false).page(params[:page]).per_page(12)%>
-     
-			<% @contents.each do |content| %> <!--start content loop-->
+       	<%@users.each do |user1|%><!--loop to put all content from users that X person is following in the same loop-->
+     		<%@contents=Content.order("contents.upvotes DESC").where(:user_id => user1.id,:privacy => true,:name =>false)%>
+     		<%@contents.each do |content|%><!--add all content from each user-->
+     			<%@allrecords << content%>
+     		<%end%><!--end loop to add content for each user-->
+ 		<%end%><!--end user loop-->
+     		<%@allrecords=@allrecords.sort_by{|record| record.upvotes}.reverse%>
+     		<%@allrecords=@allrecords.paginate(:page => params[:page], :per_page => 12)%>	
+     		     		
+			<% @allrecords.each do |content| %> <!--start content loop-->
 				<%if @count==0%><div class="row-fluid"><ul class="thumbnails"><%end%><!--make a new row-fluid -->
 				<%=render :partial => "exploreFeed", :locals => {:content => content} %>
 				<script> //<!--if you click X popover, show popover_contentX-->
@@ -76,15 +82,13 @@
 				</script>
 				
 				<%@count+=1%><!--increases with each piece of content-->
-				<%if @count==4%></ul></div><!--if 4th pic then end row-fluid--><%@count=0%><%end%>				
-
-				<%end%>
+				<%if @count==4%></ul></div><!--if 4th pic then end row-fluid--><%@count=0%><%end%>			
 
 			<%end%><!--END CONTENT LOOP-->
 
-		<%if @count!=4 && @count==(@contents.size%4)%></ul></div><%end%><!--If there isn't enough content to fill a page, must end row fluid anyway-->
+		<%if @count!=4 && @count==(@allrecords.size%4)%></ul></div><%end%><!--If there isn't enough content to fill a page, must end row fluid anyway-->
 
-		<div class ="pagination pagination-centered"><%= will_paginate @contents %></div>
+		<div class ="pagination pagination-centered"><%= will_paginate @allrecords %></div>
 
 
 
